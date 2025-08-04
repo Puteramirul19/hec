@@ -1,0 +1,482 @@
+﻿.validation-summary-errors {
+    color: red;
+    border: 1px solid red;
+    background: mistyrose;
+    margin: 15px 15px 20px 15px;
+    border-radius: 5px;
+    padding: 20px 10px 10px 10px;
+}
+
+.field-validation-error {
+    color: red;
+}
+
+.actions a {
+    margin-bottom: 5px;
+}
+
+/*wawa add new for add new house form*/
+.bill-info-add .box-white-form {
+    width: 40%;
+    background-color: #fff;
+    border-radius: 5px;
+    color: #000;
+    display: block;
+    padding: 20px 30px;
+    float: left;
+    margin-right: 15px;
+}
+
+.box-white-form .icon-text {
+    font-size: 17px;
+    padding-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    display: block;
+}
+
+.bill-info-add .box-white-house-type {
+    background-color: #fff;
+    border-radius: 5px;
+    color: #000;
+    display: block;
+    padding: 20px 30px;
+    float: left;
+    margin-right: 15px;
+}
+/*end*/
+
+
+/***************
+Added by Mahmud
+***************/
+/** Content wrapper header */
+.fixed {
+    position: initial;
+}
+
+.content-wrapper {
+    padding-top: 0px;
+}
+
+.required:after {
+    content: " *";
+    color: red;
+}
+
+.bill-info-add .addnew {
+    min-height: 386px;
+}
+
+/** Bootstrap collapse for Usage Calculator */
+.collapse-box {
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+    .collapse-box .acc-text {
+        padding: 15px;
+        padding-right: 25px;
+    }
+
+.collapse-header {
+    text-transform: uppercase;
+    padding: 10px 30px;
+    background: #567fe6;
+    background: -moz-linear-gradient(top, #567fe6 0%, #486bc1 100%);
+    background: -webkit-linear-gradient(top, #567fe6 0%,#486bc1 100%);
+    background: linear-gradient(to bottom, #567fe6 0%,#486bc1 100%);
+    margin-top: 10px;
+    height: 25px;
+}
+
+    .collapse-header .acc-title {
+        font-size: 14px;
+        font-weight: 300;
+        text-transform: uppercase;
+        color: #fff;
+    }
+
+    .collapse-header .toggle-button-open {
+        cursor: pointer;
+        background: url("../images/hec-sprite.png") no-repeat -20px -449px;
+        width: 81px;
+        height: 21px;
+        margin-top: 6px;
+        position: absolute;
+        right: 30px;
+    }
+
+    .collapse-header .toggle-button-close {
+        cursor: pointer;
+        background: url("../images/hec-sprite.png") no-repeat -111px -449px;
+        width: 81px;
+        height: 21px;
+        margin-top: 6px;
+        position: absolute;
+        right: 30px;
+    }
+
+    .collapse-header .remove-button {
+        cursor: pointer;
+        background: url("../images/hec-sprite.png") no-repeat -202px -449px;
+        width: 21px;
+        height: 21px;
+        margin-top: 6px;
+        position: absolute;
+        right: 32%;
+    }
+
+.acc-text .table-appliance table th {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 13px;
+    padding: 6px;
+}
+
+.reset-usage-button {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 15px;
+    background-color: orange;
+    padding: 5px 10px;
+}
+
+.step-text {
+    font-size: 21px;
+}
+
+.sticky-fixed {
+    z-index: 1010;
+}
+
+.landing-comparison {
+    border: 1px solid #a2a19d;
+    margin-bottom: 20px;
+}
+
+    .landing-comparison.appliance.box-white a {
+        border: none;
+        margin-bottom: 0;
+    }
+
+/** Override designer hide tab content for Energy Tips. */
+.tab-content > div {
+    display: block;
+}
+
+.statistic-title {
+    margin-bottom: 10px;
+}
+
+/* For Appliance Comparison summary result */
+.summary-box {
+    min-height: 100px;
+    background-color: #2ECD71;
+    color: white;
+    text-align: right;
+    padding: 15px 15px;
+}
+
+.summary-box-blue {
+    background-color: #3598DB;
+}
+
+.summary-box-purple {
+    background-color: #9B58B5;
+}
+
+.summary-box-orange {
+    background-color: #ff6a00;
+}
+
+/** Usage Energy Tips **/
+.row-space {
+    display: inline-block;
+    margin-bottom: 8px;
+    width: 92%;
+}
+
+.tips-text {
+    /*min-width: 75%;*/
+    min-width: 475px;
+}
+
+.count-box {
+    background-color: #fff;
+    border: 1px solid #e4e3e3;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 5px;
+    top: -10px;
+    right: -10px;
+    position: relative;
+    min-width: 30px;
+    width: auto;
+}
+
+.house-240 {
+    height: 240px !important;
+}
+
+.house-app {
+    height: 160px !important;
+}
+
+/** Override background image */
+body.bill-info {
+    background: url("../images/bg-3.jpg") no-repeat center top/cover;
+    width: 100%;
+}
+
+body.appliance-calculator-landing {
+    background: url("../images/BG_Appliance.jpg") no-repeat center top/cover;
+    width: 100%;
+}
+
+body.bill-calculator {
+    background: url("../images/BG_EnergyTips.jpg") no-repeat center top/cover;
+    width: 100%;
+}
+
+body.appliance-store {
+    background: url("../images/BG_EnergyUsage.jpg") no-repeat center top/cover;
+    width: 100%;
+}
+
+/** For see through sidebar mCustomScrollbar */
+aside > .mCSB_inside > .mCSB_container {
+    margin-right: 0px;
+}
+
+/** jcarousel navigation control button */
+.category-tab a.jcarousel-control-prev,
+.category-tab a.jcarousel-control-next {
+    background-image: none;
+    background-color: #fff;
+    height: 96px;
+    padding: 35px 25px;
+}
+
+.category-tab .jcarousel-control-prev:before {
+    position: relative !important;
+    font-family: fontAwesome !important;
+    content: "\f053" !important;
+    color: grey !important;
+    margin-left: -8px;
+}
+
+.category-tab .jcarousel-control-next:before {
+    position: relative !important;
+    font-family: fontAwesome !important;
+    content: "\f054" !important;
+    color: grey !important;
+    margin-left: -5px;
+}
+
+.jcarousel-control-prev {
+    left: 0px;
+}
+
+/** For energy tips box */
+.tips-listing > .box-wrapper {
+    width: 47% !important;
+}
+
+/** Friend ranking list */
+.friend-list-rank .name {
+    width: 47%;
+}
+
+.friend-list-rank .energy-usage {
+    width: 25%;
+    display: inline;
+}
+
+.friend-list-rank .my-rank {
+    /*border: 2px solid #f96c6c;*/
+    background: lemonchiffon;
+}
+
+    .friend-list-rank .my-rank .energy-usage {
+        border-right: 0;
+    }
+
+.friend-list li {
+    margin-bottom: 3px;
+}
+
+.friend-kWh-bar {
+    height: 30px;
+    width: 80%;
+    margin-bottom: 5px;
+    background-color: #ffffff;
+}
+
+
+.grid-container {
+    overflow-x: auto;
+}
+
+    .grid-container .k-grid {
+        min-width: 500px;
+    }
+
+/** Total Nergy Saved CO2 Emission **/
+.total-kwh {
+    background: url('/Images/green_bg.jpg') no-repeat;
+    min-height: 303px;
+    margin: -15px;
+    background-size:cover;
+    background-position:bottom;
+
+}
+
+.green_energy {
+    min-height: 195px;
+    min-height: 195px;
+    top: 30px;
+}
+
+.green_energy_saved {
+    background: url('/Images/green_energy_saved.png') no-repeat center;
+    background-size: 170px;
+}
+
+    .green_energy_saved > .totalEnergySaved {
+        font-size: xx-large;
+        font-weight: bold;
+        text-align: center;
+        color: #25b6eb;
+        padding-top: 50px;
+    }
+
+.green_co2_emission {
+    background: url('/Images/green_co2_emission.png') no-repeat center;
+    background-size: 170px;
+}
+
+    .green_co2_emission > .totalCO2EmissionSaved {
+        font-size: xx-large;
+        font-weight: bold;
+        text-align: center;
+        color: #e65f28;
+        padding-top: 50px;
+    }
+
+.green_trees {
+    background: url('/Images/green_trees.png') no-repeat center;
+    background-size: 185px;
+}
+
+    .green_trees > .noOfTreesToPlant {
+        font-size: xx-large;
+        font-weight: bold;
+        text-align: center;
+        color: #79aa33;
+        padding-top: 50px;
+        margin-left: -15px;
+    }
+
+
+/* CSS rules here for screens lower than 1080px */
+@media (max-width: 1080px) {
+    .tips-listing > .box-wrapper {
+        width: 40% !important;
+    }
+
+    .rank-note {
+        text-align: right;
+        margin-top: 10px !important;
+        padding-bottom: 10px !important;
+    }
+}
+
+/* CSS rules here for screens lower than 768px */
+@media (max-width: 768px) {
+    .bill-info-add .box-white-form {
+        width: 100%;
+    }
+
+    .tips-listing > .box-wrapper {
+        width: 100% !important;
+    }
+
+    /** Make summary table column in single block */
+    .summary-tbl tr {
+        display: table;
+        width: 100%;
+    }
+
+    .summary-tbl td {
+        display: block !important;
+    }
+
+    /** CO2 Emission Energy Saving */
+    .total-kwh {
+        background: url('/Images/green_bg.jpg') no-repeat bottom;
+        background-size: 300%;
+        height: 700px;
+        margin: -15px;
+    }
+
+    .box-friend {
+        width: 100%;
+    }
+
+    .rank-note {
+        text-align: right;
+        margin-top: 10px !important;
+        padding-bottom: 10px !important;
+    }
+}
+
+.icon-friend {
+    /*background: url(../images/hec-sprite.png) no-repeat;*/
+    display: inline-block;
+    position: relative;
+    top: -5px;
+}
+
+.icon-doinggood {
+    background: url(/Images/friend_emoji_smile.png) no-repeat;
+    width: 93px;
+    height: 93px;
+    vertical-align: middle;
+    margin: 0 10px;
+    /*background-size:100%;*/
+    /*width:53px;
+    height:53px;*/
+
+}
+
+.icon-notdoinggood {
+    background: url(/Images/friend_emoji_sad.png) no-repeat;
+    width: 93px;
+    height: 93px;
+    vertical-align: middle;
+    margin: 0 10px;
+}
+
+.rank-note {
+    text-align: right;
+    margin-top: -25px;
+    padding-bottom: 10px;
+}
+/****** End ******/
+
+.profile-pic img {
+    width: 100px;
+    height: 100px;
+    border: 5px solid #ECEDEF;
+    border-radius: 65px;
+    margin-top: -5px;
+    margin-left: -5px;
+}
+
+.avatar-img img {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}

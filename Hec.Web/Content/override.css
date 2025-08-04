@@ -1,0 +1,83 @@
+﻿/* Overrides for Kendo and Bootstrap */
+
+/* Hack so that Kendo grid default button to not show texts */
+a.k-button.k-button-icontext.k-grid-moveup,
+a.k-button.k-button-icontext.k-grid-movedown,
+a.k-button.k-button-icontext.k-grid-customedit,
+a.k-button.k-button-icontext.k-grid-edit,
+a.k-button.k-button-icontext.k-grid-delete,
+a.k-button.k-button-icontext.k-grid-update,
+a.k-button.k-button-icontext.k-grid-cancel {
+    min-width: 25px !important;
+    max-width: 25px !important;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 30px !important;
+}
+
+a.k-button.k-button-icontext.k-grid-moveup,
+a.k-button.k-button-icontext.k-grid-movedown,
+a.k-button.k-button-icontext.k-grid-customedit {
+    padding-left: 5px;
+}
+
+.k-grid-moveup:before {
+   font-family: FontAwesome;
+   content: "\f062";
+}
+
+.k-grid-movedown:before {
+   font-family: FontAwesome;
+   content: "\f063";
+}
+
+.k-grid tbody td > .k-grid-delete {
+    margin-top: -0.15em;
+    margin-bottom: -0.15em;
+}
+
+.btn-primary:disabled {
+    color: #c0c0c0;
+    background-color: grey;
+
+}
+
+.btn-warning:disabled {
+    color: #c0c0c0;
+    background-color: grey;
+}
+
+.form-actions {
+    margin-top: 15px;
+}
+
+.form-actions .btn {    
+    min-width: 120px;
+}
+
+.detail {
+    padding-top: 7px;
+    /*margin-bottom: 10px;*/
+}
+
+.table-bordered {
+  border: 1px solid #bbb;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 1px solid #bbb;
+}
+
+.form-group .k-textbox, .form-group .k-dropdown, .form-group textarea {
+    width: 94%
+}
+
+.refno {
+    color: green;
+    font-size: 120%;
+    font-weight: bold;
+}

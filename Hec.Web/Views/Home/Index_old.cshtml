@@ -1,0 +1,158 @@
+﻿@model Hec.Web.Controllers.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<header id="header" class="single-menu flat-menu transparent valign font-color-light" data-plugin-options='{"stickyEnabled": true, "stickyBodyPadding": false}'>
+    <div class="container">
+        <div class="logo">
+            <a href="@(Url.Action("Index", "Home", new { area = "" }))" class="logo">
+                <img alt="Porto" width="111" height="54" data-sticky-width="82" data-sticky-height="40" src="~/Images/logo-hec.png">
+            </a>
+        </div>
+        <button class="btn btn-responsive-nav btn-inverse" data-toggle="collapse" data-target=".nav-main-collapse">
+            <i class="fa fa-bars"></i>
+        </button>
+    </div>
+    <div class="navbar-collapse nav-main-collapse collapse">
+        <div class="container">
+            <ul class="social-icons">
+                <li class="dribbble"><a href="https://www.mytnb.com.my/" target="_blank" title="MyTNB Customer Portal">MyTNB</a></li>
+                <li class="digg"><a href="https://www.tnb.com.my/" target="_blank" title="TNB Website">TNB Website</a></li>
+                @*<li class="login"><a data-toggle="modal" data-target="#loginBox" href="#" target="_blank" title="Login">Login</a></li>*@
+            </ul>
+
+            <nav class="nav-main mega-menu">
+                <ul class="nav nav-pills nav-main" id="mainMenu">
+                    <li class="active">
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/Public/UsageCalculator">Energy Usage Calculator </a>
+                    </li>
+                    <li>
+                        <a href="/Public/EnergyTips">Energy Saving Tips </a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="/Public/ApplianceComparison">Appliance Calculator <i class="fa fa-angle-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Public/ApplianceComparison/SingleAppliance">Single Appliance</a></li>
+                            <li><a href="/Public/ApplianceComparison/CompareAppliance">Compare Appliances</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<div role="main" class="main">
+    <div class="slider-container slider-container-fullscreen">
+        <div class="slider" id="revolutionSliderFullScreen" data-plugin-revolution-slider data-plugin-options='{"fullScreen": "on"}'>
+            <ul>
+                <li data-transition="fade" data-slotamount="10" data-masterspeed="300">
+                    <img src="/Images/slides/002.jpg" data-fullwidthcentering="on" alt="">
+
+                    <div class="tp-caption sft stb visible-lg"
+                         data-x="467"
+                         data-y="60"
+                         data-speed="300"
+                         data-start="1000"
+                         data-easing="easeOutExpo"><img src="/Images/slides/slide-title-border.png" alt=""></div>
+
+                    <div class="tp-caption top-label lfl stl"
+                         data-x="center" data-hoffset="0"
+                         data-y="60"
+                         data-speed="300"
+                         data-start="500"
+                         data-easing="easeOutExpo">Welcome to</div>
+                    <div class="tp-caption sft stb visible-lg"
+                         data-x="667"
+                         data-y="60"
+                         data-speed="300"
+                         data-start="1000"
+                         data-easing="easeOutExpo"><img src="/Images/slides/slide-title-border.png" alt=""></div>
+
+                    <div class="tp-caption main-label sft stb"
+                         data-x="center" data-hoffset="0"
+                         data-y="80"
+                         data-speed="300"
+                         data-start="1500"
+                         data-easing="easeOutExpo">HOME ENERGY</div>
+                    <div class="tp-caption main-label sft stb"
+                         data-x="center" data-hoffset="0"
+                         data-y="140"
+                         data-speed="300"
+                         data-start="1500"
+                         data-easing="easeOutExpo">CALCULATOR</div>
+                    <div class="tp-caption bottom-label sft stb"
+                         data-x="center" data-hoffset="0"
+                         data-y="210"
+                         data-speed="500"
+                         data-start="2000"
+                         data-easing="easeOutExpo">Check out our new features.</div>
+                    <a class="tp-caption customin btn btn-lg btn-primary main-button" href="~/Home/Features"
+                       data-x="center" data-hoffset="0"
+                       data-y="250"
+                       data-customin="x:0;y:0;z:0;rotationX:90;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:200;transformOrigin:50% 0%;"
+                       data-speed="800"
+                       data-start="1700"
+                       data-easing="Back.easeInOut"
+                       data-endspeed="300">
+                        Get Started Now!
+                    </a>
+
+                </li>
+                <li data-transition="fade" data-slotamount="10" data-masterspeed="300">
+                    <img src="/Images/slides/003.jpg" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" />
+
+                    <div class="tp-caption tp-fade fadeout fullscreenvideo"
+                         data-x="0"
+                         data-y="0"
+                         data-speed="1000"
+                         data-start="100"
+                         data-easing="Power4.easeOut"
+                         data-elementdelay="0.01"
+                         data-endelementdelay="0.1"
+                         data-endspeed="1500"
+                         data-endeasing="Power4.easeIn"
+                         data-autoplay="true"
+                         data-autoplayonlyfirsttime="false"
+                         data-nextslideatend="true"
+                         data-volume="mute"
+                         data-forceCover="1"
+                         data-aspectratio="16:9"
+                         data-forcerewind="on">
+
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- QUICK LINK THUMBNAIL -->
+    <!-- <div class="home-intro" id="home-intro"> -->
+    <div>
+        <div class="container">
+            <div class="row quicklinks">
+                <div class="col-sm-4">
+                    <div class="thumb_v1" style="text-align:center;">
+                        <a href="/Public/UsageCalculator"><img src="/Images/thumb_01.png" alt="Energy Usage Calculator" style="margin:auto;" /></a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="thumb_v1" style="text-align:center;">
+                        <a href="/Public/EnergyTips"><img src="/Images/thumb_02.png" alt="Energy Tips" style="margin:auto;" /></a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="thumb_v1" style="text-align:center;">
+                        <a href="/Public/ApplianceComparison"><img src="/Images/thumb_03.png" alt="Appliance Calculator" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

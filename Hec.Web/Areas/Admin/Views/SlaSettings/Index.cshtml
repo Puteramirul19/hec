@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<section class="content-header">
+    <h1>
+        SLA Settings
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><span class="fa fa-home"></span></a></li>
+        <li class="active"> @Html.ActionLink("SLA Settings", "Index", "SlaSettings")</li>
+    </ol>
+</section>
+
+<div id="view-container"></div>
+
+<script id="view-template" type="text/x-kendo-template">
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-default color-palette-box">
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Stage</th>
+                                <th>SLA</th>
+                                <th>Reminder Notice</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ReviewReminder
+                                    <div class="helptext">Reminder set to reviewer for notices pending review.</div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    Every
+                                    <input data-role="numerictextbox" data-decimals="0" data-format="\\#" data-min="0" data-bind="value: data.ReviewReminder.ReminderFrequencyPeriod" />
+                                    <select data-role="dropdownlist"
+                                            data-text-field="text"
+                                            data-value-field="value"
+                                            data-bind="source: frequencyTypes, value: data.ReviewReminder.ReminderFrequencyType"></select>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ReviewAlert
+                                    <div class="helptext">If notice not reviewed within the set days before shutdown date, Manager will get notification.</div>
+                                </td>
+                                <td><input data-role="numerictextbox" data-decimals="0" data-format="\\#" data-min="0" data-bind="value: data.ReviewAlert.Due" /> day(s) before shutdown</td>
+                                <td>
+                                    Every
+                                    <input data-role="numerictextbox" data-decimals="0" data-format="\\#" data-min="0" data-bind="value: data.ReviewAlert.ReminderFrequencyPeriod" />
+                                    <select data-role="dropdownlist"
+                                            data-text-field="text"
+                                            data-value-field="value"
+                                            data-bind="source: frequencyTypes, value: data.ReviewAlert.ReminderFrequencyType">
+                                    </select>
+                            </tr>
+                        </table>
+                        <div class="row form-actions">
+                            <div class="col-sm-12">
+                                <button class="btn btn-primary" data-bind="click: save">Save</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</script>
+
+@section Scripts
+{
+    <script>
+    $(function () {
+
+        var sla;
+        $.ajax({
+            url: "@Url.Action("Read", "SlaSettings")",
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            success: function (data, textStatus, jqXHR) {
+                sla = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                app.notifyError("Some error occured. Please try again.", jqXHR);
+            }
+        });
+
+        var viewModel = kendo.observable({
+            data: sla,
+
+            frequencyTypes: [
+                { value: 0, text: "None" },
+                { value: 1, text: "Hours" },
+                { value: 2, text: "Days" }
+            ],
+
+            save: function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("Update", "SlaSettings")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        ReviewAlert: {
+                            Due: this.get("data.ReviewAlert.Due"),
+                            ReminderFrequencyType: this.get("data.ReviewAlert.ReminderFrequencyType"),
+                            ReminderFrequencyPeriod: this.get("data.ReviewAlert.ReminderFrequencyPeriod")
+                        }
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        app.notifySuccess("SLA has been updated successfully.");
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        app.notifyError("Some error occured, please try again.", jqXHR);
+                    }
+                });
+            }
+        });
+
+        var view = new kendo.View("view-template", {
+            model: viewModel,
+            evalTemplate: true
+        });
+
+        view.render("#view-container");
+    });
+    </script>
+}

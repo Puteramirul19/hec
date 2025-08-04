@@ -1,0 +1,306 @@
+﻿@using Hec.Entities
+@model Hec.Web.Areas.Admin.Controllers.TipModel
+
+<div class="form-horizontal">
+
+    @Html.ValidationSummary()
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TipCategoryId, "Category", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().DropDownListFor(model => model.TipCategoryId)
+                                        .Name("TipCategoryId")
+                                        .DataTextField("Name")
+                                        .DataValueField("Id")
+                                        .OptionLabel("Select...")
+                                        .DataSource(source =>
+                                            source.Ajax("Read", "TipCategory")
+                                        ))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().TextBoxFor(model => model.Title))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Description, "Description", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().EditorFor(m => m.Description).Encode(false))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().CheckBoxFor(model => model.IsActive))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FileThumbName, "Upload Thumbnail", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            <div style="width:94%">
+                @(Html.Kendo().Upload()
+                            .Name("thumbnail")
+                            .HtmlAttributes(new { name = "file" })
+                            .Multiple(false)
+                            .Async(a => a
+                                .Save("Upload", "File", new { area = "" })
+                                .Remove("Remove", "File", new { area = "" })
+                                .AutoUpload(true)
+                            )
+                            .Multiple(false)
+                            .Files(files =>
+                            {
+                                if (!String.IsNullOrEmpty(Model.FileThumbId))
+                                {
+                                    files.Add().Name(Model.FileThumbName)
+                                        .Extension(Model.FileThumbExtension)
+                                        .Size(Model.FileThumbSize.HasValue ? Model.FileThumbSize.Value : 0);
+                                }
+                            })
+                            .Events(events =>
+                            {
+                                events.Select("uploadSelectThumb");
+                                events.Success("uploadSuccessThumb");
+                                events.Remove("uploadRemoveThumb");
+
+                            })
+                            .Validation(validation => validation.AllowedExtensions(new string[] { ".jpg", ".png" }))
+                )
+
+
+                @Html.HiddenFor(m => m.FileThumbId)
+                @Html.HiddenFor(m => m.FileThumbName)
+                @Html.HiddenFor(m => m.FileThumbExtension)
+                @Html.HiddenFor(m => m.FileThumbSize)
+
+                <script>
+                    function uploadSelectThumb(e) {
+                        //$("[data-role='upload']").attr('file', 'thumbnail');
+                        $.each(e.files, function (index, value) {
+
+                            var fileReader = new FileReader();
+                            fileReader.onload = function (event) {
+                                console.log(event);
+                                var mapImage = event.target.result;
+                                $("#preview").attr('src', mapImage);
+                            }
+                            fileReader.readAsDataURL(e.files[0].rawFile);
+
+                            //Check file size. File size more than 2 MB is not allowed.
+                            if (value.size > 2097152) {
+                                e.preventDefault();
+                                alert("File size more than 2 MB is not allowed.");
+                                return false;
+                            }
+                        });
+                    }
+
+                    function uploadSuccessThumb(e) {
+                        if (e.operation == "upload") {
+                            $("#FileThumbId").val(e.response.fileId);
+                            $("#FileThumbName").val(e.response.fileName);
+                            $("#FileThumbExtension").val(e.response.fileExtension);
+                            $("#FileThumbSize").val(e.response.fileSize);
+
+                            for (var i = 0; i < e.files.length; i++) {
+                                var file = e.files[i].rawFile;
+
+                                if (file) {
+                                    var reader = new FileReader();
+
+                                    reader.onloadend = function () {
+                                        $("<div class='preview'><img width=100 height=100 src=" + this.result + " /></div>").appendTo($("#preview"));
+                                    };
+
+                                    reader.readAsDataURL(file);
+                                }
+                            }
+                        }
+                    }
+
+                    function uploadRemoveThumb(e) {
+                        var fileName = $("#FileThumbId").val();
+                        var fileId = $("#FileThumbName").val();
+
+                        $.ajax({
+                            url: "@Url.Action("RemoveOnly", "File", new { area = "" })",
+                            method: "POST",
+                            data: {
+                                fileId: fileId,
+                            },
+                            success: function (data, textStatus, jqXHR) {
+                                $("#preview").html("");
+                            }
+                            //NOTE: Silent success/error
+                        });
+
+                        $("#FileThumbId").val(null);
+                        $("#FileThumbName").val(null);
+                        $("#FileThumbExtension").val(null);
+                        $("#FileThumbSize").val(null);
+                    }
+                </script>
+                <div class="help-text">Note: Best fit size is dimensions 150x150.</div>
+
+                <br />
+                @if (@Model.FileThumbId == null)
+                {
+                    <div class="form-group" id="preview">
+                        <div src="@Url.Action("Index", "File", new { area = "", fileId = Model.FileThumbId })" />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group" id="preview">
+                        <img src="@Url.Action("Index", "File", new { area = "", fileId = Model.FileThumbId })" />
+                    </div>
+                }
+            </div>
+            <div>@Html.ValidationMessageFor(model => model.FileThumbId)</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FilePopupName, "Upload Pop-up Image", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            <div style="width:94%">
+                @(Html.Kendo().Upload()
+                            .Name("popup")
+                            .HtmlAttributes(new { name = "file" })
+                            .Multiple(false)
+                            .Async(a => a
+                                .Save("Upload", "File", new { area = "" })
+                                .Remove("Remove", "File", new { area = "" })
+                                .AutoUpload(true)
+                            )
+                            .Multiple(false)
+                            .Files(files =>
+                            {
+                                if (!String.IsNullOrEmpty(Model.FilePopupId))
+                                {
+                                    files.Add().Name(Model.FilePopupName)
+                                        .Extension(Model.FilePopupExtension)
+                                        .Size(Model.FilePopupSize.HasValue ? Model.FilePopupSize.Value : 0);
+                                }
+                            })
+                            .Events(events =>
+                            {
+                                events.Select("uploadSelectPopup");
+                                events.Success("uploadSuccessPopup");
+                                events.Remove("uploadRemovePopup");
+
+                            })
+                            .Validation(validation => validation.AllowedExtensions(new string[] { ".jpg", ".png" }))
+                )
+
+
+                @Html.HiddenFor(m => m.FilePopupId)
+                @Html.HiddenFor(m => m.FilePopupName)
+                @Html.HiddenFor(m => m.FilePopupExtension)
+                @Html.HiddenFor(m => m.FilePopupSize)
+
+                <script>
+                    function uploadSelectPopup(e) {
+                        //$("[data-role='upload']").attr('file', 'popup');
+                        $.each(e.files, function (index, value) {
+
+                            var fileReader = new FileReader();
+                            fileReader.onload = function (event) {
+                                console.log(event);
+                                var mapImage = event.target.result;
+                                $("#preview2").attr('src', mapImage);
+                            }
+                            fileReader.readAsDataURL(e.files[0].rawFile);
+
+                            //Check file size. File size more than 2 MB is not allowed.
+                            if (value.size > 2097152) {
+                                e.preventDefault();
+                                alert("File size more than 2 MB is not allowed.");
+                                return false;
+                            }
+
+                        });
+                    }
+
+                    function uploadSuccessPopup(e) {
+                        if (e.operation == "upload") {
+                            $("#FilePopupId").val(e.response.fileId);
+                            $("#FilePopupName").val(e.response.fileName);
+                            $("#FilePopupExtension").val(e.response.fileExtension);
+                            $("#FilePopupSize").val(e.response.fileSize);
+
+                            for (var i = 0; i < e.files.length; i++) {
+                                var file = e.files[i].rawFile;
+
+                                if (file) {
+                                    var reader = new FileReader();
+
+                                    reader.onloadend = function () {
+                                        $("<div class='preview2'><img width=100 height=100 src=" + this.result + " /></div>").appendTo($("#preview2"));
+                                    };
+
+                                    reader.readAsDataURL(file);
+                                }
+                            }
+                        }
+                    }
+
+                    function uploadRemovePopup(e) {
+                        var fileName = $("#FilePopupId").val();
+                        var fileId = $("#FilePopupName").val();
+
+                        $.ajax({
+                            url: "@Url.Action("RemoveOnly", "File", new { area = "" })",
+                            method: "POST",
+                            data: {
+                                fileId: fileId,
+                            },
+                            success: function (data, textStatus, jqXHR) {
+                                $("#preview2").html("");
+                            }
+                            //NOTE: Silent success/error
+                        });
+
+                        $("#FilePopupId").val(null);
+                        $("#FilePopupName").val(null);
+                        $("#FilePopupExtension").val(null);
+                        $("#FilePopupSize").val(null);
+                    }
+                </script>
+                <div class="help-text">Note: Best fit size is dimensions 1000x600.</div>
+
+                <br />
+
+                    @if (@Model.FilePopupId == null)
+                    {
+                       <div class="form-group" id="preview2">
+                            <div src="@Url.Action("Index", "File", new { area = "", fileId = Model.FilePopupId })" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group" id="preview2">
+                            <img src="@Url.Action("Index", "File", new { area = "", fileId = Model.FilePopupId })" />
+                        </div>
+                    }
+            </div>
+            <div>@Html.ValidationMessageFor(model => model.FilePopupId)</div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+            <input type="submit" value="Save" class="btn btn-primary col-sm-4" />
+        </div>
+    </div>
+</div>

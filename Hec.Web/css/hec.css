@@ -1,0 +1,1861 @@
+/*@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400);*/
+/* FONTS */
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/roboto-condensed/RobotoCondensed-Regular.ttf") format("truetype"); }
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/roboto-condensed/RobotoCondensed-Regular.ttf") format("truetype"); }
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/roboto-condensed/RobotoCondensed-Light.ttf") format("truetype"); }
+body {
+  font-family: "Roboto Condensed";
+  margin-top: 0; }
+
+.container-fluid {
+  margin: 0;
+  padding: 0;
+  width: 100%; }
+
+.no-padding {
+  padding: 0; }
+
+.no-margin {
+  margin: 0; }
+
+.padding-20 {
+  padding: 10px; }
+
+.no-border {
+  border: 0 !important; }
+
+.skin-blue .wrapper,
+.skin-blue .main-sidebar,
+.skin-blue .left-side {
+  background-color: #306e88; }
+
+/*** background-content ***/
+body.bill-info {
+  background: url("../images/bg-3.jpg") no-repeat center top/cover;
+  width: 100%; }
+body.appliance-calculator-landing {
+  background: url("../images/appliance-calculator.jpg") no-repeat center top/cover;
+  width: 100%; }
+body.bill-calculator {
+  background: url("../images/energy-usage.jpg") no-repeat center top/cover;
+  width: 100%; }
+body.appliance-store {
+  background: url("../images/energy-usage.jpg") no-repeat center top/cover;
+  width: 100%; }
+
+/**** icon *****/
+.icon-hec {
+  background: url("../images/hec-sprite.png") no-repeat;
+  display: inline-block;
+  position: relative; }
+
+.icon-quicklinks {
+  background: url("../images/hec-sprite.png") no-repeat;
+  display: inline-block;
+  position: relative;
+  margin: 0 15px 0 0; }
+
+.icon-fb {
+  background-position: -20px -58px;
+  width: 10px;
+  height: 19px; }
+
+.icon-twitter {
+  background-position: -51px -59px;
+  width: 21px;
+  height: 16px; }
+
+.icon-rss {
+  background-position: -90px -58px;
+  width: 18px;
+  height: 18px; }
+
+.icon-googleplus {
+  background-position: -126px -58px;
+  width: 19px;
+  height: 19px; }
+
+.icon-bill-calculator {
+  background: url("../images/icon-calculator.png") no-repeat;
+  width: 58px;
+  height: 62px; }
+
+.icon-appliance-store {
+  background: url("../images/icon-bulb-store.png") no-repeat;
+  width: 58px;
+  height: 62px; }
+
+.icon-energy {
+  background: url("../images/icon-info-tips.png") no-repeat;
+  width: 58px;
+  height: 62px; }
+
+.icon-appliance-comparison {
+  background-position: -373px -233px;
+  width: 64px;
+  height: 61px; }
+
+.icon-hec-login {
+  background-position: -20px -20px;
+  width: 23px;
+  height: 17px;
+  margin: 0 10px -2px 0; }
+
+.icon-login-box {
+  background-position: -53px -15px;
+  width: 30px;
+  height: 22px;
+  margin: 10px 10px -2px 0; }
+
+.icon-close {
+  background-position: -93px -21px;
+  width: 16px;
+  height: 16px; }
+
+.icon-category {
+  background: url("../images/hec-sprite.png") no-repeat;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle; }
+
+.icon-kettle {
+  background: url("../images/icon-keetle.png") no-repeat;
+  width: 26px;
+  height: 27px; }
+
+.icon-washing-machine {
+  background: url("../images/icon-washingmachine.png") no-repeat;
+  width: 26px;
+  height: 27px; }
+
+.icon-water-heater {
+  background: url("../images/icon-waterheater.png") no-repeat;
+  width: 26px;
+  height: 27px; }
+
+.icon-air-conditioner {
+  background: url("../images/icon-air-conditioner.png") no-repeat;
+  width: 26px;
+  height: 27px; }
+
+.icon-fridge {
+  background: url("../images/icon-fridge.png") no-repeat;
+  width: 26px;
+  height: 27px; }
+
+.icon-microwave {
+  background: url("../images/icon-microwave.png") no-repeat;
+  width: 26px;
+  height: 27px; }
+
+.icon-lighting {
+  background: url("../images/icon-lighting.png") no-repeat;
+  width: 26px;
+  height: 27px; }
+
+.icon-waterpump {
+  background: url("../images/icon-waterpump.png") no-repeat;
+  width: 26px;
+  height: 27px; }
+
+.icon-general {
+  background: url("../images/icon-general.png") no-repeat;
+  width: 26px;
+  height: 27px; }
+
+.icon-like {
+  background-position: -67px -166px;
+  width: 14px;
+  height: 14px; }
+
+.icon-doneit {
+  background-position: -44px -168px;
+  width: 13px;
+  height: 9px; }
+
+.icon-nothanks {
+  background-position: -91px -168px;
+  width: 10px;
+  height: 10px; }
+
+.icon-tick {
+  background-position: -20px -144px;
+  width: 14px;
+  height: 10px; }
+
+.icon-navi-bill-info {
+  background-position: -19px -334px;
+  width: 20px;
+  height: 20px; }
+
+.icon-navi-bill-calculator {
+  background-position: -48px -334px;
+  width: 20px;
+  height: 20px; }
+
+.icon-navi-appliance-store {
+  background-position: -77px -333px;
+  width: 13px;
+  height: 19px;
+  left: 5px; }
+
+.icon-navi-energy {
+  background-position: -101px -334px;
+  width: 17px;
+  height: 17px;
+  left: 3px; }
+
+.icon-navi-comparison {
+  background-position: -129px -334px;
+  width: 14px;
+  height: 16px;
+  left: 5px; }
+
+.icon-setting {
+  background: url("../images/hec-sprite.png") no-repeat -20px -373px;
+  width: 14px;
+  height: 14px;
+  position: relative;
+  display: inline-block; }
+
+.icon-logout {
+  background: url("../images/hec-sprite.png") no-repeat -45px -374px;
+  width: 13px;
+  height: 13px;
+  position: relative;
+  display: inline-block; }
+
+.icon-home-content {
+  background: url("../images/ico_02.png") no-repeat;
+  width: 54px;
+  height: 60px;
+  display: inline-block;
+  margin-right: 15px; }
+
+.icon-add-new {
+  background: url("../images/hec-sprite.png") no-repeat -19px -590px;
+  width: 149px;
+  height: 149px;
+  display: block;
+  margin: 0 auto; }
+
+.icon-add {
+  background-position: -261px -454px;
+  width: 11px;
+  height: 11px; }
+
+.icon-help {
+  background-position: -68px -373px;
+  width: 14px;
+  height: 14px;
+  cursor: pointer; }
+
+.icon-rumah {
+  background: url("../images/hec-sprite.png") no-repeat -20px -761px;
+  width: 173px;
+  height: 159px;
+  display: block;
+  position: relative;
+  margin: 0 auto; }
+
+.icon-rumah-white {
+  background: url("../images/hec-sprite.png") no-repeat -212px -761px;
+  width: 173px;
+  height: 159px;
+  display: block;
+  position: relative;
+  margin: 0 auto; }
+
+.icon-star {
+  background: url("../images/hec-sprite.png") no-repeat -248px -375px;
+  width: 11px;
+  height: 10px;
+  display: inline-block;
+  margin: 0 2px; }
+
+.icon-star-white {
+  background: url("../images/hec-sprite.png") no-repeat -269px -375px;
+  width: 11px;
+  height: 10px;
+  display: inline-block;
+  margin: 0 2px; }
+
+.icon-billing-info {
+  background-position: -109px -370px;
+  width: 20px;
+  height: 20px; }
+
+.icon-bill-appliance-store {
+  background-position: -139px -370px;
+  width: 20px;
+  height: 20px; }
+
+.icon-bill-new-appliance-store {
+  background-position: -169px -370px;
+  width: 24px;
+  height: 22px; }
+
+.icon-edit-account {
+  background-position: -203px -370px;
+  width: 19px;
+  height: 19px; }
+
+.icon-info-arrow {
+  background: url("../images/hec-sprite.png") no-repeat -232px -374px;
+  width: 6px;
+  height: 11px;
+  display: inline-block;
+  float: right;
+  position: relative;
+  top: 5px; }
+
+.icon-calculator-content {
+  background: url("../images/ico_03.png") no-repeat;
+  width: 44px;
+  height: 60px;
+  display: inline-block;
+  margin-right: 15px; }
+
+/*** background color
+     energy tips ****/
+.bg-general {
+  background-color: #bac5d3; }
+
+.bg-airconditioner {
+  background-color: #00eaf5; }
+
+.bg-fridge {
+  background-color: #9e8ae3; }
+
+.bg-kettle {
+  background-color: #ff7b7b; }
+
+.bg-lighting {
+  background-color: #fce132; }
+
+.bg-microwave {
+  background-color: #9feb5c; }
+
+.bg-washingmachine {
+  background-color: #ff8c00; }
+
+.bg-waterheater {
+  background-color: #5ea1f3; }
+
+.bg-waterpump {
+  background-color: #e19ff4; }
+
+/*** header ****/
+#header {
+  position: relative; }
+
+.header-login {
+  position: absolute;
+  right: 0;
+  width: 100%;
+  z-index: 1; }
+  .header-login .hec-logo {
+    padding-left: 0;
+    margin-top: 15px; }
+  .header-login .login-button-wrapper {
+    text-align: right;
+    margin-top: 8px; }
+  .header-login a {
+    color: #fff;
+    background-color: #5290FD;
+    color: #fff;
+    font-size: 17px;
+    padding: 10px; }
+    .header-login a:hover {
+      text-decoration: none; }
+
+.login-page {
+  background: transparent; }
+
+.main-header {
+  z-index: unset; }
+
+/*** footer ****/
+.footer {
+  background: url("../images/footer-pattern.png") repeat-x scroll center bottom;
+  bottom: 0;
+  height: 274px;
+  position: fixed;
+  width: 100%; }
+  .footer p {
+    margin: 0; }
+  .footer .footer-content {
+    position: relative;
+    top: 24%; }
+    .footer .footer-content .footer-left {
+      padding-right: 0; }
+    .footer .footer-content .follow-us {
+      padding: 31px 0;
+      border-bottom: 2px solid #ef2c32; }
+      .footer .footer-content .follow-us a {
+        margin-right: 10px; }
+    .footer .footer-content .copyright {
+      border-bottom: 2px solid #567fe6;
+      padding: 20px 0 20px 20px; }
+  .footer .tooltip-inner {
+    max-width: 500px;
+    /* If max-width does not work, try using width instead */
+    width: 500px;
+    padding: 15px;
+    text-align: justify; }
+
+.quicklinks {
+  max-width: 800px;
+  margin: -100px auto;
+  position: relative;
+  z-index: 30 !important;
+  text-align: center; }
+  .quicklinks .quicklinks-text {
+    text-transform: uppercase;
+    vertical-align: top;
+    font-size: 20px;
+    color: #fff;
+    display: inline-block;
+    width: 60%;
+    text-align: left; }
+
+/*** Login ****/
+.login-page .modal-dialog {
+  width: 400px;
+  margin: 80px auto; }
+.login-page .modal-header {
+  border-bottom: 0 none;
+  padding: 0; }
+.login-page .modal-content {
+  padding: 20px 15px; }
+.login-page .modal-title {
+  font-size: 25px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: 30px; }
+.login-page label {
+  display: block;
+  font-size: 25px;
+  font-weight: 400;
+  color: #5E5E5E; }
+.login-page .login-group {
+  margin-bottom: 15px; }
+  .login-page .login-group > input {
+    border: 1px solid #cdd0d3;
+    border-radius: 5px;
+    height: 40px;
+    width: 100%;
+    padding: 0 10px; }
+.login-page .login-button > input {
+  background-color: #fc5a52;
+  border: 0 none;
+  color: #fff;
+  font-size: 16px;
+  padding: 10px;
+  text-transform: uppercase;
+  width: 100%;
+  margin-bottom: 20px; }
+.login-page .login-text a {
+  font-size: 14px;
+  font-weight: 300;
+  color: #000; }
+
+/*** quicklinks-popup ****/
+.quicklinks-popup .modal-lg {
+  max-width: 1170px;
+  width: 100%;
+  margin-top: 0; }
+.quicklinks-popup .modal-content {
+  background: url("../images/popup-tips-bg-pattern.png") repeat;
+  border-radius: 0;
+  padding: 13px; }
+  .quicklinks-popup .modal-content .popup-content {
+    background-color: #73b2d9;
+    padding: 0; }
+    .quicklinks-popup .modal-content .popup-content button.close {
+      position: absolute;
+      right: 0;
+      z-index: 1;
+      opacity: 1;
+      padding: 10px; }
+
+#energySaving .column-left {
+  background-color: #73b2d9;
+  color: #fff;
+  padding: 0;
+  min-height: 736px; }
+  #energySaving .column-left .text-energy {
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 50px;
+    padding: 30px 30px 0; }
+  #energySaving .column-left .text-find-out-more {
+    font-size: 16px;
+    font-weight: 300;
+    margin: 10px 30px; }
+  #energySaving .column-left .download-wrapper {
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    margin: 20px;
+    padding: 0 0 40px;
+    text-align: center;
+    position: relative; }
+    #energySaving .column-left .download-wrapper:before {
+      border-top: 1px solid #fff;
+      content: "";
+      display: block;
+      height: 1px;
+      position: absolute;
+      width: 100%; }
+    #energySaving .column-left .download-wrapper .title-download {
+      position: relative;
+      display: inline-block;
+      top: -10px;
+      background-color: #73b2d9;
+      padding: 0 10px 12px; }
+#energySaving .column-right {
+  background-color: #fff; }
+  #energySaving .column-right .header-wrapper {
+    border-top: 1px solid #f2f2f2;
+    margin-top: 40px; }
+
+.hec-button {
+  background-color: #fc5a52;
+  border: 0 none;
+  color: #fff;
+  font-size: 16px;
+  padding: 10px;
+  text-transform: uppercase;
+  margin: 5px;
+  display: inline-block; }
+  .hec-button a {
+    text-decoration: none; }
+
+/*** tab ****/
+.category-tab {
+  background-color: #fff; }
+  .category-tab .icon-category-bg {
+    border-radius: 20px;
+    padding: 3px 7px;
+    display: block;
+    width: 73px;
+    height: 53px;
+    margin: auto;
+    text-align: center; }
+  .category-tab .category-text {
+    display: block;
+    color: #8a8a8a;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 13px; }
+  .category-tab .nav-tabs {
+    background-color: #fff;
+    border-bottom: 0;
+    margin: 0 30px; }
+    .category-tab .nav-tabs li {
+      margin: 0 15px; }
+      .category-tab .nav-tabs li:hover {
+        border-bottom: 3px solid #5f7fe6; }
+  .category-tab .nav-tabs > li.active {
+    border-bottom: 3px solid #5f7fe6; }
+    .category-tab .nav-tabs > li.active .category-text {
+      color: #000; }
+  .category-tab .nav-tabs > li.active > a,
+  .category-tab .nav-tabs > li.active > a:focus,
+  .category-tab .nav-tabs > li.active > a:hover {
+    border: 0; }
+  .category-tab .tab-content {
+    background-color: #f8f8f8;
+    padding: 40px 50px;
+    min-height: 599px; }
+    .category-tab .tab-content .category-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 25px; }
+  .category-tab .jcarousel-wrapper {
+    border: 0;
+    box-shadow: none;
+    margin: 0; }
+    .category-tab .jcarousel-wrapper li a:hover {
+      background: transparent;
+      border: 0; }
+  .category-tab .jcarousel-control-prev {
+    background: transparent; }
+    .category-tab .jcarousel-control-prev:before {
+      position: relative;
+      font-family: fontAwesome;
+      content: "\f053";
+      color: grey; }
+  .category-tab a.jcarousel-control-prev,
+  .category-tab a.jcarousel-control-next {
+    text-decoration: none; }
+  .category-tab .jcarousel-control-next {
+    background: transparent; }
+    .category-tab .jcarousel-control-next:before {
+      position: relative;
+      font-family: fontAwesome;
+      content: "\f054";
+      color: grey; }
+  .category-tab .jcarousel li {
+    width: auto !important; }
+  .category-tab .nav > li > a {
+    padding: 10px 0; }
+
+.padding-tips {
+  height: 150px;
+  overflow: auto; }
+
+.box-wrapper {
+  margin-right: 15px;
+  background-color: #fff;
+  border: 1px solid #e4e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: 0px 0px 17px 2px rgba(0, 0, 0, 0.07);
+  -moz-box-shadow: 0px 0px 17px 2px rgba(0, 0, 0, 0.07);
+  box-shadow: 0px 0px 17px 2px rgba(0, 0, 0, 0.07);
+  width: 48%;
+  padding: 0; }
+  .box-wrapper .title {
+    color: #567fe6;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 15px; }
+  .box-wrapper .text {
+    color: #333;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 22px; }
+  .box-wrapper .smallbox {
+    border-top: 1px solid #e4e3e3; }
+  .box-wrapper .small-box-container {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 12px; }
+    .box-wrapper .small-box-container .icon-hec {
+      margin-right: 5px; }
+    .box-wrapper .small-box-container .small-box-inner {
+      border-right: 1px solid #e4e3e3;
+      padding: 10px 15px;
+      text-align: center; }
+      .box-wrapper .small-box-container .small-box-inner.active {
+        background-color: #f9f9f9;
+        font-weight: bold; }
+        .box-wrapper .small-box-container .small-box-inner.active .icon-doneit {
+          background-position: -44px -144px; }
+        .box-wrapper .small-box-container .small-box-inner.active .icon-like {
+          background-position: -67px -142px; }
+        .box-wrapper .small-box-container .small-box-inner.active .icon-nothanks {
+          background-position: -91px -144px; }
+  .box-wrapper .sticker {
+    background-color: #fff;
+    border: 1px solid #e4e3e3;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 5px;
+    position: absolute;
+    right: -10px;
+    top: 10px; }
+
+.logo-lg {
+  background: url("../images/logo-dashboard.png") no-repeat center center;
+  width: 100%;
+  height: 54px;
+  display: block;
+  padding: 50px 0;
+  border-bottom: 1px solid #445cd9; }
+
+.logo-mini {
+  background: url("../images/logo-dashboard-hide.png") no-repeat center center;
+  width: 100%;
+  height: 54px;
+  display: block;
+  padding: 50px 0;
+  border-bottom: 1px solid #445cd9; }
+
+/*** Sidebar ****/
+.sidebar-menu {
+  background-color: #306e88;
+  top: 0; }
+  .sidebar-menu .icon-hec {
+    margin-right: 18px;
+    vertical-align: middle;
+    width: 20px; }
+  .sidebar-menu li a:hover,
+  .sidebar-menu li a:focus {
+    background-color: transparent !important; }
+
+.skin-blue .header-login {
+  width: auto;
+  position: fixed;
+  z-index: 99999; }
+.skin-blue .wrapper {
+  background-color: transparent !important; }
+.skin-blue .main-sidebar {
+  padding-top: 0;
+  position: fixed;
+  width: 240px;
+  z-index: unset; }
+.skin-blue .sidebar-menu > li {
+  border-bottom: 1px solid #224F62; }
+.skin-blue .sidebar-menu > li.active > a {
+  border-left-color: transparent; }
+.skin-blue .sidebar-menu > li > a {
+  border: 0;
+  padding: 15px;
+  text-transform: uppercase; }
+.skin-blue .sidebar-menu > li:hover > a, .skin-blue .sidebar-menu > li.active > a, .skin-blue .sidebar-menu > li.menu-open > a {
+  background-color: #527AF4 !important; }
+.skin-blue .main-header .navbar {
+  margin-left: 240px;
+  background-color: transparent; }
+  .skin-blue .main-header .navbar .sidebar-toggle {
+    color: #000; }
+    .skin-blue .main-header .navbar .sidebar-toggle:hover {
+      background-color: transparent;
+      color: #000; }
+.skin-blue .main-logo .logo {
+  background-color: transparent;
+  width: 240px;
+  height: auto; }
+  .skin-blue .main-logo .logo .logo-mini {
+    display: none; }
+.skin-blue .sidebar a {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400; }
+
+.navbar-nav > li {
+  width: 100%;
+  border-bottom: 1px solid #445cd9; }
+
+.bg-avatar {
+  background: url("../images/avatar-background-pattern.png") no-repeat center center/cover;
+  width: 100%;
+  padding: 8px; }
+
+.profile-pic {
+  background: url("../images/dp-default.png") no-repeat center center/cover;
+  width: 100px;
+  height: 100px;
+  border: 5px solid #ECEDEF;
+  border-radius: 65px;
+  margin: 10px auto; }
+
+.profile-text {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 400;
+  text-align: center; }
+  .profile-text a {
+    color: #fff;
+    font-weight: bold; }
+
+.icon-profile {
+  background-color: #fff;
+  border-radius: 5px;
+  -webkit-box-shadow: inset -3px -9px 0px -6px #c2c2c2;
+  -moz-box-shadow: inset -3px -9px 0px -6px #c2c2c2;
+  box-shadow: inset -3px -9px 0px -6px #c2c2c2;
+  width: 72px;
+  margin: 0 auto; }
+  .icon-profile > a {
+    border-right: 1px solid #4869e6;
+    display: inline-block;
+    padding: 5px 10px; }
+    .icon-profile > a:last-child {
+      border-right: 0; }
+
+/*.content-wrapper,
+.main-footer {
+  margin-left: 240px;
+}*/
+/*** content right ****/
+.navbar {
+  min-height: unset; }
+
+.content-wrapper {
+  background-color: transparent;
+  color: #000;
+  padding: 0 40px 40px; }
+  .content-wrapper .header-title {
+    margin-bottom: 30px; }
+  .content-wrapper .title-big,
+  .content-wrapper .desc {
+    display: block; }
+  .content-wrapper .details {
+    display: inline-block;
+    vertical-align: top; }
+    .content-wrapper .details .title-big {
+      font-size: 32px;
+      text-transform: uppercase;
+      line-height: 55px;
+      border-bottom: 1px solid #ACA298; }
+    .content-wrapper .details .desc {
+      font-size: 15px;
+      font-weight: 300;
+      padding-top: 7px; }
+  .content-wrapper .box-white {
+    background-color: #fff;
+    border-radius: 5px;
+    color: #000;
+    display: block;
+    padding: 15px;
+    float: left;
+    margin-right: 15px; }
+    .content-wrapper .box-white a .icon-text {
+      color: #000; }
+    .content-wrapper .box-white a:hover {
+      text-decoration: none; }
+    .content-wrapper .box-white .icon-text {
+      font-size: 17px;
+      padding-bottom: 10px;
+      text-align: center;
+      text-transform: uppercase;
+      display: block; }
+      .content-wrapper .box-white .icon-text a {
+        color: #000; }
+  .content-wrapper label {
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+    color: #5E5E5E; }
+  .content-wrapper .form-group {
+    margin-bottom: 15px; }
+    .content-wrapper .form-group > input {
+      border: 1px solid #cdd0d3;
+      border-radius: 5px;
+      height: 30px;
+      width: 100%;
+      padding: 0 10px; }
+  .content-wrapper .hec-input-button {
+    float: right;
+    margin: 0; }
+    .content-wrapper .hec-input-button a {
+      color: #fff;
+      border: 0 none;
+      font-size: 16px;
+      padding: 10px 20px;
+      text-transform: uppercase;
+      display: inline-block; }
+      .content-wrapper .hec-input-button a.button-red {
+        background-color: #fc5a52;
+        color: #fff; }
+        .content-wrapper .hec-input-button a.button-red:focus {
+          text-decoration: none; }
+      .content-wrapper .hec-input-button a.button-grey {
+        background-color: #d2d8df;
+        color: #000; }
+        .content-wrapper .hec-input-button a.button-grey:focus {
+          text-decoration: none; }
+    .content-wrapper .hec-input-button .icon-hec {
+      display: inline-block !important;
+      margin-left: 15px; }
+  .content-wrapper .appliance.box-white a {
+    width: auto; }
+  .content-wrapper .appliance.box-white .icon-add-new {
+    display: inline-block; }
+  .content-wrapper .appliance.box-white.room {
+    border-bottom: 1px solid #e4e3e3; }
+    .content-wrapper .appliance.box-white.room.part-seven {
+      padding: 10px 20px !important; }
+      .content-wrapper .appliance.box-white.room.part-seven .title-store {
+        margin-top: 0;
+        margin-left: 15px; }
+  .content-wrapper .box-white.appliance {
+    padding: 0 !important; }
+    .content-wrapper .box-white.appliance.room {
+      padding: 15px !important;
+      position: relative; }
+    .content-wrapper .box-white.appliance .icon-rumah {
+      margin: 0;
+      display: inline-block;
+      vertical-align: middle;
+      background: url("../images/hec-sprite.png") no-repeat scroll -20px -776px;
+      height: 118px;
+      position: absolute;
+      right: 0; }
+
+.bill-info-2 .box-white {
+  width: 33%; }
+
+.bill-info-add .box-white {
+  padding: 0 !important;
+  width: 237px;
+  margin-bottom: 15px;
+  position: relative; }
+.bill-info-add .value-text {
+  color: #1d1280;
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 0px; }
+.bill-info-add .value-wrapper {
+  left: 30%;
+  position: absolute;
+  top: 60%; }
+.bill-info-add .info-title {
+  font-size: 17px;
+  font-weight: 400;
+  margin: 20px 0 0;
+  text-align: center;
+  text-transform: uppercase; }
+.bill-info-add .quicklink-info a {
+  color: #333;
+  display: block;
+  font-size: 15px;
+  font-weight: 300;
+  padding: 12px 20px;
+  border-top: 1px solid #e4e3e3; }
+.bill-info-add .quicklink-info .icon-hec {
+  vertical-align: middle;
+  margin-right: 15px;
+  margin-top: -5px; }
+.bill-info-add .addnew {
+  padding: 20px;
+  min-height: 363px;
+  height: 363px;
+  padding: 90px 20px; }
+
+/*** highlights ***/
+body.bill-info #highlight-block-wrapper #highlight-block {
+  right: 154px; }
+
+body.bill-calculator #highlight-block-wrapper #highlight-block.floating-tab {
+  right: 154px; }
+
+#highlight-block-wrapper {
+  position: fixed;
+  top: 100px;
+  right: -460px;
+  color: #fff;
+  /*z-index: 10;*/ }
+  #highlight-block-wrapper #highlight-block {
+    background-color: #253447;
+    display: inline-block;
+    transform: rotate(-90deg);
+    transform-origin: 141px 21px;
+    display: inline-block;
+    vertical-align: top;
+    padding: 10px 20px;
+    cursor: pointer;
+    position: relative;
+    top: 8px;
+    right: 164px; }
+    #highlight-block-wrapper #highlight-block p {
+      margin: 0; }
+    #highlight-block-wrapper #highlight-block .highlight-text {
+      color: #fff;
+      font-weight: 400;
+      font-size: 17px; }
+    #highlight-block-wrapper #highlight-block.floating-tab {
+      top: 194px;
+      right: 164px;
+      display: inline-block; }
+    #highlight-block-wrapper #highlight-block.floating-tab2 {
+      top: -14px;
+      right: 164px; 
+    }
+    #highlight-block-wrapper #highlight-block.floating-tab2.tariff {
+        top: 125px;
+        right: 271px;
+    }
+    #highlight-block-wrapper #highlight-block.floating-tab3 {
+      top: 28px;
+      right: -30px;
+      display: inline-block; }
+  #highlight-block-wrapper #highlight-block-content {
+    display: block;
+    background-color: #253447;
+    padding: 30px;
+    width: 460px;
+    max-height: 500px;
+    overflow: auto; }
+    #highlight-block-wrapper #highlight-block-content a {
+      color: #04CFEE;
+      font-weight: bold; }
+  #highlight-block-wrapper .close-button {
+    top: unset; }
+
+.yellow-text {
+  color: #f5ec02;
+  font-size: 18px; }
+
+/*** bill calculator ***/
+.bill-calculator .icon-text {
+  text-align: left !important;
+  padding-bottom: 10px !important; }
+.bill-calculator .result-calculate-wrapper {
+  display: none; }
+.bill-calculator .result-calculate {
+  margin-bottom: 15px; }
+.bill-calculator .box-white {
+  padding: 15px; }
+
+.input-group {
+  display: inline-block;
+  vertical-align: top;
+  width: 138px;
+  margin-right: 15px; }
+  .input-group .input-text {
+    display: block;
+    font-size: 15px;
+    font-weight: 300; }
+  .input-group input {
+    border: 1px solid #cdd0d3;
+    border-radius: 5px;
+    height: 30px;
+    padding: 0 10px;
+    width: 138px; }
+
+.info {
+  font-size: 15px;
+  font-weight: 700; }
+
+.table-default {
+  background-color: #F6F6F6;
+  margin-bottom: 15px; }
+  .table-default thead {
+    background-color: #e9ecf0; }
+    .table-default thead tr {
+      border-bottom: 0; }
+    .table-default thead th {
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 300;
+      text-transform: uppercase; }
+  .table-default tr {
+    border-bottom: 1px solid #fff; }
+  .table-default td {
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 300; }
+  .table-default input {
+    border: 1px solid #cdd0d3;
+    border-radius: 5px;
+    height: 30px;
+    padding: 0 10px; }
+  .table-default .data-container {
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    height: 30px;
+    padding: 10px;
+    margin-right: 10px; }
+
+/*** Hide Sidebar ***/
+.sidebar-mini.sidebar-collapse .logo .logo-mini {
+  background: url("../images/logo-dashboard-hide.png") no-repeat center center;
+  width: 100%;
+  height: 54px;
+  display: block;
+  padding: 50px 0;
+  border-bottom: 1px solid #445cd9; }
+.sidebar-mini.sidebar-collapse .logo .logo-lg {
+  display: none; }
+.sidebar-mini.sidebar-collapse .profile-pic {
+  width: 47px;
+  height: 47px; }
+.sidebar-mini.sidebar-collapse .profile-text {
+  display: none; }
+.sidebar-mini.sidebar-collapse .icon-profile {
+  width: 75%; }
+  .sidebar-mini.sidebar-collapse .icon-profile > a {
+    border-bottom: 1px solid #4869e6;
+    border-right: 0;
+    display: block; }
+.sidebar-mini.sidebar-collapse .user-panel {
+  padding: 0; }
+
+/*** appliance store ***/
+.house-container a {
+  margin-right: 0; }
+.house-container .house {
+  margin-bottom: 15px; }
+  .house-container .house:focus {
+    background-color: #adebad; }
+.house-container ul.thumbnails .thumbnail {
+  width: 200px;
+  height: 162px;
+  margin: 0; }
+  .house-container ul.thumbnails .thumbnail p {
+    padding: 25px;
+    text-align: center; }
+.house-container ul.thumbnails.image_picker_selector li .thumbnail {
+  padding: 10px; }
+  .house-container ul.thumbnails.image_picker_selector li .thumbnail.selected {
+    background: #adebad; }
+.house-container ul.thumbnails.image_picker_selector {
+  margin: 0 20px 0 0;
+  padding: 0 10px 0 0; }
+
+.container-popup {
+  float: left; }
+
+.tabbing-appliance .tab-select > ul > li {
+  padding: 5px 0;
+  margin: 5px 0;
+  border-right: 1px solid #e4e3e3; }
+  .tabbing-appliance .tab-select > ul > li.liactive {
+    position: relative; }
+    .tabbing-appliance .tab-select > ul > li.liactive:after {
+      border: 3px solid #25B6EB;
+      content: "";
+      display: inline-block;
+      left: 50%;
+      position: absolute;
+      top: 34px;
+      width: 100%;
+      transform: translate(-50%, -50%); }
+  .tabbing-appliance .tab-select > ul > li:last-child {
+    border-right: 0; }
+
+.green-text {
+  color: #35ca0d; }
+
+.tips-description {
+  width: 70%; }
+
+.tips-more {
+  width: 29%; }
+
+.tips-text {
+  padding: 0;
+  width: 75%; }
+
+.accordion-appliance .acc-text {
+  color: #000; }
+
+.acc-text .table-appliance {
+  width: 70%; }
+  .acc-text .table-appliance table tr::after {
+    margin: 20px 0 0 15px; }
+  .acc-text .table-appliance table td {
+    padding: 10px 5px; }
+.acc-text .icon-img {
+  margin-right: 15px;
+  background: url("../images/icon-living-room.png") no-repeat scroll center center; }
+
+.table-appliance input {
+  width: 78px; }
+
+/*** Main Banner **/
+#myCarousel .carousel-indicators {
+  margin-left: 0;
+  left: unset;
+  width: auto;
+  top: 50%;
+  right: 7%; }
+  #myCarousel .carousel-indicators li {
+    display: block;
+    margin: 5px 0; }
+#myCarousel .carousel-indicators .active {
+  width: 10px;
+  height: 10px; }
+
+/*** Sticky header ***/
+.sticky-fixed {
+  position: fixed;
+  top: 0;
+  z-index: 2; }
+
+.persist-header {
+  width: 70%; }
+  .persist-header .box-white {
+    margin-right: 0; }
+  .persist-header .appliance.box-white.room {
+    width: 100%; }
+  .persist-header .tabbing-appliance {
+    width: 100%; }
+
+.copyright-text,
+.footer-logo {
+  display: inline-block;
+  vertical-align: top; }
+
+.copyright-text {
+  color: #c1c0c1;
+  font-size: 13px;
+  margin-top: 7px;
+  padding-right: 15px; }
+  .copyright-text a {
+    color: #204490; }
+
+/*** innerpage footer ***/
+.main-footer {
+  background: transparent;
+  border-top: 0; }
+  .main-footer .follow-us {
+    margin: 10px; }
+    .main-footer .follow-us a {
+      margin-right: 10px; }
+  .main-footer .copyright-text {
+    color: #000; }
+  .main-footer .tooltip-inner {
+    max-width: 500px;
+    /* If max-width does not work, try using width instead */
+    width: 500px;
+    padding: 15px;
+    text-align: justify;
+    z-index: 99999; }
+  .main-footer .footer-right {
+    padding: 0 30px; }
+  .main-footer .footer-logo {
+    float: right; }
+
+/*** default table td ***/
+.tb {
+  border: 1px solid grey;
+  min-width: 125px;
+  padding: 10px;
+  background-color: #fff; }
+
+.tb-td-hd {
+  background-color: #d1edff;
+  border: 1px solid #cccccc;
+  font-weight: bold;
+  padding: 5px;
+  color: #000; }
+
+.tb-td {
+  border: 1px solid #cccccc;
+  padding: 2px;
+  text-align: center;
+  color: #000; }
+
+.close-button {
+  cursor: pointer;
+  height: 48px;
+  padding: 15px;
+  position: absolute;
+  right: 0;
+  text-align: right;
+  width: 47px;
+  top: 0; }
+
+/*** appliance 1st page ***/
+.appliance-landing .box-white {
+  margin-bottom: 10px;
+  width: 44%;
+  float: unset;
+  min-height: 115px; }
+  .appliance-landing .box-white .icon-text,
+  .appliance-landing .box-white .icon-appliance-landing {
+    display: inline-block; }
+  .appliance-landing .box-white .icon-text {
+    width: 65%;
+    font-size: 20px; }
+  .appliance-landing .box-white .icon-appliance-landing {
+    padding: 15px 10px;
+    position: absolute;
+    right: 10px; }
+.appliance-landing .appliance.box-white .icon-text {
+  margin: 25px 0; }
+.appliance-landing .box-white a {
+  border: 1px solid #a2a19d; }
+
+.step-text {
+  font-size: 25px;
+  margin-bottom: 10px; }
+
+.appliance-store .box-white {
+  width: 44%;
+  float: unset;
+  min-height: 113px; }
+
+.account-selection .popup-text {
+  font-size: 20px;
+  margin-bottom: 15px; }
+.account-selection .house-container .house {
+  border: 0; }
+.account-selection .house-container.room-select .house > div {
+  height: 159px; }
+.account-selection .house-container.room-select .house {
+  height: 230px; }
+  .account-selection .house-container.room-select .house .info-title {
+    height: auto;
+    font-weight: bold; }
+
+/*** Sticky label for bill info ***/
+.sticky-label-fav {
+  background: url("../images/icon-label-fav.png") no-repeat;
+  width: 45px;
+  height: 45px;
+  position: absolute;
+  right: 0; }
+
+.sticky-label-hec {
+  background: url("../images/icon-label-hec.png") no-repeat;
+  width: 45px;
+  height: 45px;
+  position: absolute;
+  right: 0; }
+
+/*** Main Banner ***/
+#banner1 {
+  height: 768px;
+  background-image: url("../images/hec-banner-1.jpg");
+  background-position: center center;
+  background-size: cover; }
+
+#banner2 {
+  height: 768px;
+  background-image: url("../images/hec-banner-2.jpg");
+  background-position: center center;
+  background-size: cover; }
+
+#banner3 {
+  height: 768px;
+  background-image: url("../images/hec-banner-3.jpg");
+  background-position: center center;
+  background-size: cover; }
+
+#banner4 {
+  height: 768px;
+  background-image: url("../images/hec-banner-4.jpg");
+  background-position: center center;
+  background-size: cover; }
+
+/*** add remove button ***/
+.add-remove {
+  padding: 10px;
+  height: auto !important;
+  display: none; }
+  .add-remove a {
+    color: #fff; }
+  .add-remove .add {
+    background-color: #f35a52;
+    color: #fff;
+    padding: 5px 10px; }
+  .add-remove .remove {
+    background-color: #f35a52;
+    color: #fff;
+    padding: 5px 10px; }
+  .add-remove .number {
+    background-color: #f35a52;
+    color: #fff;
+    padding: 5px 10px; }
+
+.house-container.room-select .house.select .add-remove {
+  display: block; }
+
+.appliance-container .house div > img {
+  left: 50%;
+  position: absolute;
+  top: 30%;
+  transform: translate(-50%, -50%); }
+.appliance-container .house-container .house {
+  width: 160px; }
+
+.acc-wrapper {
+  margin-bottom: 10px; }
+
+.slider-container {
+  font-family: "Open Sans",Arial,sans-serif; }
+
+.collapse-header .acc-title {
+  font-size: 15px;
+  font-weight: normal; }
+
+/** Selected house **/
+.big-house {
+  /*background: url("../images/icon-single-house-big.png") no-repeat;*/
+  position: absolute;
+  right: 0;
+  top: -15px; }
+
+.icon-single-house-big {
+  background: url("../images/icon-single-house-big.png") no-repeat;
+  width: 185px;
+  height: 163px;
+  display: block; }
+
+.icon-double-house-big {
+  background: url("../images/icon-double-house-big.png") no-repeat;
+  width: 188px;
+  height: 163px;
+  display: block; }
+
+.icon-more-house-big {
+  background: url("../images/icon-more-house-big.png") no-repeat;
+  width: 188px;
+  height: 163px;
+  display: block; }
+
+.icon-apartment-big {
+  background: url("../images/icon-apartment-big.png") no-repeat;
+  width: 157px;
+  height: 169px;
+  display: block; }
+
+.icon-double-bungalow-big {
+  background: url("../images/icon-double-bungalow-big.png") no-repeat;
+  width: 187px;
+  height: 163px;
+  display: block; }
+
+.icon-single-bungalow-big {
+  background: url("../images/icon-single-bungalow-big.png") no-repeat;
+  width: 252px;
+  height: 155px;
+  display: block; }
+
+.icon-more-bungalow-big {
+  background: url("../images/icon-more-bungalow-big.png") no-repeat;
+  width: 188px;
+  height: 163px;
+  display: block; }
+
+.icon-single-semid-big {
+  background: url("../images/icon-single-semid-big.png") no-repeat;
+  width: 236px;
+  height: 161px;
+  display: block; }
+
+.icon-double-semid-big {
+  background: url("../images/icon-double-semid-big.png") no-repeat;
+  width: 237px;
+  height: 161px;
+  display: block; }
+
+.icon-kampung-big {
+  background: url("../images/icon-kampung-big.png") no-repeat;
+  width: 187px;
+  height: 162px;
+  display: block; }
+
+.house-container .close-button {
+  font-size: 18px; }
+
+.fa-file-pdf-o {
+  text-align: center; }
+
+.energy-saving-top {
+  padding-bottom: 5px; }
+  .energy-saving-top .hec-button {
+    padding: 7px 10px; }
+    .energy-saving-top .hec-button:hover {
+      color: #fff;
+      text-decoration: none; }
+  .energy-saving-top .do-button {
+    background-color: #536A78;
+    border: 0 none;
+    color: #fff;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    padding: 7px 10px; }
+    .energy-saving-top .do-button:hover {
+      text-decoration: none; }
+  .energy-saving-top .download-desc {
+    font-size: 15px;
+    margin: 0 5px; }
+
+.do-button-wrapper {
+  padding-top: 20px; }
+
+/*will-do-it*/
+.energy-saving-top .do-doit {
+  background-color: #536A78;
+  border: 0 none;
+  color: #fff;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  padding: 7px 10px; }
+
+.energy-saving-top .do-doit:hover {
+  text-decoration: none; }
+
+/*done-it*/
+.energy-saving-top .do-done {
+  background-color: #536A78;
+  border: 0 none;
+  color: #fff;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  padding: 7px 10px; }
+
+.energy-saving-top .do-done:hover {
+  text-decoration: none; }
+
+/*Image Tips*/
+.col-image {
+  float: left;
+  height: 100px;
+  margin: 0 10px 0 0;
+  width: 130px; }
+
+/** Friends **/
+.box-friend {
+  width: 70%; }
+  .box-friend .acc-wrapper {
+    background-color: #fff; }
+  .box-friend .tab-content {
+    background-color: #fff;
+    padding: 15px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px; }
+  .box-friend .accordion-appliance {
+    margin-top: 10px; }
+
+.bg-grey {
+  background-color: #f8f8f8;
+  padding: 15px; }
+
+.friends .box-white {
+  width: 70%;
+  position: relative;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0; }
+.friends .tabbing-appliance {
+  width: 100%; }
+  .friends .tabbing-appliance .tab-select {
+    border-bottom: 1px solid #e4e3e3; }
+    .friends .tabbing-appliance .tab-select > ul > li {
+      width: 49%; }
+
+.title-friends {
+  font-size: 31px;
+  text-transform: uppercase;
+  margin: 0; }
+
+.icon-group {
+  position: absolute;
+  right: -135px; }
+
+.icon-wrapper {
+  background: #212635 none repeat scroll 0 0;
+  border-radius: 10px;
+  color: #fff;
+  padding: 15px;
+  font-size: 17px;
+  position: relative;
+  width: 216px; }
+  .icon-wrapper .fa-arrow-right {
+    color: #fcff00;
+    font-size: 11px;
+    margin-left: 5px; }
+  .icon-wrapper:after {
+    background: #212635;
+    border-bottom: 1px solid #212635;
+    border-right: 1px solid #212635;
+    content: "";
+    display: block;
+    height: 20px;
+    position: absolute;
+    right: 176px;
+    top: 67px;
+    transform: rotate(61deg);
+    width: 15px; }
+
+.icon-wrapper,
+.icon-friend {
+  display: inline-block; }
+
+.grey {
+  font-size: 15px; }
+
+.text-red {
+  color: #f35a52; }
+
+.text-bright-green {
+  color: #30ff00; }
+
+.num-friend {
+  font-size: 15px;
+  color: #007832; }
+
+.view-friend {
+  color: #567fe6;
+  font-size: 15px; }
+
+.icon-friend {
+  background: url("../images/hec-sprite.png") no-repeat;
+  display: inline-block;
+  position: relative;
+  top: -5px; }
+
+.icon-notdoinggood {
+  background-position: -513px -801px;
+  width: 93px;
+  height: 93px;
+  vertical-align: middle;
+  margin: 0 10px; }
+
+.icon-doinggood {
+  background-position: -410px -801px;
+  width: 93px;
+  height: 93px;
+  vertical-align: middle;
+  margin: 0 10px; }
+
+.add-wrapper {
+  background-color: #F35A52;
+  float: right;
+  padding: 13px 20px; }
+  .add-wrapper .icon-add {
+    background-position: -261px -454px;
+    width: 11px;
+    height: 11px; }
+
+.friend-list li {
+  background-color: #f1f1f1;
+  display: inline-block;
+  font-size: 15px;
+  list-style-type: none;
+  padding: 12px 10px; }
+
+.remove-friend {
+  cursor: pointer;
+  color: #A2A0A1;
+  margin-left: 20px;
+  vertical-align: text-bottom; }
+
+.friends-rank-wrapper .acc-text {
+  padding: 0; }
+.friends-rank-wrapper .acc-btn {
+  padding: 8px 15px; }
+  .friends-rank-wrapper .acc-btn .toggle-button {
+    right: 15px; }
+  .friends-rank-wrapper .acc-btn.active .toggle-button {
+    right: 15px; }
+
+.acc-text .friends-ranking .add-button {
+  display: block; }
+  .acc-text .friends-ranking .add-button a {
+    background-color: #f35a52;
+    border-radius: 0;
+    color: #fff;
+    font-size: 15px;
+    padding: 10px;
+    text-transform: uppercase;
+    width: 170px;
+    display: block;
+    float: right;
+    margin: 0 15px; }
+  .acc-text .friends-ranking .add-button .plus-text {
+    width: 130px;
+    display: inline-block; }
+  .acc-text .friends-ranking .add-button .plus-icon {
+    background: url("../images/hec-sprite.png") no-repeat scroll -261px -454px;
+    height: 11px;
+    width: 11px;
+    display: inline-block; }
+
+.text-drop {
+  color: #333;
+  font-size: 16px;
+  padding: 10px 15px;
+  margin: 20px 0; }
+
+.red-number {
+  color: #F63C3D; }
+
+.text-month {
+  font-weight: bold;
+  color: #000; }
+
+.rank-month label {
+  display: inline-block;
+  font-size: 15px;
+  color: #333;
+  padding-right: 10px; }
+.rank-month .form-control {
+  display: inline-block;
+  width: 150px;
+  border: 1px solid #e8eef0; }
+
+.friend-list-rank ul {
+  padding: 0;
+  margin: 0;
+  background-color: #fff; }
+  .friend-list-rank ul.me-rank {
+    padding-top: 6px; }
+    .friend-list-rank ul.me-rank .energy-usage {
+      border-right: 0; }
+    .friend-list-rank ul.me-rank li {
+      border: 2px solid #f96c6c; }
+.friend-list-rank li {
+  display: inline-block;
+  list-style-type: none;
+  width: 100%;
+  font-size: 20px;
+  color: #333;
+  border-right: 1px solid #e8edf0;
+  border-top: 1px solid #e8edf0; }
+  .friend-list-rank li:last-child {
+    border-bottom: 1px solid #e8edf0; }
+.friend-list-rank .rank-num {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 20px;
+  color: #fff;
+  position: relative; }
+.friend-list-rank .name {
+  display: inline-block;
+  padding: 0 10px;
+  width: 42%;
+  font-size: 15px; }
+.friend-list-rank .energy-usage {
+  display: inline-block;
+  padding: 0 30px;
+  width: 32%;
+  text-align: right;
+  font-size: 15px;
+  margin-right: 10px;
+  border-right: 1px solid #dbddde; }
+
+.avatar-img {
+  background: url("../images/dp-default.png") no-repeat scroll center center/cover;
+  border-radius: 50%;
+  display: inline-block;
+  height: 50px;
+  vertical-align: middle;
+  width: 50px;
+  margin-left: 5px; }
+
+.light-yellow {
+  background-color: #ffd305;
+  border: 1px solid #e8b400; }
+
+.light-blue {
+  background-color: #ced6e0;
+  border: 1px solid #b6c0cd; }
+
+.light-brown {
+  background-color: #d6a677;
+  border: 1px solid #c18d5a; }
+
+.light-grey {
+  background-color: #faf8f8;
+  border: 1px solid #e8eef0;
+  color: #858282 !important; }
+
+.icon-dustbin {
+  background: url("../images/hec-sprite.png") no-repeat scroll -371px -372px;
+  width: 13px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer; }
+
+.show-button-wrapper {
+  cursor: pointer;
+  padding: 15px 65px;
+  border-bottom: 1px solid #e8eef0; }
+
+.show-button {
+  background: url("../images/hec-sprite.png") no-repeat scroll -291px -377px;
+  width: 21px;
+  height: 5px;
+  display: inline-block; }
+
+.showall {
+  display: none; }
+
+.up-rank {
+  background: url("../images/hec-sprite.png") no-repeat scroll -346px -374px;
+  width: 13px;
+  height: 14px;
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 27px; }
+
+.low-rank {
+  background: url("../images/hec-sprite.png") no-repeat scroll -323px -374px;
+  width: 13px;
+  height: 14px;
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 28px; }
+
+/** Chart **/
+.ct-chart {
+  margin: 20px 0; }
+
+.ct-series-a .ct-bar,
+.ct-series-a .ct-line,
+.ct-series-a .ct-point,
+.ct-series-a .ct-slice-donut {
+  stroke: #007832; }
+
+.ct-series-b .ct-bar,
+.ct-series-b .ct-line,
+.ct-series-b .ct-point,
+.ct-series-b .ct-slice-donut {
+  stroke: #60c24e; }
+
+.ct-series-c .ct-bar,
+.ct-series-c .ct-line,
+.ct-series-c .ct-point,
+.ct-series-c .ct-slice-donut {
+  stroke: #c2e86e; }
+
+.ct-label {
+  color: #333;
+  font-size: 13px;
+  position: relative;
+  left: -8px; }
+
+.ct-grid.ct-vertical {
+  display: none; }
+
+.ct-grid {
+  stroke-dasharray: 0; }
+
+.ct-point {
+  stroke-width: 8px; }
+
+/** total kwh **/
+.total-kwh {
+  padding: 30px 0; }
+  .total-kwh .label {
+    font-size: 18px;
+    font-weight: normal;
+    color: #000;
+    border-right: 1px solid #6F6F79;
+    display: block;
+    text-align: left;
+    border-radius: 0;
+    padding: 20px 30px; }
+  .total-kwh td.bar {
+    width: 100%; }
+  .total-kwh .number {
+    font-size: 18px;
+    margin-left: 10px;
+    vertical-align: middle; }
+
+.bar-wrapper {
+  display: inline-block;
+  padding: 15px;
+  vertical-align: middle; }
+
+.bar-green {
+  background-color: #7cc042;
+  width: 10%; }
+
+.bar-grey {
+  background-color: #95969a;
+  width: 20%; }
+
+.bar-blue {
+  background-color: #22a8df;
+  width: 27%; }
+
+/*# sourceMappingURL=hec.css.map */

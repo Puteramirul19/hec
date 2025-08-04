@@ -1,0 +1,283 @@
+﻿@model Hec.Web.Areas.Public.Controllers.AccountDetailModel
+@{
+    ViewBag.Title = "Index";
+    ViewBag.BodyClass = "skin-blue sidebar-mini bill-info";
+    ViewBag.ActiveClass = "bill-info";
+
+}
+
+<section>
+    <div class="bill-info-add">
+        <div class="header-title">
+            <span class="icon-home-content"></span>
+            <span class="details">
+                <span class="title-big">My billing info</span>
+                <span class="desc">View your current bill usage for @Model.HouseName</span>
+            </span>
+        </div>
+
+        <!--==== Billing Info ====-->
+        <div class="store-select billing-info">
+            <div class="box-white-form" style="width: 100%; margin-bottom: 20px;">
+                <span class="icon-text" style="color:#0094ff; font-weight:600; display:inline-block; text-align:left">Billing Details Charts</span>
+                <span class="text" style="display:inline-block; float:right"><span class="box red" style="display:inline-block; vertical-align:middle"></span> Your Current Bill Usage <span class="box green" style="display:inline-block; vertical-align:middle; color: green; background:green;"></span> Average Similar Homes Usage</span>
+    
+                <div class="chart-wrapper">
+                    <div id="chartBilling"></div>
+                </div>
+            </div>
+
+            <div class="box-white-form" style="margin-bottom: 20px;">
+                <span class="icon-text" style="color:#0094ff; font-weight:600; text-align:left">Account Info</span>
+                <form>
+                    <table style="width:100%">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="title"><span style="width:50%;display:inline-block;padding:3px"> Account Number </span> : @(Model.Account.AccountNo ?? "-")</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="title"><span style="width:50%;display:inline-block;padding:3px"> Name </span> : @(Model.Account.Name ?? "-")</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="title"><span style="width:50%;display:inline-block;padding:3px"> Mobile Number </span> : @(Model.Account.MobileNo ?? "-")</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="title"><span style="width:50%;display:inline-block;padding:3px"> Email </span> : @(Model.Account.Email ?? "-")</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="title"><span style="width:50%;display:inline-block;padding:3px"> Account Status </span> : @(Model.Account.AccountStatus ?? "-")</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="title"><span style="width:50%;display:inline-block;padding:3px"> Premise Type </span> : @(Model.HouseType != null ? Model.HouseType.PremiseType : "-")</div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                </form>
+                <br/><span style="font-size:small">Note: This Account Info is taken from TNB database. In case of discrepencies, kindly email your updated details to <span style="font-weight:600; color: blue">tnbcareline@tnb.com.my</span> </span>
+            </div>
+
+            <div class="box-white-form" style="margin-bottom: 20px;">
+                <span class="icon-text" style="color:#0094ff; font-weight:600; text-align:left">Billing Info</span>
+                <form>
+                    <table style="width:100%">
+                        <tbody>
+                                @foreach (var acc in Model.Bills.OrderByDescending(x => x.PrintDate))
+                                {
+                                    <tr>
+                                        <td><div class="title"><span style="width:50%;display:inline-block; padding:3px">@acc.PrintDate.ToString("dd MMM yyyy") </span> : RM @acc.Amount</div></td>
+                                    </tr>
+                                }
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <style>
+                table tr:nth-child(even) {
+                    background-color: #dae5f4;
+                    border: #ffffff 1px solid;
+                }
+
+                table tr:nth-child(odd) {
+                    background-color: #a6c7f5;
+                    border: #ffffff 1px solid;
+
+                }
+                .box{
+	                width:10px;
+	                height:10px;
+                    margin: 3px;
+                }
+                .red{
+	                background:#ff6a00;
+                }
+                .green{
+	                background:#0f0;
+                }
+                
+            </style>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+@section Scripts
+{
+<script>
+    function createChart() {
+        $("#chartBilling").kendoChart({
+            dataSource: {
+                data: [
+                    @foreach (var acc in Model.Bills.OrderBy(x => x.PrintDate).Take(12))
+                    {
+                            @:{
+                                @:date: "@acc.PrintDate.ToString("dd MMM yyyy")",
+                                @:value: @acc.Amount,
+                                @:kWh: @acc.Consumption
+                            @:},
+                    }
+                ]
+            },
+            chartArea: {
+                //width: 1000,
+                height: 300
+            },
+            series: [{
+                type: "line",
+                field: "value",
+                categoryField: "date",
+                data: [
+                    @foreach (var acc in Model.Bills.OrderBy(x => x.PrintDate).Take(12))
+                    {
+                            @:{
+                                @:date: "@acc.PrintDate.ToString("dd MMM yyyy")",
+                                @:value: @acc.Amount,
+                                @:kWh: @acc.Consumption
+                            @:},
+                    }
+                ]
+            }],
+            valueAxis: {
+                labels: {
+                    format: "RM {0}"
+                },
+                title: {
+                    text: "Bill Amount"
+                },
+                plotBands: []
+            },
+            categoryAxis: {
+                baseUnit: "months",
+                labels: {
+                    rotation: "auto"
+                },
+                title: {
+                    text: "Billing Date"
+                }
+            },
+            tooltip: {
+                visible: true,
+                template: kendo.template($("#friend-chart-tooltip-tpl").html())
+            }
+        });
+
+        // Set Plot Band value
+        getAverageHouseType("@Model.Account.House.HouseType");
+    }
+
+    // Func. to get Plot Band value for average line in chart
+    var plotBandValue = 0;
+    var averageHouseValue = 0;
+
+    function getAverageHouseType(houseTypeCode) {
+        // Get tariff block
+        var tariffTiers = 0, tariffRemaining = 0;
+        $.ajax({
+            url: "@Url.Action("ReadTariff", "UsageCalculator")",
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            success: function (data, textStatus, jqXHR) {
+                tariffTiers = data.tiers;
+                tariffRemaining = data.remaining;
+            }
+        });
+
+        var balance = 0;
+        $.ajax({
+            url: "@Url.Action("GetAverageHouseType", "Friends")",
+            type: 'GET',
+            data: { houseTypeCode : houseTypeCode},
+            dataType: 'json',
+            async: false,
+            success: function (data, textStatus, jqXHR) {
+                averageHouseValue = data.Average;
+                balance = data.Average;
+            }
+        });
+
+        // Calculate total bill per month (RM) using Tariff Block
+        // Base on 'HEC2 - CalculationV3.xlsx' file
+        var totalCharge = 0;
+
+        for (var i = 0; i < tariffTiers.length; i++) {
+            var boundary = tariffTiers[i].boundary;
+            var rate = tariffTiers[i].rate;
+            if (balance > boundary) {
+                totalCharge += boundary * rate;
+                balance = balance - boundary;
+            } else {
+                totalCharge += balance * rate;
+                balance = 0
+                break;
+            }
+        }
+        if (balance > 0) totalCharge += balance * tariffRemaining;
+        //console.log("TotalUsage", kendo.toString(totalCharge, "n"));
+        totalCharge = kendo.toString(totalCharge, "0");
+        plotBandValue = Number(totalCharge); 
+
+        // Set Chart Plot Bands data
+        var plotBand = [];
+        var plotBandData = {};
+        plotBandData.from = Number(totalCharge);
+        plotBandData.to = Number(totalCharge) + 4;
+        plotBandData.color = "green";
+
+        plotBand.push(plotBandData); // Push data to plot band object
+
+        var chart = $("#chartBilling").data("kendoChart");
+        chart.options.valueAxis.plotBands = plotBand;
+        chart.refresh();
+
+        // Set plot band value
+        addLabelToPlotBand(plotBandValue, averageHouseValue);
+    }
+
+
+    // Add value to plot bands
+    function addLabelToPlotBand(plotBandValue, averageHouseValue) {
+        var name = document.querySelectorAll('path[fill="green"]');
+        var p = name[0];
+        var t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        var b = p.getBBox();
+        t.setAttribute("transform", "translate(" + (b.x + b.width - 90) + " " + (b.y + b.height - 7) + ")");
+        t.textContent = "RM " + plotBandValue + " (" + averageHouseValue + " kWh)";
+        t.setAttribute("fill", "black");
+        t.setAttribute("font-size", "13");
+        p.parentNode.insertBefore(t, p.nextSibling);
+    }
+    
+
+    // Initialize Chart
+    $(document).ready(createChart);
+    $(document).bind("kendo:skinChange", createChart);
+    $(window).on("resize", function () {
+        kendo.resize($(".chart-wrapper"));
+        // Set plot band value
+        addLabelToPlotBand(plotBandValue, averageHouseValue);
+    });
+</script>
+
+<script id="friend-chart-tooltip-tpl" type="text/x-kendo-template">
+    # for (var i = 0; i < series.data.length; i++) { #
+        # if (value === series.data[i].value) { #
+            <div>RM #: series.data[i].value # (#: series.data[i].kWh # kWh)</div>
+        # } #
+    # } #
+</script>
+}

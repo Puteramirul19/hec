@@ -1,0 +1,288 @@
+﻿@model Hec.Web.Controllers.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout_new.cshtml";
+}
+<style>
+    .slider-container {
+        height: 100vh !important;
+        position: relative !important; /* Keep in normal flow */
+        z-index: 1 !important;
+    }
+
+    .tp-fullwidth-forcer {
+        height: 0px !important;
+    }
+
+    ul.social-icons {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        ul.social-icons li {
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+            background-image: url(../images/social-sprites.png);
+            background-repeat: no-repeat;
+            background-position: 0 100px; /* default hidden */
+            display: inline-block;
+            margin: 0 5px 5px 0;
+            padding: 0;
+            border-radius: 100%;
+            width: 30px;
+            height: 30px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+            /* Hide the actual text off-screen for accessibility */
+            ul.social-icons li a {
+                display: block;
+                width: 100%;
+                height: 100%;
+                text-indent: -9999px;
+            }
+
+                /* Optional hover text style (if text wasn't hidden) */
+                ul.social-icons li a:hover {
+                    text-decoration: none;
+                }
+
+                /* On click (active state) styling */
+                ul.social-icons li a:active,
+                ul.social-icons li:active {
+                    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+                    border-radius: 100%;
+                }
+
+            /* Icon-specific background positions */
+            ul.social-icons li.digg {
+                background-position: 0 0;
+            }
+
+                ul.social-icons li.digg:hover {
+                    background-position: 0 -30px;
+                }
+
+            ul.social-icons li.dribbble {
+                background-position: 0 -60px;
+            }
+
+                ul.social-icons li.dribbble:hover {
+                    background-position: 0 -90px;
+                }
+
+    html.sticky-header-active #header .header-body {
+        position: fixed;
+        background: #fff;
+    }
+
+    #header .header-body {
+        border-top: none;
+        border-bottom: none;
+    }
+
+    .tparrows {
+        top: -50% !important;
+    }
+</style>
+<div role="main" class="main">
+
+
+    <header id="header" class="header-transparent"
+            data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': false, 'stickyStartAt': 45, 'stickySetTop': '0px', 'stickyChangeLogo': true}">
+        <div class="header-body ">
+            <div class="header-container container">
+                <div class="header-row">
+                    <div class="header-column">
+                        <div class="header-row">
+                            <div class="header-logo">
+                                <a href="href=" @(Url.Action("Index", "Home", new { area = "" })) ">
+                                    <img alt="Porto" width="111" height="54" data-sticky-width="82"
+                                         data-sticky-height="40" data-sticky-top="25"
+                                         src="/Images/logo-hec.png">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-column justify-content-end">
+                        <div class="header-row pt-3">
+                        </div>
+                        <div class="header-row">
+                            <div class="header-nav pt-1">
+                                <div class="header-nav-main header-nav-main-effect-1 header-nav-main-sub-effect-1">
+                                    <nav class="collapse">
+                                        <ul class="nav nav-pills" id="mainNav">
+                                            <li class="dropdown">
+                                                <a class="dropdown-item dropdown-reverse active" href="/" style="color: #777 !important">
+                                                    Home
+                                                </a>
+                                            </li>
+                                            <li class="dropdown">
+                                                <a class="dropdown-item dropdown-reverse" href="/Public/UsageCalculator" style="color: #777 !important">
+                                                    Energy Usage Calculator
+                                                </a>
+                                            </li>
+                                            <li class="dropdown">
+                                                <a class="dropdown-item dropdown-reverse" href="/Public/EnergyTips" style="color: #777 !important">
+                                                    Energy Saving Tips
+                                                </a>
+                                            </li>
+                                            <li class="dropdown">
+                                                <a class="dropdown-item dropdown-toggle" href="/Public/ApplianceComparison" style="color: #777 !important">
+                                                    Appliance Calculator
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                           href="/Public/ApplianceComparison/SingleAppliance">
+                                                            Single Appliance
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                           href="/Public/ApplianceComparison/CompareAppliance">
+                                                            Compare Appliances
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <ul class="header-social-icons social-icons d-none d-sm-block">
+                                    <li class="dribbble">
+                                        <a href="https://www.mytnb.com.my/"
+                                           target="_blank" title="MyTNB Customer Portal">
+                                            MyTNB
+                                        </a>
+                                    </li>
+                                    <li class="digg">
+                                        <a href="https://www.tnb.com.my/"
+                                           target="_blank" title="TNB Website">TNB Website</a>
+                                    </li>
+                                </ul>
+                                <button class="btn header-btn-collapse-nav" data-bs-toggle="collapse"
+                                        data-bs-target=".header-nav-main nav">
+                                    <i class="fa fa-bars"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="slider-container rev_slider_wrapper" style="height:100dvh">
+        <div id="revolutionSlider" class="slider rev_slider" data-version="5.4.8" data-plugin-revolution-slider data-plugin-options="{'delay': 4000,'sliderLayout': 'fullscreen', 'disableProgressBar': 'on', 'parallax': { 'type': 'scroll', 'origo': 'enterpoint', 'speed': 1000, 'levels': [2,3,4,5,6,7,8,9,12,50], 'disable_onmobile': 'on' }, 'navigation' : {'arrows': { 'enable': true }, 'bullets': {'enable': true, 'style': 'bullets-style-1', 'h_align': 'center', 'v_align': 'bottom', 'space': 7, 'v_offset': 70, 'h_offset': 0}}}">
+            <ul>
+                <li class="slide-overlay" data-transition="fade">
+                    <img src="/Images/slides/002.jpg"
+                         alt=""
+                         data-bgposition="center center"
+                         data-bgfit="cover"
+                         data-bgrepeat="no-repeat"
+                         class="rev-slidebg">
+
+                    <div class="tp-caption"
+                         data-x="center" data-hoffset="['-170','-170','-170','-300']"
+                         data-y="center" data-voffset="['-125','-125','-125','-150']"
+                         data-start="1000"
+                         data-transform_in="x:[-300%];s:500;"
+                         data-transform_idle="s:500;" style="color: #fff !important;"><img src="/Images/slides/slide-title-border.png" alt=""></div>
+
+                    <div class="tp-caption text-color-light font-weight-normal"
+                         data-x="center"
+                         data-y="center" data-voffset="['-125','-125','-125','-150']"
+                         data-start="700"
+                         data-fontsize="['32','32','32','56']"
+                         data-lineheight="['25','25','25','45']"
+                         data-transform_in="y:[-50%];opacity:0;s:500;" style="color: #fff !important;">Welcome to</div>
+
+                    <div class="tp-caption"
+                         data-x="center" data-hoffset="['170','170','170','300']"
+                         data-y="center" data-voffset="['-125','-125','-125','-150']"
+                         data-start="1000"
+                         data-transform_in="x:[300%];s:500;"
+                         data-transform_idle="s:500;" style="color: #fff !important;"><img src="/Images/slides/slide-title-border.png" alt=""></div>
+
+                    <div class="tp-caption font-weight-extra-bold text-color-light negative-ls-1"
+                         data-frames='[{"delay":1000,"speed":2000,"frame":"0","from":"sX:1.5;opacity:0;fb:20px;","to":"o:1;fb:0;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"}]'
+                         data-x="center"
+                         data-y="center" data-voffset="['-80','-80','-80','-105']"
+                         data-fontsize="['50','50','50','90']"
+                         data-lineheight="['55','55','55','95']" style="color: #fff !important;">HOME ENERGY</div>
+
+                    <div class="tp-caption font-weight-extra-bold text-color-light negative-ls-1"
+                         data-frames='[{"delay":1000,"speed":2000,"frame":"0","from":"sX:1.5;opacity:0;fb:20px;","to":"o:1;fb:0;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"}]'
+                         data-x="center"
+                         data-y="center" data-voffset="['-20','-20','-20','-15']"
+                         data-fontsize="['50','50','50','90']"
+                         data-lineheight="['55','55','55','95']" style="color: #fff !important;">CALCULATOR</div>
+
+                    <div class="tp-caption font-weight-light ws-normal text-center"
+                         data-frames='[{"from":"opacity:0;","speed":300,"to":"o:1;","delay":2500,"ease":"Power2.easeInOut"},{"delay":"wait","speed":1000,"to":"opacity:0;rotationX:90;y:100;","ease":"Power2.easeInOut"}]'
+                         data-x="center"
+                         data-y="center" data-voffset="['30','30','30','55']"
+                         data-customin="x:0;y:0;z:0;rotationX:90;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:200;transformOrigin:50% 0%;"
+                         data-width="['530','530','530','1100']"
+                         data-fontsize="['18','18','18','40']"
+                         data-lineheight="['26','26','26','45']"
+                         style="color: #fff !important;"
+                         data-easing="easeOutExpo">Check out our new features.</div>
+
+                    <a class="tp-caption customin btn btn-lg btn-primary main-button" href="~/Home/Features" style="background-color: #0088cc !important; color:#fff !important; font-size:20px !important"
+                       data-frames='[{"from":"opacity:0;","speed":300,"to":"o:1;","delay":2500,"ease":"Power2.easeInOut"},{"delay":"wait","speed":1000,"to":"opacity:0;rotationX:90;y:100;","ease":"Power2.easeInOut"}]'
+                       data-x="center"
+                       data-y="center" data-voffset="['80','80','80','105']"
+                       data-customin="x:0;y:0;z:0;rotationX:90;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:200;transformOrigin:50% 0%;"
+                       data-speed="800"
+                       data-start="1700"
+                       data-easing="Back.easeInOut"
+                       data-endspeed="300">
+                        Get Started Now!
+                    </a>
+
+                </li>
+
+
+                <li class="slide-overlay" data-transition="fade">
+                    <img src="/Images/slides/003.jpg"
+                         alt=""
+                         data-bgposition="center center"
+                         data-bgfit="cover"
+                         data-bgrepeat="no-repeat"
+                         class="rev-slidebg">
+
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <div class="container">
+                <div class="row quicklinks">
+                    <div class="col-sm-4">
+                        <div class="thumb_v1" style="text-align:center;">
+                            <a href="/Public/UsageCalculator"><img src="/Images/thumb_01.png" alt="Energy Usage Calculator" style="margin:auto;" /></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="thumb_v1" style="text-align:center;">
+                            <a href="/Public/EnergyTips"><img src="/Images/thumb_02.png" alt="Energy Tips" style="margin:auto;" /></a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="thumb_v1" style="text-align:center;">
+                            <a href="/Public/ApplianceComparison"><img src="/Images/thumb_03.png" alt="Appliance Calculator" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+/* Add here all your CSS customizations */
+ 
+.home-intro {margin-bottom:0px; padding:0px;}
+.get-started a {font-size:14px;}
+#footer {margin-top:0px !important; padding:0px;}
+#footer .footer-copyright {margin-top:0px;padding:10px 0 0px;}
+#header.flat-menu nav ul.nav-main > li > a:hover {background-color:rgba(255,255,255,0.2) !important;} /* Working Fine! */ 
+
+#header.font-color-light nav.nav-main ul.nav-main > li.active > a, #header.font-color-light nav.nav-main ul.nav-main > li > a {color:#333;}
+#header.font-color-light nav.nav-main ul.nav-main > li > a {color:#333; font-size: 13px;}
+
+/* Drop Down! */ 
+#header.single-menu.valign nav ul.nav-main > li.dropdown:hover > a {background-color:rgba(255,255,255,0.2) !important;color:#333;} 
+@media (max-width: 991px){
+	#header.single-menu.valign nav ul.nav-main > li.dropdown:hover > a {background-color:rgba(255,255,255,0.2) !important;color:#FFF !important;} 
+	#header.font-color-light nav.nav-main ul.nav-main > li > a {color:#FFF !important;}
+}
+
+
+ 
+
+.thumb_v1 {display:block;padding:10px; background-color:rgba(255,255,255,0.8); width:250px; height:80px;border:1px solid #dddddd;}

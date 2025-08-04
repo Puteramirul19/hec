@@ -1,0 +1,66 @@
+﻿@model Hec.Entities.ContractAccount
+@{
+    ViewBag.Title = "Change Photo";
+    ViewBag.BodyClass = "skin-blue sidebar-mini bill-info";
+    ViewBag.ActiveClass = "photo";
+
+}
+
+<section>
+    <div class="bill-info-add">
+        <div class="header-title">
+            <span class="icon-home-content"></span>
+            <span class="details">
+                <span class="title-big">Change Photo</span>
+                <span class="desc">Upload file for your profile photo</span>
+            </span>
+        </div>
+
+        <div class="store-select edit-house">
+            <div class="box-white-form">
+                @*<span class="icon-text">Edit Account Details</span>*@
+                <form method="post" enctype="multipart/form-data" id="formUpload">
+                    <div class="form-group">
+                        <input type="file" id="file" name="file" style="border: 0; padding: 0;" />
+                        <div class="help-text">File must be JPG with size less than 500kB.</div>
+                        <div class="help-text">Note: Best fit size is 200x200px.</div>
+                    </div>
+                    <div class="hec-input-button">
+                        <button type="button" class="btn btn-primary" id="uploadFile">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+    //================== Upload Photo ==================//
+    //=== >>> Checking selected file <<< ===//
+
+    $("#file").on("change", function (e) {
+        e.preventDefault();
+        //console.log("click", e.target.files);
+        var value = e.target.files[0];
+
+        // Check file size in Byte. File size more than 5 MB (5242880) is not allowed. (2MB = 2097152)
+        if (value.size > 597152) { // 500kb
+            e.preventDefault();
+            alert("File size more than 500 Kb is not allowed.");
+            $("#file").val("");
+            return false;
+        }
+    });
+    
+    $("#uploadFile").on("click", function (e) {
+        e.preventDefault();
+        if ($("#file").val() === "") {
+            alert("Please select a file.");
+            return false;
+        }
+
+        $("#formUpload").submit();
+    });
+</script>

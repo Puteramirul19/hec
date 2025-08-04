@@ -1,0 +1,49 @@
+﻿@model HandleErrorInfo
+@{
+    ViewBag.Title = "Error";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>HEC</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <link rel="stylesheet" href="@Url.Content("~/bootstrap/css/bootstrap.min.css")">
+
+</head>
+<body>
+    <br /><br /><br />
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="panel panel-danger">
+                <div class="panel-heading" style="text-align:center;">
+                    <h2>Error</h2>
+                </div>
+                <div class="panel-body" style="text-align:center;">
+                    <div>@ViewBag.Message</div>
+                    <div style="margin-top:20px"><a href="javascript:history.go(-1)" class="btn btn-danger">&laquo; Back</a></div>
+                </div>
+                @if (ViewBag.Exception != null)
+                {
+                    <div>
+                        <p>
+                            <b>Exception:</b> @ViewBag.Exception.Message<br />
+                        </p>
+                        <div style="overflow:scroll">
+                            <pre>
+@ViewBag.Exception.StackTrace
+                </pre>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</body>
+</html>

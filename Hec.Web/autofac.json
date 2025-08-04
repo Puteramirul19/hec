@@ -1,0 +1,156 @@
+﻿{
+  "defaultAssembly": "Hec.Domain",
+  "components": [
+    //{
+    //  "type": "Hec.FileStorage.DiskFileStore",
+    //  "services": [
+    //    {
+    //      "type": "Hec.FileStorage.IFileStore"
+    //    }
+    //  ],
+    //  "instanceScope": "singleinstance",
+    //  "parameters": {
+    //    "storageDir": "C:\\HecFiles"
+    //  }
+    //},
+    {
+      "type": "Hec.FileStorage.DbFileStore",
+      "services": [
+        {
+          "type": "Hec.FileStorage.IFileStore"
+        }
+      ],
+      "instanceScope": "singleinstance",
+      "parameters": {
+        "connectionString": "HecContext"
+      }
+    },
+    {
+      "type": "Hec.IdGeneration.DbRunningNumber",
+      "services": [
+        {
+          "type": "Hec.IdGeneration.IRunningNumber"
+        }
+      ],
+      "parameters": {
+        "connectionStringName": "HecContext"
+      }
+    },
+    {
+      "type": "Hec.Settings.SettingsStore",
+      "services": [
+        {
+          "type": "Hec.Settings.SettingsStore"
+        }
+      ]
+    },
+    {
+      //"type": "Hec.Integrations.SspService",
+      "type": "Hec.Integrations.FakeSspService",
+      "services": [
+        {
+          "type": "Hec.Integrations.ISspService"
+        }
+      ],
+      "parameters": {
+        "tokenVerificationUrl": "http://test.mytnb.com.my:8011/SSO/WebApi/TokenVerification",
+        "channelKey": "SSP_SSO_HEC",
+        "actionKey": "T_VERIFY",
+        "encryptionKey": "TNB_SSP_SSO_HEC"
+      }
+    },
+    {
+      //"type": "Hec.Integrations.BcrmService",
+      "type": "Hec.Integrations.FakeBcrmService",
+      "services": [
+        {
+          "type": "Hec.Integrations.IBcrmService"
+        }
+      ],
+      "parameters": {
+        "url": "http://bcrmpiqci.hq.tnb.com.my:50100/XISOAPAdapter/MessageServlet?senderParty=&senderService=HEC_3RD000_Q&receiverParty=&receiverService=&interface=AccountInformationReq_Out&interfaceNamespace=urn%3Atnb.com.my%3ABCRM%3Apo%3AHEC%3ACS%3AAccountInformation%3A1.0",
+        "username": "PO_HEC_G",
+        "password": "p@ssw0rd"
+      }
+    },
+    {
+      "type": "Hec.Notifications.Notifier",
+      "services": [
+        {
+          "type": "Hec.Notifications.Notifier"
+        }
+      ]
+    },
+    {
+      "type": "Hec.Jobs.EmailDispatchJob",
+      "services": [
+        {
+          "type": "Hec.Jobs.EmailDispatchJob"
+        }
+      ]
+    },
+    {
+      "type": "Hec.Notifications.DirectEmailSender",
+      "services": [
+        {
+          "type": "Hec.Notifications.DirectEmailSender"
+        }
+      ]
+    },
+    {
+      "type": "Hec.Notifications.QueuedEmailSender",
+      "services": [
+        {
+          "type": "Hec.Notifications.IEmailSender"
+        }
+      ]
+    },
+    {
+      "type": "Hec.Notifications.SmtpSettings",
+      "services": [
+        {
+          "type": "Hec.Notifications.SmtpSettings"
+        }
+      ],
+      "parameters": {
+        //"smtpHost": "tnbhqsvrfe.hq.tnb.com.my",
+        //"smtpPort": "25",
+        //"userName": "",
+        //"password": "",
+        //"enableSsl": "false",
+        //"fromAddress": "admin.foms@tnb.com.my",
+        //"fromName": "HEC",
+        "smtpHost": "smtp.gmail.com",
+        "smtpPort": "587",
+        "userName": "akaunkeduaku@gmail.com",
+        "password": "sayasukamakanikankering",
+        "enableSsl": "true",
+        "fromAddress": "akaunkeduaku@gmail.com",
+        "fromName": "HEC"
+      }
+    },
+    {
+      "type": "Hec.Auth.MockDirectoryService",
+      "services": [
+        {
+          "type": "Hec.Auth.IDirectoryService"
+        }
+      ]
+    }
+    //,
+    //{
+    //  "type": "Hec.Auth.ActiveDirectoryService",
+    //  "services": [
+    //    {
+    //      "type": "Hec.Auth.IDirectoryService"
+    //    }
+    //  ],
+    //  "parameters": {
+    //     "path": "LDAP://tnb.my/DC=tnb,DC=my",
+    //     "userDomain": "tnb",
+    //     "adminUsername": "admin.obits",
+    //     "adminPassword": "2r2FyL5v"
+    //  }
+    //},
+  ]
+}

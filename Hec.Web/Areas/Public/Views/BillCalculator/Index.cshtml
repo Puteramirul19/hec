@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    ViewBag.BodyClass = "skin-blue sidebar-mini bill-calculator";
+
+}
+
+<section>
+    <div class="header-title">
+        <span class="icon-calculator-content"></span>
+        <span class="details">
+            <span class="title-big">Device Comparison</span>
+            <span class="desc">Compare electricity consumers directly to each other and calculate the payback period for a new electricity consumer.</span>
+        </span>
+    </div>
+    <div class="box-white">
+        <p>
+            <span><img src="~/Images/step-1-hit.png"></span>
+            <span><img src="~/Images/step-2.png"></span>
+        </p>
+        <p><span class="icon-hec icon-note-info"></span><span class="info">Average selling price based on national grid is 31.66sen/kWh</span></p>
+        <p style="margin-top: 25px;">
+            <span class="input-group">
+                <input type="number" value="1" min="0" max="10" step="1">
+                <span class="input-text">Expected number of usage a year</span>
+            </span>
+            <span class="input-group">
+                <input type="number" value="1" min="0" max="20" step="1">
+                <span class="input-text">Usage per day(hours)</span>
+            </span>
+            <span class="input-group">
+                <input type="number" value="1" min="0" max="30" step="1">
+                <span class="input-text">Number of days used per month</span>
+            </span>
+            <span class="input-group" style="margin: 0;">
+                <input type="number" value="0.3166" min="0" max="10" step="0.01">
+                <span class="input-text">Average cost per kWh</span>
+            </span>
+        </p>
+        <div class="hec-input-button">
+            <a class="button-red" href="bill-calculator-1.html">Calculate</a>
+        </div>
+    </div>
+</section>
+

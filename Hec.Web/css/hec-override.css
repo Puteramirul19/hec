@@ -1,0 +1,42 @@
+﻿.category-tab .tab-content .box-wrapper {
+    width: 48%; /* original value messing-up layout */
+}
+
+
+.add-button-red a {
+    width: 170px;
+    background-color: #f35a52;
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 0;
+    padding: 10px;
+    font-size: 16px;
+}
+
+    .add-button-red a div {
+        display: inline-block;
+    }
+
+.add-button-red .plus-text {
+    width: 120px;
+}
+
+.add-button-red .plus-icon {
+    background: url("../images/hec-sprite.png") no-repeat -261px -454px;
+    width: 11px;
+    height: 11px;
+}
+
+
+.house-container.appliance-select .house {
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.house-container.appliance-select .house.select {
+    background-color: #adebad;
+}
+
+.small-box-container {
+    cursor: pointer;
+}

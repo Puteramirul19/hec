@@ -1,0 +1,102 @@
+﻿@model Hec.Web.Controllers.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+<div style="background: url('/Images/slides/002.jpg') no-repeat center top/cover; width: 100%;">
+    <header id="header" class="single-menu flat-menu transparent valign font-color-light" data-plugin-options='{"stickyEnabled": true, "stickyBodyPadding": false}'>
+        <div class="container">
+            <div class="logo">
+                <a href="@(Url.Action("Index", "Home", new { area = "" }))" class="logo">
+                    <img alt="Porto" width="111" height="54" data-sticky-width="82" data-sticky-height="40" src="~/Images/logo-hec.png">
+                </a>
+            </div>
+            <button class="btn btn-responsive-nav btn-inverse" data-toggle="collapse" data-target=".nav-main-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        <div class="navbar-collapse nav-main-collapse collapse">
+            <div class="container">
+                <ul class="social-icons">
+                    <li class="dribbble"><a href="https://mytnb.tnb.com.my/" target="_blank" title="MyTNB Customer Portal">MyTNB</a></li>
+                    <li class="digg"><a href="https://www.tnb.com.my/" target="_blank" title="TNB Website">TNB Website</a></li>
+                    @*<li class="login"><a data-toggle="modal" data-target="#loginBox" href="#" target="_blank" title="Login">Login</a></li>*@
+                </ul>
+
+                <nav class="nav-main mega-menu">
+                    <ul class="nav nav-pills nav-main" id="mainMenu">
+                        <li class="active">
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a href="/Public/UsageCalculator">Energy Usage Calculator </a>
+                        </li>
+                        <li>
+                            <a href="/Public/EnergyTips">Energy Tips </a>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="/Public/ApplianceComparison">Appliance Calculator <i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Public/ApplianceComparison/SingleAppliance">Single Appliance</a></li>
+                                <li><a href="/Public/ApplianceComparison/CompareAppliance">Compare Appliances</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div role="main" class="main">
+
+        <div class="container" style="padding-top:100px;">
+            <div class="row featured-boxes" style="max-width:800px; margin:auto; border:0px solid grey;">
+                <div class="col-md-4 col-sm-6">
+                    <div class="featured-box featured-box-primary">
+                        <div class="box-content">
+                            <i class="icon-featured fa fa-bar-chart" style="font-size: 45px; padding-top:30px;"></i>
+                            <h4>ENERGY USAGE <br />CALCULATOR</h4>
+                            <p>
+                                Calculate estimate energy usage for your house, based on appliance usage.
+                                <a href="~/Public/UsageCalculator" class="learn-more">find out more <i class="fa fa-angle-right"></i></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="featured-box featured-box-secundary">
+                        <div class="box-content">
+                            <i class="icon-featured fa fa-star-o" style="font-size: 45px; padding-top:30px;"></i>
+                            <h4>ENERGY <br />SAVING TIPS</h4>
+                            <p>
+                                Find out more on bright ways to save energy at home.
+                                <a href="~/Public/EnergyTips" class="learn-more">find out more <i class="fa fa-angle-right"></i></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="featured-box featured-box-tertiary">
+                        <div class="box-content">
+                            <i class="icon-featured fa fa-calculator" style="font-size: 45px; padding-top:30px;"></i>
+                            <h4>APPLIANCE <br />CALCULATOR</h4>
+                            <p>
+                                Calculate the payback period for a new electricity consumer.
+                                <hr>
+                                <a href="~/Public/ApplianceComparison/SingleAppliance" class="learn-more">Single Appliance Calculator <i class="fa fa-angle-right"></i></a>
+                                <hr>
+                                <a href="~/Public/ApplianceComparison/CompareAppliance" class="learn-more">Compare New Appliance <br />to be Purchased <i class="fa fa-angle-right"></i></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container" style="width:10px;height:200px;border:0px solid pink;">
+            <div class="col-md-4 col-sm-6">
+            </div>
+        </div>
+    </div>
+</div>

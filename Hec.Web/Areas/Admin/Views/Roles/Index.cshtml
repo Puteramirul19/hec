@@ -1,0 +1,106 @@
+﻿@model Hec.Web.Controllers.RoleList
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="content-header">
+    <h1>
+        Role Management
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><span class="fa fa-home"></span></a></li>
+        <li class="active">@Html.ActionLink("Role Management", "Index", "Roles")</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <a href="@Url.Action("Create")" class="btn btn-default">Create New Role</a>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 5px">
+                        <div class="col-sm-2">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                @foreach (var role in Model.Roles)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a href="@Url.Action("Edit", "Roles", new { id = role.Id })" class="btn btn-default btn-xs pull-right">Edit</a>
+                                            <span class="rolename">@role.Name</span>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                        <div class="col-sm-10" style="overflow:auto">
+                            <table class="table table-bordered">
+                                <tr>
+                                    @foreach (var accessRight in Model.AllAccessRights)
+                                    {
+                                        <th>@accessRight</th>
+                                    }
+                                </tr>
+                                @foreach (var role in Model.Roles)
+                                {
+                                    <tr>
+                                        @foreach (var accessRight in Model.AllAccessRights)
+                                        {
+                                            <td>
+                                                <input type="checkbox" class="access-right-checkbox"
+                                                       value="@(role.Id)|@(accessRight)"
+                                                       @(role.AccessRights.Any(x => x.Name == accessRight && x.Assigned == true) ? "checked" : "") />
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .rolename {
+        font-weight: bold;
+    }
+
+    .table tr td {
+        height: 40px !important;
+    }
+</style>
+
+@section Scripts
+{
+    <script>
+    $(".access-right-checkbox").click(function (e) {
+        var el = $(e.target);
+        var splitted = el.val().split('|')
+        $.ajax({
+            url: '@Url.Action("UpdateAccessRight", "Roles")',
+            type: 'POST',
+            data: {
+                RoleId: splitted[0],
+                AccessRight: splitted[1],
+                Assigned: el.is(":checked")
+            },
+            datatype: 'json'
+        })
+        .done(function (data) {
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            //app.notifyError(lang("some_error_occured_please_try_again"), jqXHR);
+        })
+    });
+    </script>
+}

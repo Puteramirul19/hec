@@ -1,0 +1,17 @@
+@model Guid
+
+@(Html.Kendo().DropDownListFor(m => m)
+                  .AutoBind(true)
+                  .Filter(FilterType.Contains)
+                  .OptionLabel("Select Station...")
+                  .DataTextField("Name")
+                  .DataValueField("Id")
+                  .DataSource(dataSource =>
+                  {
+                      dataSource
+                        .Read(read => read.Action("ListItems", "Stations")
+                        .Data("filterStations"))
+                        .ServerFiltering(false);
+                  })
+)
+@Html.ValidationMessageFor(m => m)

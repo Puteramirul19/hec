@@ -1,0 +1,37 @@
+﻿@using Hec.Entities
+@model Hec.Web.Areas.Admin.Controllers.AppliancesModel
+
+@{
+    ViewBag.Title = "Title";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-store";
+    ViewBag.ActiveClass = "Categories";
+}
+
+<section class="content-header">
+    <h1>
+        Edit Appliances
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><span class="fa fa-home"></span></a></li>
+        <li>@Html.ActionLink("Appliances", "Index", "Appliances")</li>
+        <li class="active"> @Html.ActionLink("Edit Appliances", "Edit", "Appliances")</li>
+
+    </ol>
+</section>
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="box">
+                <div class="box-body">
+                    @using (Html.BeginForm("Edit", "Appliances", FormMethod.Post))
+                    {
+                        @Html.Partial("_Editable", Model)
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

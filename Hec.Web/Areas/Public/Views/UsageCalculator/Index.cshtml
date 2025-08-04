@@ -1,0 +1,1688 @@
+﻿@{
+    ViewBag.Title = "Index";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-store";
+    ViewBag.ActiveClass = "energy-calculator";
+    Layout = "~/Areas/Public/Views/Shared/_LayoutPublic_New.cshtml";
+}
+<style>
+    .collapse-header {
+        height:auto;
+    }
+
+</style>
+<div id="view-container"></div>
+
+<!-- start floating check appliance wattage -->
+<div id="highlight-block-wrapper" style="z-index: 1999;">
+    <div id="highlight-block" class="floating-tab2 how">
+        <p><span class="highlight-text">HOW TO?</span></p>
+    </div>
+    <div id="highlight-block" class="floating-tab2 tariff">
+        <p><span class="highlight-text">TARIFF BLOCK</span></p>
+    </div>
+    <div class="close-button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+    <div id="highlight-block-content" class="how-content">
+        <p><span class="yellow-text"><strong>Check Your Appliance's Wattage</strong></span></p>
+        <p>You can refer to the appliance’s information as shown in the pictures. Choose the rated power input or the ‘watt’ figure.</p>
+        <p>
+            <small>Click image to enlarge.</small><br />
+            <a href="~/Images/UserGuide_01.jpg" target="_blank"><img src="~/Images/UserGuide_01_thumb.jpg" style="margin-bottom: 5px;"></a><br>
+            <a href="~/Images/UserGuide_02.jpg" target="_blank"><img src="~/Images/UserGuide_02_thumb.jpg" style="margin-bottom: 5px;"></a><br>
+            <a href="~/Images/UserGuide_04.jpg" target="_blank"><img src="~/Images/UserGuide_04_thumb.jpg" style="margin-bottom: 5px;"></a>
+        </p>
+        <p><span class="yellow-text"><strong>Convert Horsepower (hp) to Watt</strong></span></p>
+        <p>Do you know that air-conditioner's unit of power is 'Horsepower'? To convert into watt, use this table :</p>
+        <p>
+            <table class="tb">
+                <tbody>
+                    <tr><td class="tb-td-hd"> Horsepower (hp) </td><td class="tb-td-hd">Wattage (Watt)</td></tr>
+                    <tr><td class="tb-td"> 0.5 </td><td class="tb-td">373</td></tr>
+                    <tr><td class="tb-td"> 1.0 </td><td class="tb-td">746</td></tr>
+                    <tr><td class="tb-td"> 1.5 </td><td class="tb-td">1119</td></tr>
+                    <tr><td class="tb-td"> 2.0 </td><td class="tb-td">1492</td></tr>
+                    <tr><td class="tb-td"> 2.5 </td><td class="tb-td">1865</td></tr>
+                    <tr><td class="tb-td"> 3.0 </td><td class="tb-td">2238</td></tr>
+                    <tr><td class="tb-td"> 4.0 </td><td class="tb-td">2984</td></tr>
+                </tbody>
+            </table>
+        </p>
+    </div>
+
+    <div id="highlight-block-content" class="tariff-content">
+        <p><span class="yellow-text"><strong>Tariff Block</strong></span></p>
+        <small>Click image to enlarge.</small><br />
+        <p><a href="~/Images/tariff-block-table-full.png" target="_blank"><img src="~/Images/tariff-block-table-small.png" style="margin-bottom: 5px; width:100%;"></a></p>
+        <p>All Tariff are approved by Malaysian Government as of 1 January 2014 and subjected to changes by latest tariff approved by the Government</p>
+
+    </div>
+</div>
+<!-- end floating check appliance wattage -->  
+
+<script id="view-template" type="text/x-kendo-template">
+    <section>
+        <div id="content-appliance-store1" class="persist-area">
+            <div class="header-title">
+                <span class="icon-lamp-content"></span>
+                <span class="details">
+                    <span class="title-big">Energy Usage Calculator</span>
+                    <span class="desc">
+                        Calculate your estimated energy consumption/usage.<br/>
+                    </span>
+                </span>
+            </div>
+
+            <!--==== Step 1 - Add House ====-->
+            <div class="store-select select-house" data-bind="visible: houseTypeSelectorVisible">
+                <div class="step-text">
+                    <strong>STEP 1</strong> : HOUSE TYPE
+                </div>
+                <div class="box-white appliance">
+                    <a class="button-red" href="javascript:;" data-bind="click: selectHouseType">
+                        <div class="icon-text">Select your house type</div>
+                        <div class="icon-add-new"></div>
+                    </a>
+                </div>
+            </div>
+
+            <!--==== Step 2 - Select House Type ====-->
+            <div class="dim store-select select-house-type" data-bind="visible: houseTypeListVisible"></div>
+            <div class="content-popup store-select select-house-type" data-bind="visible: houseTypeListVisible">
+                <div class="content-appliance-store">
+                    <div class="container-popup">
+                        <div class="close-button">
+                            <a href="javascript:;" data-bind="click: backToHouse">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </a>
+                        </div>
+
+                        @foreach (Hec.Entities.HouseCategory houseCat in ViewBag.HouseCategories)
+                        {
+                            <div class="house-container">
+                                <div class="house-title">@houseCat.HouseCategoryDesc</div>
+
+                                @foreach (Hec.Entities.HouseType houseTyp in ViewBag.HouseTypes)
+                                {
+                                    if (houseTyp.IsActive.Equals(true) && houseTyp.HouseCategoryId.Equals(houseCat.Id))
+                                    {
+                                    <a href="javascript:;" 
+                                       id="@houseTyp.HouseTypeCode" 
+                                       data-bind="value: data.@houseTyp.HouseTypeCode, click: selectRoom" 
+                                       data-house-type="@houseTyp.HouseTypeCode" 
+                                       data-img-default="@houseTyp.FileId" 
+                                       data-img-big="@houseTyp.FileHeaderId">
+                                        <div class="house one-floor">
+                                            <div><img src="/FilePublic?fileId=@houseTyp.FileId" style="max-height:95px; padding-top:3px;"/></div>
+                                            <span>@houseTyp.HouseTypeName</span>
+                                        </div>
+                                    </a>
+                                    }
+                                }
+                            </div>
+                        }
+
+                        <div class="add-button" align="right">
+                            <a href="javascript:;" data-bind="click: backToHouse">
+                                <div class="plus-text">Back</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--==== Step 3 - Add Room ====-->
+            <div class="store-select select-room" data-bind="visible: roomTypeSelectorVisible">
+                <div class="step-text">
+                    <strong>STEP 2</strong> : ADD ROOM SELECTION
+                </div>
+                <div class="box-white appliance room part-3">
+                    <div class="title-store">
+                        <span>My House</span>
+                        <span class="subscript-title" data-bind="visible: houseNameTitleVisible">
+                            -
+                            <input class="sync-trigger" data-bind="value: HouseName" placeholder="House name..." />
+                        </span>
+                        <span data-bind="visible: houseTypeTitleVisible">
+                            (<span data-bind="text: HouseTypeText"></span>)
+                        </span>
+                    </div>
+                    <div class="add-button">
+                        <a class="button-red" href="javascript:;" data-bind="click: selectRoomType">
+                            <div class="plus-text">Add Room</div>
+                            <div class="plus-icon"></div>
+                        </a>
+                    </div>
+                    <div class="big-house" style="margin-bottom: -200px;"><img class="houseTypeBig" src="/Images/default-house.png" style="max-height:187px;"/></div>
+                </div>
+            </div>
+
+            <!--==== Step 4 - Select Room ====-->
+            <div class="dim store-select select-room-type" data-bind="visible: roomListVisible"></div>
+            <div class="content-popup store-select select-room-type" data-bind="visible: roomListVisible">
+                <div class="content-appliance-store">
+                    <div class="container-popup">
+                        <div class="close-button">
+                            <a href="javascript:;" data-bind="click: backToRoom">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                        <div class="house-container room-select">
+                            <div class="house-title-room">Room Selection</div>
+                            <div class="house-description">Choose the room in your house by clicking the images below. @*Unclick to unselect the room.*@</div>
+                            <div class="add-button top" align="right">
+                                <a href="javascript:;" data-bind="click: roomTypeSelect">
+                                    <div class="plus-text">Add Selection</div>
+                                </a>
+                                <br />
+                            </div>
+
+                            <div class="house house-240" id="LivingRoom" data-room-type="LivingRoom">
+                                <div><img src="/Images/room/LivingRoom.png" /></div>
+                                <span>Living Room</span><br />
+                                <div class="add-remove" data-room-type="LivingRoom"></div>
+                                <span class="room-exist" style="display:none;" data-room-type="LivingRoom">
+                                    (Current room: <span class="room-no">0</span>)
+                                </span>
+                            </div>
+                            <div class="house house-240" id="Bathroom" data-room-type="Bathroom">
+                                <div><img src="/Images/room/Bathroom.png" /></div>
+                                <span>Bathroom</span><br />
+                                <div class="add-remove" data-room-type="Bathroom"></div>
+                                <span class="room-exist" style="display:none;" data-room-type="Bathroom">
+                                    (Current room: <span class="room-no">0</span>)
+                                </span>
+                            </div>
+                            <div class="house house-240" id="MasterBedroom" data-room-type="MasterBedroom">
+                                <div><img src="/Images/room/MasterBedroom.png" /></div>
+                                <span>Master Bedroom</span><br />
+                                <div class="add-remove" data-room-type="MasterBedroom"></div>
+                                <span class="room-exist" style="display:none;" data-room-type="MasterBedroom">
+                                    (Current room: <span class="room-no">0</span>)
+                                </span>
+                            </div>
+                        </div>
+                        <div class="house-container room-select">
+                            <div class="house house-240" id="Bedroom" data-room-type="Bedroom">
+                                <div><img src="/Images/room/Bedroom.png" /></div>
+                                <span>Bedroom</span><br />
+                                <div class="add-remove" data-room-type="Bedroom"></div>
+                                <span class="room-exist" style="display:none;" data-room-type="Bedroom">
+                                    (Current room: <span class="room-no">0</span>)
+                                </span>
+                            </div>
+                            <div class="house house-240" id="DiningRoom" data-room-type="DiningRoom">
+                                <div><img src="/Images/room/DiningRoom.png" /></div>
+                                <span>Dining Room</span><br />
+                                <div class="add-remove" data-room-type="DiningRoom"></div>
+                                <span class="room-exist" style="display:none;" data-room-type="DiningRoom">
+                                    (Current room: <span class="room-no">0</span>)
+                                </span>
+                            </div>
+                            <div class="house house-240" id="Kitchen" data-room-type="Kitchen">
+                                <div><img src="/Images/room/Kitchen.png" /></div>
+                                <span>Kitchen</span><br />
+                                <div class="add-remove" data-room-type="Kitchen"></div>
+                                <span class="room-exist" style="display:none;" data-room-type="Kitchen">
+                                    (Current room: <span class="room-no">0</span>)
+                                </span>
+                            </div>
+                        </div>
+                        <div class="add-button" align="right">
+                            <a href="javascript:;" data-bind="click: backToRoom">
+                                <span class="plus-text">Back</span>
+                            </a>
+
+                            <a href="javascript:;" data-bind="click: roomTypeSelect">
+                                <span class="plus-text">Add Selection</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--==== Step 5 - Add Appliance ====-->
+            <div class="store-select select-room-selected" data-bind="visible: roomApplianceVisible">
+
+                <div class="step-text">
+                    <strong>STEP 3</strong> : ADD APPLIANCE'S INFO
+                </div>
+                <div class="persist-header">
+                    <div class="box-white appliance room part-seven">
+                        <div class="sticky-house"><img class="houseTypeImg" src="/Images/default-house.png" style="height: 70px;" /></div>
+                        <div class="title-store">
+                            <span data-bind="text: HouseName"></span>
+                            <span data-bind="visible: houseNameTitleVisible" style="font-size:medium;">
+                                (<span data-bind="text: HouseTypeText" style="font-size:medium;"></span>)
+                            </span>
+                            <span data-bind="visible: houseTypeTitleVisible" style="font-size:medium;">
+                                (<span data-bind="text: HouseTypeText" style="font-size:medium;"></span>)
+                            </span>
+                            <br>
+                            <span class="total-text" style="text-transform: unset;">Total Monthly Usage</span>
+                            <span class="total-amount">RM <span data-bind="text: TotalUsage">00.00</span></span>
+                        </div>
+                        <div class="add-button">
+                            <div class="reset-usage-button" data-bind="click: clearLocalStorage, visible: isLocalStorageVisible">
+                                Reset
+                            </div>
+                            <a href="javascript:;" data-bind="click: selectRoomType"
+                               style="margin-top: 5px;">
+                                <div class="plus-text">Add Room</div>
+                                <div class="plus-icon"></div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tabbing-appliance">
+                        <div class="tabbable tab-select">
+                            <ul class="nav nav-tabs">
+                                <li class="tab-panel-appliance liactive" data-target="\\#tab-appliance" data-toggle="tab">Appliances</li>
+                                <li class="tab-panel-appliance" data-target="\\#tab-statistic" data-toggle="tab">Usage Statistic</li>
+                                <li class="tab-panel-appliance" data-target="\\#tab-energy-tip" data-toggle="tab">
+                                    Energy Saving Tips <span class="green-text">(<span data-bind="text: TotalTips">0</span>)</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tabbing-content" style="max-width: 730px; width:100%;">
+                    <div class="tab-content">
+                        <!-- Tab Appliances -->
+                        <div class="tab-pane active" id="tab-appliance">
+
+                            <div class="roomList"
+                                 data-role="listview"
+                                 data-template="roomListemplate"
+                                 data-bind="source: Rooms"
+                                 id="roomListView">
+                            </div>
+
+                        </div>
+
+                        <!-- Tab Statistic -->
+                        <div class="tab-pane statistic-content" id="tab-statistic">
+                            <div data-bind="visible: statisticMixedVisible">
+                                <div class="statistic-title">Statistics</div>
+                                <table style="width:100%; text-align: center;" class="table-default summary-tbl">
+                                    <tr>
+                                        <td class="col-sm-3 summary-box summary-box-orange">
+                                            <span style="font-size:16px;">Estimated Usage Per Month</span>
+                                            <br />
+                                            <span style="font-size:24px;font-weight:bold;">
+                                                <span data-bind="text: TotalkWh"></span> kWh
+                                            </span>&nbsp;
+                                        </td>
+                                        <td class="col-sm-3 summary-box summary-box-blue">
+                                            <span style="font-size:16px;">Estimated Usage Per Day</span>
+                                            <br />
+                                            <span style="font-size:24px;font-weight:bold;">
+                                                <span data-bind="text: TotalkWhDay"></span> kWh
+                                            </span>&nbsp;
+                                        </td>
+                                        <td class="col-sm-3 summary-box">
+                                            <span style="font-size:16px;">Estimated Energy Cost Per Month</span>
+                                            <br />
+                                            <span style="font-size:24px;font-weight:bold;">
+                                                RM <span data-bind="text: TotalUsage">00.00</span>
+                                            </span>&nbsp;
+                                        </td>
+                                        <td class="col-sm-3 summary-box summary-box-purple">
+                                            <span style="font-size:16px;">Estimated Energy Cost Per Day</span>
+                                            <br />
+                                            <span style="font-size:24px;font-weight:bold;">
+                                                RM <span data-bind="text: TotalUsageDay">00.00</span>
+                                            </span>&nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="text-align: left;">
+                                            <small>- “Per Day” refers to a 30 days calculation</small><br />
+                                            <small>
+                                                - Disclaimer : <br />
+                                                &nbsp;> The Energy Usage Calculator is used as a guide and does not reflect your current electric bill<br />
+                                                &nbsp;> The rate used to calculate each appliances is based on the average tariff for residential customer effective January 2014<br />
+                                                &nbsp;> The Total Monthly Usage amount is calculated based on the latest Tariff Block
+                                            </small>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div>Note: The graph only displays top 5 appliances and top 3 rooms which has the highest usage amount. Click on the graph to view a detail statistic.</div>
+                                <div class="statistic-graph">
+                                    <div id="statistic-mixed" style="overflow-x:auto"></div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div id="myStatisticModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog modal-lg">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <div class="modal-title">
+                                                <div class="statistic-title" data-bind="visible: statisticApplianceVisible">
+                                                    Statistic By Appliances
+                                                </div>
+                                                <div class="statistic-title" data-bind="visible: statisticRoomVisible">
+                                                    Statistic By Rooms
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <small>Disclaimer : The rate used to calculate each appliances is based on the average tariff for residential customer effective January 2014.</small>
+                                            <div data-bind="visible: statisticRoomVisible">
+                                                <div class="statistic-graph">
+                                                    <div id="statistic-room" style="overflow-x:auto"></div>
+                                                </div>
+                                            </div>
+                                            <div data-bind="visible: statisticApplianceVisible">
+                                                <div class="statistic-graph">
+                                                    <div id="statistic-appliance" style="overflow-x:auto"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal" style="width:200px;">Close</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab Energy Tips -->
+                        <div class="tab-pane energy-content" id="tab-energy-tip">
+                            <div class="tips-description">Let me help you reduce your electricity usage</div>
+                            <div class="tips-more"><a href='@(Url.Action("Index", "EnergyTips"))' class="tips-more"> View more energy saving tips &rsaquo;</a></div>
+                            <div class="tips-items table-responsive" style="border: 0;">
+                                <table>
+                                    <tbody data-role="listview"
+                                           data-template="tipListemplate"
+                                           data-bind="source: TipDs"
+                                           id="tipListView"
+                                           style="border: 0; background: inherit"></tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--==== Step 6 - Select Appliance ====-->
+            <div class="dim store-select select-appliances" data-bind="visible: applianceListVisible"></div>
+            <div class="content-popup store-select select-appliances" data-bind="visible: applianceListVisible">
+                <div class="content-appliance-store appliance-container">
+                    <div class="container-popup">
+                        <div class="close-button">
+                            <a href="javascript:;" data-bind="click: backToRoom">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                        <div class="house-container room-select">
+                            <div class="house-title-room">
+                                Add Appliances (<span data-bind="text: CurrentRoomName"></span>)
+                            </div>
+                            <div>
+                                <a href="javascript:;" class="btn btn-success btn-xs" data-bind="click: showAllAppliances"
+                                   style="color: white;">Show All Appliances</a>
+                            </div>
+
+                            <div class="add-button top" align="right">
+                                <a href="javascript:;" data-bind="click: selectAppliance">
+                                    <div class="plus-text">Add Selection</div>
+                                </a>
+                            </div>
+                            <br />
+                            <div data-role="listview"
+                                 data-template="applianceListemplate"
+                                 data-bind="source: applianceDs"
+                                 id="applianceListView"
+                                 style="border: 0; background: inherit">
+                            </div>
+                        </div>
+
+                        <div class="add-button" align="right">
+                            <a href="javascript:;" data-bind="click: backToRoom">
+                                <span class="plus-text">Back</span>
+                            </a>
+
+                            <a href="javascript:;" data-bind="click: selectAppliance">
+                                <span class="plus-text">Add Selection</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+</script>
+
+<script type="text/x-kendo-tmpl" id="roomListemplate">
+    <div class="box box-solid collapse-box roomListItem">
+        <div class="box-header collapse-header">
+            <div class="acc-title"><span data-bind="text: RoomType"></span> | <input class="sync-trigger" data-bind="value: RoomName" style="color: black;" placeholder="Room name..." /></div>
+            <div class="box-tools">
+                <div class="btn-collapse toggle-button-close" id="btn-#= uid #" data-toggle="collapse" data-target="\\##= uid #"></div>
+                <div class="remove-button" data-bind="click: removeRoom"></div>
+            </div>
+        </div>
+        <div class="box-body no-padding accordion-body collapse show" id="#= uid #">
+            <div class="acc-text">
+                <div class="icon-img"><img src="/Images/room/#= RoomType #.png" /></div>
+                <div class="table-appliance">
+
+                    <table style="padding-top: 10px;margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>Appliances</th>
+                                <th>Number of Appliance</th>
+                                <th>
+                                    Usage Per Day
+                                    <br>(Hours)
+                                </th>
+                                <th>Number Of Days Used Per Month</th>
+                                <th>Watts</th>
+                                <th style="visibility: hidden;">Icon</th>
+                            </tr>
+                        </thead>
+                        <tbody class="applianceList"
+                               data-template="applianceListItemTemplate"
+                               data-bind="source: Appliances"
+                               style="border: 0; background: inherit"></tbody>
+                    </table>
+
+                    <div class="add-button">
+                        <a href="javascript:;" data-bind="click: addAppliance">
+                            <div class="plus-text">Add Appliance</div>
+                            <div class="plus-icon"></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="applianceListItemTemplate">
+    <tr class="odd" id="#= uid #">
+        <td><span data-bind="text: ApplianceName"></span></td>
+        <td>
+            <input class="sync-trigger" type="number" value="1" min="1" step="1" data-bind="value: NumbersOfApp" />
+        </td>
+        <td>
+            <input class="sync-trigger" type="number" value="0" min="0" max="24" step="any" data-bind="value: HoursPerDay" />
+        </td>
+        <td>
+            <input class="sync-trigger" type="number" value="0" min="0" max="31" step="1" data-bind="value: DaysPerMonth" />
+        </td>
+        <td>
+            <input class="sync-trigger" type="number" value="0" min="0" step="1" data-bind="value: Watts" />
+        </td>
+        <td class="no-color">
+            <div class="remove-icon" data-bind="click: removeAppliance"></div>
+        </td>
+    </tr>
+</script>
+
+<script type="text/x-kendo-tmpl" id="applianceListemplate">
+    <div class="house house-app"
+         data-appliance-name="#= Name #"
+         data-appliance-totalapp="#= DefaultNumbersOfApp #"
+         data-appliance-hours="#= DefaultHoursPerDay #"
+         data-appliance-days="#= DefaultDaysPerMonth #"
+         data-appliance-watts="#= DefaultWatts #">
+        <div><img src="/Uploads/Appliances/#= Name #.png" /></div>
+        <br />
+        <span>#= Name #</span><br />
+        <div class="add-remove add-remove-app"
+             data-appliance-name="#= Name #"
+             data-appliance-totalapp="#= DefaultNumbersOfApp #"
+             data-appliance-hours="#= DefaultHoursPerDay #"
+             data-appliance-days="#= DefaultDaysPerMonth #"
+             data-appliance-watts="#= DefaultWatts #">
+        </div>
+        <span class="app-exist" style="display:none;" data-appliance-name="#= Name #">
+            (Current: <span class="app-no">0</span>)
+        </span>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="tipListemplate">
+
+    <tr class="tips row-space #= (Status===1 ? 'green' : '') #" data-tip-id="#= Id #">
+        <td class="tips-number">
+            #= Number #
+        </td>
+        <td class="tips-text"><span style="font-weight:bold;">#= ApplianceName #</span><span> (#= Watt # W)</span><br />#= Description #</td>
+        <td class="tips-box"></td>
+        <td style="vertical-align:top;max-width:17px;">
+            <p class="count-box">
+                <span class="icon-hec icon-tick"></span>
+                <span class="done-count" data-tip-id="#= Id #">#= DoneCount #</span>
+            </p>
+        </td>
+    </tr>
+</script>
+
+@section Scripts
+{
+    <script>
+        $(function () {
+            // Clear localStorage onload
+            sessionStorage.clear();
+
+            // Keep house data and selected room
+            var houseData = [];
+            var currentRoom = null;
+
+            // Check for contracnt account and user authentication
+            var contractAccountNo = "@ViewBag.AccountNo";
+            var isAuthenticated = "@System.Web.HttpContext.Current.User.Identity.IsAuthenticated";
+            if (isAuthenticated === "True") {
+                localStorage.clear(); // Remove localstorage data
+            }
+
+            // Initialize current room selected
+            if (contractAccountNo !== "") {
+                $.ajax({
+                    url: '@(Url.Action("ReadHouseForAccountNo", "UsageCalculator"))',
+                    type: 'POST',
+                    data: {
+                        userId: "@System.Web.HttpContext.Current.User.Identity.Name",
+                        accountNo: contractAccountNo,
+                    },
+                    dataType: 'json',
+                    async: false,
+                    success: function (data, textStatus, jqXHR) {
+                        houseData = data;
+                        //console.log(houseData);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                    },
+                    statusCode: {
+                        500: function () {
+                            alert("Invalid Account Number!");
+                            location.href = '@Url.Action("Index", "BillInfo")';
+                        }
+                    }
+                });
+            }
+
+            // Get tariff block
+            var tariffTiers = 0, tariffRemaining = 0;
+            $.ajax({
+                url: "@Url.Action("ReadTariff", "UsageCalculator")",
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (data, textStatus, jqXHR) {
+                    tariffTiers = data.tiers;
+                    tariffRemaining = data.remaining;
+                }
+            });
+
+            // Start kendo viewmodel
+            var viewModel = kendo.observable({
+                houseTypeSelectorVisible: false,
+                roomTypeSelectorVisible: false,
+                roomListVisible: false,
+                roomApplianceVisible: false,
+                applianceListVisible: false,
+
+                HouseType: "",
+                HouseTypeText: "",
+                HouseName: "My House",
+                Rooms: [],
+                TipDs: [],
+                TotalTips: 0,
+                TotalkWh: 0,
+                TotalkWhDay: 0,
+                TotalUsage: "00.00",
+                TotalUsageDay: 0,
+
+                selectHouseType: function () {
+                    bgDim();
+                    $(".select-house-type").show(function () {
+                    });
+                },
+
+                selectRoom: function (e) {
+                    e.preventDefault();
+                    var el = $(e.currentTarget);
+                    var houseType = el.data("house-type");
+                    var imgDefault = el.data("img-default");
+                    var imgBig = el.data("img-big");
+
+                    viewModel.set("HouseType", houseType);
+                    viewModel.set("HouseTypeText", houseType.slice(0, -2));
+                    $(".houseTypeBig").attr("src", "/FilePublic?fileId=" + imgBig);
+                    $(".houseTypeImg").attr("src", "/FilePublic?fileId=" + imgDefault);
+
+                    $(".store-select").hide();
+                    $(".select-room").show(function () {
+                    });
+                },
+
+                selectRoomType: function (e) {
+                    e.preventDefault();
+
+                    $('.house-container.room-select').find(".house").on('click', function () {
+                        if ($(this).hasClass('select')) {
+                            if ($(this).find(".number").text() == 0) {
+                                $(this).removeClass('select');
+                            }
+                        } else {
+                            $(this).addClass('select');
+                            $(this).find(".number").text(1);
+                            $('.add-remove > span').on('click', function (e) {
+                                e.stopPropagation();
+                            });
+                        }
+                    });
+
+                    var houseRoom = $('.house-container.room-select').find(".house");
+                    $.each(houseRoom, function (index, value) {
+                        $(this).removeClass('select');
+                        var el = $(this);
+
+                        // Reset room counter to 0
+                        var roomCount = el.find(".add-remove > .number");
+                        roomCount.text(0);
+
+                        // Set current room number
+                        var roomExist = el.find(".room-exist");
+                        var roomNo = el.find(".room-exist > .room-no");
+                        var increase = 0;
+                        roomExist.hide();
+                        $.each(viewModel.get("Rooms"), function (i, room) {
+                            if (el.data("room-type") === room.RoomType) { // If room type match increase 1
+                                increase = increase + 1;
+                                roomNo.text(increase);
+                                roomExist.show();
+                            }
+                        });
+                    });
+
+                    bgDim();
+                    $(".select-room-type").show(function () {
+                    });
+
+                    if ($(window).width() <= 450) {
+                        $(".add-button.top").css({
+                            "display": "block"
+                        });
+                    }
+                },
+
+                roomTypeSelect: function (e) {
+                    e.preventDefault();
+
+                    // Get room selection
+                    var houseRoom = $('.house-container.room-select').find(".house > .add-remove");
+                    //console.log(houseRoom);
+                    $.each(houseRoom, function (index, value) {
+                        var el = $(this);
+                        var roomCount = el.find(".number").text();
+
+                        var increase = 0;
+                        $.each(viewModel.get("Rooms"), function (i, room) {
+                            if (el.data("room-type") === room.RoomType) { // If room type match increase 1
+                                increase = increase + 1;
+                            }
+                        });
+
+                        if (roomCount > 0) {
+                            for (i = 0; i < roomCount; i++) {
+                                viewModel.get("Rooms").push({
+                                    RoomType: el.data("room-type"),
+                                    RoomName: el.data("room-type") + " " + (increase + i + 1),
+                                    Appliances: []
+                                });
+                            }
+                        }
+                    });
+
+                    $(".store-select").hide();
+                    $(".select-room-selected").show(function () {
+                    });
+
+                    houseAppliances();
+                    syncHouseData();
+                },
+
+                addAppliance: function (e) {
+                    e.preventDefault();
+
+                    bgDim();
+                    $(".select-appliances").show(function () {
+                    });
+
+                    var el = $(e.currentTarget);
+                    var listView = el.closest(".roomList").data("kendoListView");
+                    var dataItem = listView.dataItem(el.closest(".roomListItem"));
+                    currentRoom = dataItem;
+                    viewModel.set("CurrentRoomName", currentRoom.RoomName);
+
+                    // Filter appliance according to room type
+                    var ds = $("#applianceListView").data("kendoListView").dataSource;
+                    ds.filter({ field: "For" + currentRoom.RoomType, operator: "eq", value: true });
+                    // Call appliances function
+                    listAppliances();
+                },
+
+                showAllAppliances: function (e) {
+                    e.preventDefault();
+
+                    // Filter appliance according to room type
+                    var ds = $("#applianceListView").data("kendoListView").dataSource;
+                    ds.filter([]);
+
+                    // Call appliances function
+                    listAppliances();
+                },
+
+                selectAppliance: function (e) {
+                    e.preventDefault();
+
+                    // Get appliance selection
+                    var houseApp = $('.house-container.room-select').find(".house > .add-remove-app");
+                    //console.log(houseApp);
+                    $.each(houseApp, function (index, value) {
+                        var el = $(this);
+                        var appCount = el.find(".number").text();
+
+                        if (appCount > 0) {
+                            if (currentRoom) {
+                                currentRoom.get("Appliances").push({
+                                    ApplianceName: el.data("appliance-name"),
+                                    NumbersOfApp: appCount,
+                                    HoursPerDay: el.data("appliance-hours"),
+                                    DaysPerMonth: el.data("appliance-days"),
+                                    Watts: el.data("appliance-watts")
+                                });
+                            }
+                        }
+                    });
+
+                    // Combine same appliance and add NumbersOfApp value
+                    var combined = currentRoom.get("Appliances").reduce(function (result, item) {
+                        var current = result[item.ApplianceName];
+                        result[item.ApplianceName] = !current ? item : {
+                            ApplianceName: item.ApplianceName,
+                            NumbersOfApp: parseInt(current.NumbersOfApp) + parseInt(item.NumbersOfApp),
+                            HoursPerDay: item.HoursPerDay,
+                            DaysPerMonth: item.DaysPerMonth,
+                            Watts: item.Watts
+                        };
+                        return result;
+                    }, {});
+                    var mapCombinedApp = Object.keys(combined).map(function (key) {
+                        return combined[key];
+                    });
+                    // Set appliances to new mapCombinedApp
+                    currentRoom.set("Appliances", mapCombinedApp);
+
+                    $(".store-select").hide();
+                    $(".select-room-selected").show(function () {
+                    });
+
+                    if ($(window).width() <= 450) {
+                        $(".add-button.top").css({
+                            "display": "block"
+                        });
+                    }
+
+                    houseAppliances();
+                    syncHouseData();
+                },
+
+                applianceDs: new kendo.data.DataSource({
+                    schema: {
+                        data: "Data",
+                        total: "Total",
+                        model: { id: "id", Name: "Name" }
+                    },
+                    transport: {
+                        read: {
+                            url: "@(Url.Action("Read", "Appliances", new { area = "Public" }))",
+                            dataType: "json"
+                        },
+                        parameterMap: function (options, operation) {
+                            if (operation !== "read" && options.models) {
+                                return { models: kendo.stringify(options.models) };
+                            }
+                        }
+                    }
+                }),
+
+                removeRoom: function (e) {
+                    e.preventDefault();
+
+                    // Get current room
+                    var curntRoom = $(e.target).closest("div");
+                    curntRoom = curntRoom.get(0).kendoBindingTarget.source;
+                    //console.log(curntRoom);
+
+                    // Get room data and dataSource
+                    var roomListView = $("#roomListView").data("kendoListView");
+                    var oldData = roomListView.dataSource;//.data();
+
+                    // Remove item by getByUid method
+                    roomListView.dataSource.remove(oldData.getByUid(curntRoom.uid));
+
+                    // Sync data
+                    syncHouseData();
+                },
+
+                removeAppliance: function (e) {
+                    e.preventDefault();
+
+                    // Get current appliance id
+                    var curntAppUid = $(e.target).closest('tr').attr('id');
+
+                    // Get room data and dataSource
+                    var roomListView = $("#roomListView").data("kendoListView");
+                    var list = roomListView.dataSource.data();
+
+                    var filtered = [];
+                    for (var i = 0; i < list.length; i++) {
+                        for (var j = 0; j < list[i].Appliances.length; j++) {
+
+                            // Filter appliance id, and remove from array
+                            if (list[i].Appliances[j].uid === curntAppUid) {
+                                var index = $.inArray(list[i].Appliances[j], list[i].Appliances);
+                                if (index != -1) {
+                                    list[i].Appliances.splice(index, 1);
+                                }
+                            }
+                        }
+                        filtered.push(list[i]); // Push new data
+                    }
+                    roomListView.dataSource.data(filtered); // Set new data to dataSource
+
+                    // Sync data
+                    syncHouseData();
+                },
+
+                backToHouse: function (e) {
+                    e.preventDefault();
+
+                    $(".store-select").hide();
+                    $(".select-house").show(function () {
+                    });
+                },
+
+                backToRoom: function (e) {
+                    e.preventDefault();
+
+                    $(".store-select").hide();
+                    $(".select-room-selected").show(function () {
+                    });
+
+                    houseAppliances();
+                },
+
+                // Clear local storage and reload page
+                clearLocalStorage: function (e) {
+                    e.preventDefault();
+
+                    if (confirm('Are you sure to reset current data? This cannot be undone.')) {
+                        localStorage.clear();
+                        window.location.reload(true);
+                    }
+                },
+
+            });
+
+            // Dim background for certain view
+            var bgDim = function () {
+                // Save posititon to return back
+                sessionStorage.customScrollTopPosition = sessionStorage.customScrollTop;
+                $("#content-appliance-store1").mCustomScrollbar("destroy");
+                // Set background popup color
+                $('.dim').attr('style', 'background-color: rgba(0, 0, 0, .6); position: absolute; width: 100%; height: 100%; top: 0; z-index: 10; left: 0;');
+                // Define custom scrollbar height
+                $(".content-appliance-store").mCustomScrollbar({
+                    theme: "light-thick"
+                });
+                var winHeight = $(window).height() - 80;
+                $('.mCustomScrollBox').css({
+                    'height': winHeight
+                });
+                // Hide all div
+                $(".store-select").hide();
+            }
+
+
+            // ===== Appliances workaround ===== //
+            function listAppliances() {
+                // Append numbers row
+                $(".add-remove-app").append('' +
+                    '<span class="btn-number-app remove"><i class="fa fa-minus" aria-hidden="true"></i></span>' +
+                    '<span class="number">0</span>' +
+                    '<span class="btn-number-app add"><i class="fa fa-plus" aria-hidden="true"></i></span>'
+                );
+                $('.house-container.room-select').find(".house-app").on('click', function () {
+                    if ($(this).hasClass('select')) {
+                        if ($(this).find(".number").text() == 0) {
+                            $(this).removeClass('select');
+                        }
+                    } else {
+                        $(this).addClass('select');
+                        $(this).find(".number").text(1);
+                        $('.add-remove-app > span').on('click', function (e) {
+                            e.stopPropagation();
+                        });
+                    }
+                });
+
+                var houseApp = $('.house-container.room-select').find(".house-app");
+                $.each(houseApp, function (index, value) {
+                    var el = $(this);
+
+                    // Reset room counter to 0
+                    var appCount = el.find(".add-remove-app > .number");
+                    appCount.text(0);
+
+                    // Set current app number
+                    var appExist = el.find(".app-exist");
+                    var appNo = el.find(".app-exist > .app-no");
+                    appExist.hide();
+                    $.each(currentRoom.get("Appliances"), function (i, appl) {
+                        if (el.data("appliance-name") === appl.ApplianceName) { // If appliance match set current total app
+                            appNo.text(appl.NumbersOfApp);
+                            appExist.show();
+                        }
+                    });
+                });
+
+                // Count plus minus
+                $(".btn-number-app").on("click", function (e) {
+                    var $button = $(this);
+                    var numberText = $button.parent().find(".number");
+                    var oldValue = numberText.text();
+                    //var roomName = $button.closest('div').data("room-type");
+                    var newVal = parseFloat(oldValue);
+
+                    if ($button.hasClass('add')) { // Add
+                        newVal++;
+                    } else { // Deduct
+                        newVal--;
+                        if (newVal <= 0) {
+                            numberText.text(0);
+                            $(this).closest('.house').removeClass('select'); // Remove selector highlight
+                        }
+                    }
+                    numberText.text(newVal);
+                });
+            }
+
+
+            // >>>>>> >>>>>>>>>> >>>>>> //
+            // >>>>>> STATISTICS >>>>>> //
+            // >>>>>> >>>>>>>>>> >>>>>> //
+            // Statistic: Function to combine room and appliance data
+            function combineRoomTop5(arr) {
+                var combined = arr.reduce(function (result, item) {
+                    var current = result[item.uid]; // Use kendo listview uid (because can't have same room name)
+                    result[item.uid] = !current ? item : { // Read the object
+                        category: item.category,
+                        value: current.value + item.value
+                    };
+                    return result;
+                }, {});
+
+                var result = Object.keys(combined).map(function (key) {
+                    return combined[key];
+                });
+
+                var arr = result;
+                arr.sort(function (a, b) {
+                    return b.value - a.value;
+                });
+
+                var newArr = [];
+                var otherSum = 0;
+                $.each(arr, function (i, o) {
+                    if (i < 3)
+                        newArr.push(o);
+                    else
+                        otherSum += o.value;
+                });
+
+                if (otherSum > 0)
+                    newArr.push({ category: 'Others', value: otherSum });
+
+                return {
+                    name: "Room",
+                    data: newArr,
+                    labels: {
+                        visible: true,
+                        background: "transparent",
+                        template: "#= category # \n" +
+                        "#= kendo.toString(parseFloat(value) / 1000, '0') # kWh (#= kendo.toString(((value / 1000) / " + totalkWh + ") * 100, 'n') # %)"
+                    },
+                    startAngle: 300
+                }
+            }
+
+            // Statistic: Function to combine appliance data between room and get top 5 only
+            var top5appliance = [];
+            function combineApplianceTop5(arr) {
+                var combined = arr.reduce(function (result, item) {
+                    var current = result[item.category]; // Use appliance category to gather same data
+                    result[item.category] = !current ? item : { // Read the object and merge same category
+                        category: item.category,
+                        value: current.value + item.value
+                    };
+                    return result;
+                }, {});
+
+                var result = Object.keys(combined).map(function (key) {
+                    return combined[key];
+                });
+
+                var arr = result;
+                arr.sort(function (a, b) {
+                    return b.value - a.value;
+                });
+
+                var newArr = [];
+                var otherSum = 0;
+                top5appliance = []; // Empty top 5 to reinsert new data
+                $.each(arr, function (i, o) {
+                    if (i < 5) {
+                        newArr.push(o);
+                        top5appliance.push(o); // Set newArr to top5appliance for tips generator.
+                    }
+                    else
+                        otherSum += o.value;
+                });
+
+                if (otherSum > 0)
+                    newArr.push({ category: 'Others', value: otherSum });
+
+                return {
+                    name: "Appliance",
+                    data: newArr,
+                    labels: {
+                        visible: true,
+                        background: "transparent",
+                        position: "outsideEnd",
+                        template: "#= category # \n" +
+                        "#= kendo.toString(parseFloat(value) / 1000, '0') # kWh (#= kendo.toString(((value / 1000) / " + totalkWh + ") * 100, 'n') # %)"
+                    }
+                }
+            }
+
+            // Statistic: Function to combine room and appliance data
+            function combineRoom(arr) {
+                var combined = arr.reduce(function (result, item) {
+                    var current = result[item.uid]; // Use kendo listview uid (because can't have same room)
+                    result[item.uid] = !current ? item : { // Read the object
+                        category: item.category,
+                        value: current.value + item.value
+                    };
+                    return result;
+                }, {});
+
+                var result = Object.keys(combined).map(function (key) {
+                    return combined[key];
+                });
+
+                return {
+                    name: "Room",
+                    data: result,
+                    startAngle: 300
+                }
+            }
+
+            // Statistic: Function to combine appliance data between room
+            function combineAppliance(arr) {
+                var combined = arr.reduce(function (result, item) {
+                    var current = result[item.category]; // Use appliance category to gather same data
+                    result[item.category] = !current ? item : { // Read the object and merge same category
+                        category: item.category,
+                        value: current.value + item.value
+                    };
+                    return result;
+                }, {});
+
+                var result = Object.keys(combined).map(function (key) {
+                    return combined[key];
+                });
+
+                return {
+                    name: "Appliance",
+                    data: result
+                }
+            }
+
+
+            // Set temporary data for statistic
+            var dataRoom = [];
+            var dataAppliance = [];
+            var totalkWh = 0;
+
+            // Formula:
+            // Estimated Cost = ((Usage per day * Number of days used a months * Watts) / 1000 )) * 0.3166
+            // 0.3166 = Average Cost Per kWh (DOMESTIC)
+            function totalUsage() {
+                var total = 0;
+
+                // Get each room data
+                $.each(viewModel.get("Rooms"), function (i, room) {
+
+                    // Get each appliance for each room data
+                    $.each(room.get("Appliances"), function (j, appliance) {
+                        var sum = 0;
+                        // Calculation per appliance
+                        sum = parseFloat(appliance.get("HoursPerDay")) * parseFloat(appliance.get("DaysPerMonth")) * parseFloat(appliance.get("Watts")) * parseFloat(appliance.get("NumbersOfApp"));
+                        total += sum;
+
+                        // >>>>>> Push data for chart usage >>>>>> //
+                        // Room: For Chart
+                        dataRoom.push({
+                            uid: room.get("uid"), // use uid because room can have same name
+                            category: room.get("RoomName"),
+                            value: sum
+                        });
+                        // Appliance: For Chart
+                        dataAppliance.push({
+                            category: appliance.get("ApplianceName"),
+                            value: sum
+                        });
+                    })
+                });
+
+                totalkWh = kendo.toString(parseFloat(total) / 1000, "0");
+
+                // Calculate total bill per month (RM) using Tariff Block
+                // Base on 'HEC2 - CalculationV3.xlsx' file
+                var balance = totalkWh;
+                var totalCharge = 0;
+                for (var i = 0; i < tariffTiers.length; i++) {
+                    var boundary = tariffTiers[i].boundary;
+                    var rate = tariffTiers[i].rate;
+                    //console.log({
+                    //    i: i,
+                    //    boundary: boundary,
+                    //    rate: rate,
+                    //    balance: balance,
+                    //    totalCharge: totalCharge
+                    //});
+                    if (balance > boundary) {
+                        totalCharge += boundary * rate;
+                        balance = balance - boundary;
+                    } else {
+                        totalCharge += balance * rate;
+                        balance = 0
+                        break;
+                    }
+                }
+                //console.log({
+                //    balance: balance,
+                //    totalCharge: totalCharge
+                //});
+                if (balance > 0) totalCharge += balance * tariffRemaining;
+                //console.log(totalCharge);
+
+                // Set view model value
+                viewModel.set("TotalkWh", kendo.toString(parseFloat(total) / 1000, "0"));
+                viewModel.set("TotalkWhDay", kendo.toString((parseFloat(total) / 1000) / 30, "n"));
+                viewModel.set("TotalUsage", kendo.toString(totalCharge, "n"));
+                viewModel.set("TotalUsageDay", kendo.toString(parseFloat(totalCharge) / 30, "n"));
+
+                // Return data to function
+                return { "total": total, "totalkWh": totalkWh };
+            }
+
+
+            // >>>>> ====================== >>>>>> //
+            // >>>>> Synchronize House Data >>>>>> //
+            // >>>>> ====================== >>>>>> //
+            function syncHouseData() {
+                // Empty temporary data
+                dataRoom = [];
+                dataAppliance = [];
+                totalkWh = 0;
+
+                // Read from viewModel
+                var data = {
+                    HouseType: viewModel.get("HouseType"),
+                    HouseName: viewModel.get("HouseName"),
+                    TotalUsage: totalUsage().total, // Call calculated field have ()
+                    Rooms: $.map(viewModel.get("Rooms"), function (room) {
+                        //console.log(room);
+                        return {
+                            RoomType: room.get("RoomType"),
+                            RoomName: room.get("RoomName"),
+                            Appliances: $.map(room.get("Appliances"), function (appliance) {
+                                return {
+                                    ApplianceName: appliance.get("ApplianceName"),
+                                    NumbersOfApp: appliance.get("NumbersOfApp"),
+                                    HoursPerDay: appliance.get("HoursPerDay"),
+                                    DaysPerMonth: appliance.get("DaysPerMonth"),
+                                    Watts: appliance.get("Watts"),
+                                }
+                            })
+                        }
+                    })
+                }
+                //console.log("Send to server:", data);
+
+                // Set statistic data
+                viewModel.set("statisticMixedVisible", true);
+
+                // For Mixed Chart
+                // Get 5 highest value
+                var roomDataTop5 = combineRoomTop5(dataRoom);
+                var applianceTop5 = combineApplianceTop5(dataAppliance);
+                var mixedData = [roomDataTop5].concat([applianceTop5]); // Combine room and appliance data
+                //console.log(JSON.stringify(mixedData));
+
+                // For summary chart
+                var roomData = combineRoom(dataRoom);
+                var applianceData = combineAppliance(dataAppliance);
+                var seriesColor = ['#f48fb1', '#ab47bc', '#ff9800', '#33CC33', '#0099CC', '#FF3366', '#F32579', '#B7F95C', '#AE4342', '#A6BD57', '#666666', '#c39797', '#daa520', '#990000', '#808080', '#ffff66', '#afeeee', '#f5f5dc', '#81d8d0', '#468499', '#ffc3a0', '#088da5', '#008000', '#ff00ff', '#ff7f50', '#f08080', '#fa8072', '#cbbeb5', '#dddddd', '#ffdab9', '#7fffd4', '#333333', '#faebd7', '#c0c0c0', '#003366', '#800080', '#ffb6c1', '#f6546a', '#00ff00', '#c6e2ff', '#ff6666', '#ffff00', '#00ced1', '#800000', '#66cdaa', '#f5f5f5', '#fff68f', '#b6fcd5', '#66cccc', '#00ff7f', '#3399ff', '#ccff00', '#794044', '#a0db8e', '#ffa500', '#f0f8ff', '#eeeeee', '#b0e0e6', '#cccccc'];
+
+                // Mixed statistic chart
+                // http://docs.telerik.com/kendo-ui/controls/charts/how-to/appearance/donut-chart-hole-text
+                $("#statistic-mixed").kendoChart({
+                    theme: "bootstrap",
+                    legend: {
+                        visible: false,
+                    },
+                    dataSource: {
+                        data: mixedData
+                    },
+                    seriesColors: seriesColor,
+                    seriesDefaults: {
+                        type: "donut",
+                        startAngle: 150
+                    },
+                    series: mixedData,
+                    seriesClick: onStatisticSeriesClick,
+                    tooltip: {
+                        visible: true,
+                        template: "#= series.name # / #= category # (#= kendo.toString(value / 1000, 'n') # kWh)"
+                    }
+                });
+                function onStatisticSeriesClick(e) {
+                    //console.log(kendo.format("Series click :: {0} ({1}): {2}", e.series.name, e.category, e.value));
+                    e.series.name === "Room" ? viewModel.set("statisticRoomVisible", true) : viewModel.set("statisticRoomVisible", false);
+                    e.series.name === "Appliance" ? viewModel.set("statisticApplianceVisible", true) : viewModel.set("statisticApplianceVisible", false);
+                    $("#myStatisticModal").modal();
+                }
+
+                // Room statistic chart
+                $("#statistic-room").kendoChart({
+                    theme: "bootstrap",
+                    chartArea: {
+                        height: 550
+                    },
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            font: "10px Arial,Helvetica,sans-serif",
+                            padding: 10,
+                            template: "#= text # (#= kendo.toString(((value / 1000) / " + totalkWh + ") * 100, 'n') # %)\n" +
+                            "RM #= kendo.toString((parseFloat(value) / 1000) * 0.3166, 'n') # for " +
+                            "#= kendo.toString(parseFloat(value) / 1000, '0') # kWh"
+                        }
+                    },
+                    seriesColors: seriesColor,
+                    seriesDefaults: {
+                        type: "donut",
+                        startAngle: 300
+                    },
+                    dataSource: {
+                        data: roomData.data
+                    },
+                    series: [{
+                        type: "donut",
+                        field: "value",
+                        categoryField: "category"
+                    }],
+                    tooltip: {
+                        visible: true,
+                        template: "#= category # (#= kendo.toString(((value / 1000) / " + totalkWh + ") * 100, 'n') # %)\n" +
+                        "RM #= kendo.toString((parseFloat(value) / 1000) * 0.3166, 'n') # for " +
+                        "#= kendo.toString(parseFloat(value) / 1000, '0') # kWh"
+                    }
+                });
+
+                // Appliance statistic chart
+                $("#statistic-appliance").kendoChart({
+                    theme: "bootstrap",
+                    chartArea: {
+                        height: 550
+                    },
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            font: "10px Arial,Helvetica,sans-serif",
+                            padding: 3,
+                            template: "#= text # (#= kendo.toString(((value / 1000) / " + totalkWh + ") * 100, 'n') # %)\n" +
+                            "RM #= kendo.toString((parseFloat(value) / 1000) * 0.3166, 'n') # for " +
+                            "#= kendo.toString(parseFloat(value) / 1000, '0') # kWh"
+                        }
+                    },
+                    seriesColors: seriesColor,
+                    seriesDefaults: {
+                        type: "donut",
+                        startAngle: 150
+                    },
+                    dataSource: {
+                        data: applianceData.data
+                    },
+                    series: [{
+                        type: "donut",
+                        field: "value",
+                        categoryField: "category"
+                    }],
+                    tooltip: {
+                        visible: true,
+                        template: "#= category # (#= kendo.toString(((value / 1000) / " + totalkWh + ") * 100, 'n') # %)\n" +
+                        "RM #= kendo.toString((parseFloat(value) / 1000) * 0.3166, 'n') # for " +
+                        "#= kendo.toString(parseFloat(value) / 1000, '0') # kWh"
+                    }
+                });
+
+                // Set scrollable chart
+                var svgMixed = document.getElementsByTagName("svg")[0];
+                var svgRoom = document.getElementsByTagName("svg")[1];
+                var svgAppliance = document.getElementsByTagName("svg")[2];
+
+                svgMixed.setAttribute("style", "overlow: hidden; overflow-x:auto; width: 650px; height: 650px;");
+                svgRoom.setAttribute("style", "overlow: hidden; overflow-x:auto; width: 650px; height: 650px;");
+                svgAppliance.setAttribute("style", "overlow: hidden; overflow-x:auto; width: 650px; height: 650px;");
+                //var defs = svg.getElementsByTagName('defs')[0];
+                //var style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+                //var node = document.createTextNode('circle { fill: red; }');
+                //defs.appendChild(style);
+                //style.appendChild(node);
+
+                // Save house data to db if authenticated
+                if (isAuthenticated === "True") {
+                    $.ajax({
+                        url: '@(Url.Action("UpdateHouseForAccountNo", "UsageCalculator"))',
+                        type: 'POST',
+                        data: {
+                            userId: "@System.Web.HttpContext.Current.User.Identity.Name",
+                            accountNo: "@ViewBag.AccountNo",
+                            house: data
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            //console.log(data);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log("Error: ", textStatus + " | " + errorThrown);
+                        }
+                    });
+                } else { //If not authenticated, show reset button
+                    viewModel.set("isLocalStorageVisible", true);
+
+                    // Save house data to localstorage
+                    localStorage.setItem('house', JSON.stringify(data));
+                }
+
+                // List energy tips when appliance selected
+                $.ajax({
+                    url: '@(Url.Action("ReadEnergyTips", "UsageCalculator"))',
+                    type: 'POST',
+                    data: {
+                        house: data,
+                        top5appliance: top5appliance
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        viewModel.set("TipDs", []); // Clean tips datasource
+
+                        // Push tips to datasource
+                        var totalTips = 1;
+                        $.each(data, function (index, value) {
+                            viewModel.get("TipDs").push({
+                                Number: "0" + totalTips++,
+                                Id: value.Id,
+                                ApplianceName: value.ApplianceName,
+                                Title: value.Title,
+                                Description: value.Description,
+                                DoneCount: value.DoneCount,
+                                Status: value.Status,
+                                Watt: value.Watt
+                            });
+                        });
+
+                        // Set total tips
+                        viewModel.set("TotalTips", totalTips - 1);
+
+                        // Append checkbox if user is authenticated
+                        if (isAuthenticated === "True") {
+                            $(".tips-box").html('<div class="right-img"></div><div class="box-img"></div>');
+                        }
+
+                        // Tips Box Checker
+                        var selectCheck = $('.tips-box .box-img');
+                        var selectCheckGreen = $('.tips-box .right-img');
+                        selectCheck.on('click', function (e) {
+                            //console.log(e);
+                            updateTipStatus(e, 1);
+                            $(this).parent().parent().toggleClass('green');
+                        });
+                        selectCheckGreen.on('click', function (e) {
+                            //console.log(e);
+                            updateTipStatus(e, 2);
+                            $(this).parent().parent().toggleClass('green');
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("Error: ", textStatus + " | " + errorThrown);
+                    }
+                });
+            }
+
+            // Update tips status
+            function updateTipStatus(e, status) {
+                var el = null;
+                if (status == 1)
+                    el = $(e.target).closest(".box-img");
+                else if (status == 2)
+                    el = $(e.target).closest(".right-img");
+
+                var container = el.closest("[data-tip-id]");
+                var tipId = container.data("tip-id");
+                //console.log(tipId);
+
+                $.ajax({
+                    url: "@Url.Action("UpdateUserTipStatus", "EnergyTips")/" + tipId + "?status=" + status,
+                    type: 'GET',
+                    dataType: 'json',
+                    async: false,
+                    success: function (data, textStatus, jqXHR) {
+                        container.find(".done-count").text(data.tip.DoneCount);
+                    }
+                });
+            }
+
+            function houseAppliances() {
+                // Toggle Room
+                $(".btn-collapse").click(function () {
+                    var id = this.id;
+                    id = id.substr(4);
+                    $('#' + id).on('hidden.bs.collapse', function () {
+                        $('#btn-' + id).removeClass("toggle-button-close").addClass("toggle-button-open");
+                    });
+                    $('#' + id).on('shown.bs.collapse', function () {
+                        $('#btn-' + id).removeClass("toggle-button-open").addClass("toggle-button-close");
+                    });
+                });
+
+                // Custom Scrollbar
+                $("#content-appliance-store1").mCustomScrollbar({
+                    theme: "light-thick",
+                    callbacks: {
+                        whileScrolling: function () {
+                            var windowWidth = window.innerWidth;
+                            if (this.mcs.draggerTop >= 10) {
+                                if (windowWidth >= 880) {
+                                    $('.persist-header').addClass('sticky-fixed');
+                                    $(".step-text").css("padding-top", "40px");
+                                }
+                                else {
+                                    $('.persist-header').removeClass('sticky-fixed');
+                                    $(".step-text").css("padding-top", "0");
+                                    $('.persist-header .title-store').addClass('amount-fixed');
+                                }
+                            }
+                            else {
+                                $('.persist-header').removeClass('sticky-fixed');
+                                $(".step-text").css("padding-top", "0");
+                            }
+                        },
+                        onScroll: function () {
+                            sessionStorage.customScrollTop = $(this).find('.mCSB_container').css('top');
+                        },
+                        onUpdate: function () {
+                            var stickyHeader = $('.tabbing-content').width();
+                            $('.persist-header').css({
+                                'width': stickyHeader
+                            });
+                        },
+                        onInit: function () {
+                            if (typeof sessionStorage.customScrollTopPosition != "undefined") {
+                                $('#content-appliance-store1 .mCSB_container').css('top', sessionStorage.customScrollTopPosition);
+                            }
+                        }
+                    }
+                });
+
+                var winHeight = $(window).height() - 80;
+                $('.mCustomScrollBox').css({
+                    'height': winHeight
+                });
+            }
+
+            // Get house type image from db
+            function getHouseType(houseTypeCode){
+                $.ajax({
+                    url: "@Url.Action("GetHouseType", "UsageCalculator")",
+                    type: 'POST',
+                    data: {
+                        houseType: houseTypeCode
+                    },
+                    dataType: 'json',
+                    async: false,
+                    success: function (data, textStatus, jqXHR) {
+                        //console.log("getHouseType", data);
+                        viewModel.set("houseNameTitleVisible", true);
+                        viewModel.set("roomApplianceVisible", true);
+                        viewModel.set("HouseType", data.houseTypes.HouseTypeCode);
+                        viewModel.set("HouseTypeText", data.houseCategories.HouseCategoryDesc);
+                        $(".houseTypeImg").attr("src", "/FilePublic?fileId=" + data.houseTypes.FileId);
+                    }
+                });
+            }
+
+            var view = new kendo.View("view-template", {
+                model: viewModel,
+                evalTemplate: true,
+                show: function (e) {
+
+                    //console.log("contractAccountNo", contractAccountNo);
+                    if (contractAccountNo !== "") {
+                        viewModel.set("HouseName", houseData.HouseName);
+                        viewModel.set("Rooms", houseData.Rooms);
+                        getHouseType(houseData.HouseType);
+                        syncHouseData();
+                    }
+                    else {
+                        // For public user local storage
+                        var houseLocal = JSON.parse(localStorage.getItem('house'));
+                        //console.log("houseLocal", houseLocal);
+                        if (houseLocal !== null) {
+                            viewModel.set("Rooms", houseLocal.Rooms);
+                            getHouseType(houseLocal.HouseType);
+                            syncHouseData();
+                        }
+                        else {
+                            viewModel.set("houseTypeTitleVisible", true);
+                            viewModel.set("houseTypeSelectorVisible", true);
+                        }
+                    }
+
+                    // Send house data to server bila apa perubahan
+                    // Validate max min input
+                    $(document).on("blur", ".sync-trigger", function () {
+                        var max = parseInt($(this).attr('max'));
+                        var min = parseInt($(this).attr('min'));
+                        if ($(this).val() > max) {
+                            $(this).val(0);
+                            alert("Please enter a valid number");
+                            return false;
+                        }
+                        else if ($(this).val() < min) {
+                            $(this).val(0);
+                            alert("Please enter a valid number");
+                            return false;
+                        }
+
+                        syncHouseData();
+                    });
+
+                    // Tab Panel Change
+                    $('.tab-panel-appliance').click(function (e) {
+                        $('.tab-panel-appliance').removeClass('liactive');
+                        $(e.currentTarget).addClass('liactive');
+                    });
+
+                    // Remove Appliances Row
+                    var iconRemove = $('.remove-icon');
+                    var rowRemove = $('.acc-text .table-appliance table tbody tr');
+                    iconRemove.on('click', function () {
+                        $(this).parent().parent().remove();
+                    });
+
+                    // Enable custom scrollbar and toggle
+                    houseAppliances();
+                    $("#highlight-block-content").mCustomScrollbar({
+                        theme: "light-thick"
+                    });
+
+                    // Append numbers row
+                    $(".add-remove").append('' +
+                        '<span class="btn-number remove"><i class="fa fa-minus" aria-hidden="true"></i></span>' +
+                        '<span class="number">0</span>' +
+                        '<span class="btn-number add"><i class="fa fa-plus" aria-hidden="true"></i></span>'
+                    );
+
+                    // Count plus minus
+                    $(".btn-number").on("click", function (e) {
+                        var numberText = $(this).parent().find(".number"); // Get counter number
+                        var numVal = parseInt(numberText.text()); // Parse as integer
+                        // Count numVal
+                        if ($(this).hasClass('add')) { // Add
+                            numVal++;
+                        } else { // Deduct
+                            numVal--;
+                        }
+                        // If numVal = 0, set as zero and remove select class
+                        if (numVal <= 0) {
+                            numVal = 0;
+                            $(this).closest('.house').removeClass('select'); // Remove selector highlight
+                        }
+                        numberText.text(numVal);
+                    });
+                }
+            });
+
+            view.render("#view-container");
+
+        });
+    </script>
+}

@@ -1,0 +1,653 @@
+﻿@model Hec.Web.Areas.Public.Controllers.FriendIndexModel
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-store";
+    ViewBag.ActiveClass = "friendmenu";
+    ViewBag.ContainerClass = "friends";
+}
+
+<div id="view-container"></div>
+
+<div class="header-title">
+    <span class="icon-lamp-content"></span>
+    <span class="details">
+        <span class="title-big">Energy Usage Comparison</span>
+        <span class="desc">
+            Compare energy usage of the house you have set as default with your friends
+        </span>
+    </span>
+</div>
+<!-- If user dah login appear yg ni -->
+<div class="box-white">
+    <div class="icon-group">
+        @if (Model.RankDown)
+        {
+            <span class="icon-friend icon-notdoinggood"></span>
+            <p class="icon-wrapper" title="Not Doing Good - Energy usage is higher than previous month.">
+                YOU ARE <span class="text-red"> NOT DOING GOOD</span>
+                <br>
+                <span style="font-size: 15px;">Let me help you</span> <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </p>
+        }
+        else
+        {
+            <span class="icon-friend icon-doinggood"></span>
+            <p class="icon-wrapper" title="Doing Good - Energy usage is similar or lower than previous month.">
+                YOU ARE <span class="text-bright-green"> DOING GOOD</span><br>
+                <span style="font-size: 15px;">Let me help you</span> <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </p>
+        }
+    </div>
+    <div style="padding: 10px 0px;">
+        <p class="title-friends">COMPARE WITH FRIENDS</p>
+        <p>
+            @if (@Model.FriendInviteCount > 0)
+            {
+            <span class="grey">You have <span class="num-friend">@Model.FriendInviteCount</span> friend invites. </span>
+            <span class="view-friend"><a href="@Url.Action("Invitations", "Friends")">View received invites</a></span>
+            }
+        </p>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+</div>
+<div class="box-friend">
+    <div class="tabbing-appliance">
+        <div class="tab-select">
+            <ul>
+                <li class="liactive">Usage Trend</li>
+                <li class="">Total Energy Saved</li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div class="usage-trend">
+                <button class="btn add-wrapper" data-toggle="modal" data-target="#compare-friend-dialog"><span class="icon-hec icon-add"></span></button>
+                <div class="friend-list" style="margin-right: 60px;">
+                    <ul id="friend-compare-list" style="border: 0; background: inherit"></ul>
+                </div>
+                <div class="chart-wrapper">
+                    <div id="chartComparison" style="width:100%;"></div>
+                </div>
+
+                <script type="text/x-kendo-tmpl" id="friend-compare-tpl">
+                    <li class="trend-#= userId #">
+                        <span class="online-sign"></span>#= name #<span class="remove-friend" data-userid="#= userId #">x</span>
+                    </li>
+                </script>
+
+            </div>
+            <div class="total-kwh" style="display:none;">
+                <div class="row" style="max-width: 650px;margin: auto;">
+
+                    <div class="col-sm-4 green_energy green_energy_saved">
+                        <p class="totalEnergySaved">0</p>
+                    </div>
+                    <div class="col-sm-4 green_energy green_co2_emission">
+                        <p class="totalCO2EmissionSaved">0</p>
+                    </div>
+                    <div class="col-sm-4 green_energy green_trees">
+                        <p class="noOfTreesToPlant">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-appliance">
+            <div class="acc-wrapper friends-rank-wrapper">
+                <div class="acc-btn active">
+                    <div class="acc-title" style="color: #ffffff;">Friends Ranking</div>
+                    <div class="toggle-button"></div>
+                </div>
+                <div class="acc-text">
+                    <div class="friends-ranking">
+                        <div class="add-button">
+                            <a href="javascript:;" data-toggle="modal" data-target="#new-invite-dialog">
+                                <div class="plus-text">Add More Friends</div>
+                                <div class="plus-icon"></div>
+                            </a>
+                        </div>
+                        <p id="text-position" class="text-drop">
+                            
+                        </p>
+
+                    </div>
+                    <div class="bg-grey">
+                        <div class="form-group rank-month" style="margin-bottom: 3px;">
+                            <label for="rank-month">Your friend rank for</label>
+                            <select class="form-control" id="rank-month">
+                                @{ var now = DateTime.Now; }
+                                <option value="1" @(now.Month == 1 ? "selected" : "")>January</option>
+                                <option value="2" @(now.Month == 2 ? "selected" : "")>February</option>
+                                <option value="3" @(now.Month == 3 ? "selected" : "")>Mac</option>
+                                <option value="4" @(now.Month == 4 ? "selected" : "")>April</option>
+                                <option value="5" @(now.Month == 5 ? "selected" : "")>May</option>
+                                <option value="6" @(now.Month == 6 ? "selected" : "")>June</option>
+                                <option value="7" @(now.Month == 7 ? "selected" : "")>July</option>
+                                <option value="8" @(now.Month == 8 ? "selected" : "")>August</option>
+                                <option value="9" @(now.Month == 9 ? "selected" : "")>September</option>
+                                <option value="10" @(now.Month == 10 ? "selected" : "")>October</option>
+                                <option value="11" @(now.Month == 11 ? "selected" : "")>November</option>
+                                <option value="12" @(now.Month == 12 ? "selected" : "")>December</option>
+                            </select>
+                        </div>
+                        <div class="rank-note">Your ranking is based on your Energy Savings per Month</div>
+                        <div class="friend-list-rank">
+                            <ul id="rank-list" style="border: 0;">
+                            </ul>
+
+                            <script>
+                                function rankColor(num) {
+                                    switch (num) {
+                                        case 1: return 'light-yellow';
+                                        case 2: return 'light-blue';
+                                        case 3: return 'light-brown';
+                                        default: return 'light-grey';
+                                    }
+                                }
+                            </script>
+                            <script type="text/x-kendo-template" id="rank-tpl">
+                                <li class="#= UserId == '@Model.CurrUser.Id' ? 'my-rank' : '' #">
+                                    <span class="rank-num #= rankColor(Rank) # ">
+                                        #= kendo.toString(Rank, "00") #
+                                        <span class="#= UserId == '@Model.CurrUser.Id' ? (Difference > 0 ? 'up-rank' : (Difference < 0 ? 'low-rank' : '')) : '' #"></span>
+                                        @*<span class="#= UserId == '@Model.CurrUser.Id' ? '@rankClass' : '' #"></span>*@
+                                    </span>
+                                    <span class="avatar-img">
+                                        #= Photo ? ("<img src='" + Photo + "' />") : "" #
+                                    </span>
+                                    <span class="name">
+                                        #= FullName #
+                                        #= UserId == '@Model.CurrUser.Id' ? '(You)' : '' #
+                                    </span>
+                                    <span class="energy-usage"><strong>#= kendo.toString(Saving, "0.00") #</strong> KWH / MONTH</span>
+                                    <span class="#= UserId == '@Model.CurrUser.Id' ? '' : 'icon-dustbin' #" data-userid="#= UserId #"></span>
+                                </li>
+                            </script>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Compare Friend Modal -->
+<div class="modal fade" id="compare-friend-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+                <h4 class="modal-title">SELECT FRIENDS TO COMPARE</h4>
+            </div>
+            <div class="modal-body">
+                <div id="compare-friend-grid"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-right" data-bs-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Invite Friend Modal -->
+<div class="modal fade" id="new-invite-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+                <h4 class="modal-title">ADD ACCOUNT DETAILS</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="required">Email</label>
+                    <input type="email" class="form-control" id="Email">
+                </div>
+                <div class="form-group">
+                    <label class="required">Name</label>
+                    <input type="text" class="form-control" id="Name">
+                </div>
+                <div class="form-group">
+                    <label class="required">Account Number</label>
+                    <input type="text" class="form-control" id="AccountNo">
+                </div>
+                <div class="form-group">
+                    <label>IC Number</label>
+                    <input type="text" class="form-control" id="ICNo">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-bs-dismiss="modal">CANCEL</button>
+                <button type="button" class="btn btn-danger" id="submit-invite">SUBMIT</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<style>
+    .green-number {
+        color: green;
+    }
+</style>
+@section Scripts
+{
+<script>
+    $(function () {
+
+        //====== Ranking lists ======//
+        $("#rank-list").kendoListView({
+            template: kendo.template($("#rank-tpl").html()),
+            dataSource: new kendo.data.DataSource({
+                data: []
+            })
+        });
+
+        $(document).on('click', '.icon-dustbin', function (e) {
+            if (confirm("Are you sure to unfriend this user? Your action cannot be undone. Click OK to proceed.")) {
+                $.ajax({
+                    url: '@Url.Action("RemoveFriend", "Friends")',
+                    dataType: 'json',
+                    method: 'POST',
+                    data: {
+                        userId: $(this).data("userid")
+                    }
+                })
+                .done(function (data) {
+                    app.notifySuccess("Friend successfully removed.");
+                    var optionSelected = $('#rank-month').find("option:selected");
+                    getRankings(optionSelected.val());
+                })
+            }
+        });
+
+        $('#rank-month').change(function () {
+            var optionSelected = $(this).find("option:selected");
+            getRankings(optionSelected.val());
+        });
+
+        function getRankings(month) {
+            $.ajax({
+                url: '@Url.Action("GetRankings", "Friends")?month=' + month,
+                dataType: 'json'
+            })
+            .done(function (data) {
+                $("#rank-list").data("kendoListView").dataSource.data(data);
+
+                var myRank = $.grep(data, function (r) {
+                    return r.UserId == "@Model.CurrUser.Id";
+                })[0];
+
+                //console.log(myRank);
+
+                if (myRank) {
+                    var msg = "You stayed at the same rank as previous month";
+                    if (myRank.Difference < 0)
+                        msg = "Uh oh! You dropped <span class='red-number'>" + myRank.Difference + "</span> from your previous month rank.";
+                    else if (myRank.Difference > 0)
+                        msg = "You climbed <span class='green-number'>" + myRank.Difference + "</span> from your previous month rank. Good job!";
+                    $("#text-position").html(msg);
+                }
+
+                $(".rank-note").show();
+                if (data.length === 0 || data.length === 1) {
+                    $("#text-position").html("No data is available for this selected month!");
+                    $(".rank-note").hide();
+                }
+            })
+        }
+
+        var currMonth = new Date().getMonth() + 1;
+        getRankings(currMonth);
+
+        $("#submit-invite").click(function () {
+            $.ajax({
+                url: '@Url.Action("InviteFriend", "Friends")',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    email: $("#Email").val(),
+                    name: $("#Name").val(),
+                    accountNo: $("#AccountNo").val(),
+                    icNo: $("#ICNo").val(),
+                }
+            })
+            .done(function (data) {
+                //console.log(data);
+                if (data.status == false) {
+                    app.notifyError(data.message);
+                }
+                else {
+                    app.notifySuccess("Invitation has been sent.");
+                    $("#new-invite-dialog").modal("hide");
+                }
+            })
+            .fail(function(jqXHR) {
+                //console.log(jqXHR);
+                app.notifyError(jqXHR);
+            })
+        });
+
+
+        //====== Friends Compare Chart ======//
+        // Get friends data
+        var monthYear = null;
+        var friendChartDs = [];
+        var friendList = null;
+        var currentUserId = null;
+        var plotBand = [];
+        var plotBandValue = 0;
+        var averageHouseValue = 0;
+
+        // Get friends list
+        $.ajax({
+            url: "@Url.Action("GetFriends", "Friends")",
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            success: function (data, textStatus, jqXHR) {
+                friendList = data;
+            }
+        });
+
+        // Initialize grid data with friends
+        $("#compare-friend-grid").kendoGrid({
+            dataSource: {
+                type: "odata",
+                data: friendList,
+                pageSize: 20
+            },
+            sortable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 10
+            },
+            columns: [{
+                field: "FullName",
+                title: "Full Name",
+                width: "40%"
+            }, {
+                field: "UserId",
+                title: "Email",
+                width: "40%"
+            }, {
+                command: { text: "Select", click: selectFriend }, title: "Action", width: "20%"
+            }]
+        });
+
+        // Get userid from selected row
+        function selectFriend(e) {
+            e.preventDefault();
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+            var isExist = false;
+            $.each(friendChartDs, function (i, o) {
+                if (o.contractAccountId === dataItem.ContractAccountId) {
+                    isExist = true;
+                    alert(dataItem.FullName + " already selected.");
+                }
+            });
+
+            if (!isExist) {
+                getFriendChart(dataItem.ContractAccountId);
+            }
+        }
+
+        // Get friend billing informations
+        function getFriendChart(contractAccountId) {
+            var friendCompare = null;
+
+            $.ajax({
+                url: "@Url.Action("GetBills", "Friends")",
+                type: 'POST',
+                data: {
+                    contractAccountId: contractAccountId
+                },
+                dataType: 'json',
+                async: false,
+                success: function (data, textStatus, jqXHR) {
+                    friendCompare = data;
+                    //console.log("friendCompare", friendCompare);
+
+                    // Add property into array
+                    var accountArr = {};
+                    accountArr.uid = friendCompare.account.Id;
+                    accountArr.contractAccountId = contractAccountId;
+                    accountArr.userId = friendCompare.account.UserId;
+                    accountArr.accountNo = friendCompare.account.AccountNo;
+                    if (friendCompare.account.UserId === currentUserId) {
+                        accountArr.name = friendCompare.account.User.FullName + " (You)"; // Add (You) for current user
+                        // Set monthYear for chart
+                        monthYear = friendCompare.billPrevHalfYear.reverse().map(item => kendo.toString(kendo.parseDate(item.PrintDate), 'MMM yyyy'));
+                    } else {
+                        accountArr.name = friendCompare.account.User.FullName;
+                    }
+                    accountArr.kWh = friendCompare.billPrevHalfYear.reverse().map(item => item.Consumption);
+                    accountArr.data = friendCompare.billPrevHalfYear.reverse().map(item => item.Amount);
+
+                    // Push array into object
+                    friendChartDs.push(accountArr);
+                }
+            });
+
+            // Update datasource
+            updateFriendCompareDs();
+        }
+
+        // Update listview and chart datasource
+        function updateFriendCompareDs() {
+            var chart = $("#chartComparison").data("kendoChart");
+            chart.setOptions({ series: friendChartDs });
+            chart.options.categoryAxis.categories = monthYear;
+            chart.options.valueAxis.plotBands = plotBand;
+            chart.refresh();
+
+            var listView = $("#friend-compare-list").data("kendoListView");
+            listView.dataSource.data(friendChartDs);
+
+            // Remove friend compare button
+            $(".remove-friend").on("click", function (e) {
+                var userId = $(this).data("userid");
+                // If user click their own account, nothing happen
+                if (userId === currentUserId) {
+                    //alert("Sorry, you cannot remove your own data.");
+                    return;
+                }
+
+                // Remove data from ds and refresh
+                $(this).parent().remove();
+                friendChartDs = friendChartDs.filter(function (item) {
+                    return item.userId !== userId;
+                });
+                updateFriendCompareDs();
+            });
+
+            // Set plot band value
+            addLabelToPlotBand(plotBandValue, averageHouseValue);
+        }
+
+        // Selected friends listview
+        $("#friend-compare-list").kendoListView({
+            template: kendo.template($("#friend-compare-tpl").html()),
+            dataSource: new kendo.data.DataSource({
+                data: friendChartDs
+            })
+        });
+
+        // Initialize friend comparison chart
+        function createChart() {
+            $("#chartComparison").kendoChart({
+                theme: "bootstrap",
+                legend: {
+                    position: "bottom",
+                    visible: true
+                },
+                chartArea: {
+                    height: 400
+                },
+                seriesDefaults: {
+                    type: "line"
+                },
+                series: friendChartDs,
+                categoryAxis: {
+                    categories: [],
+                    majorGridLines: {
+                        visible: false
+                    },
+                    labels: {
+                        rotation: "auto"
+                    },
+                    title: {
+                        text: "Billing Date"
+                    }
+                },
+                valueAxis: {
+                    labels: {
+                        format: "RM {0}"
+                    },
+                    title: {
+                        text: "Bill Amount"
+                    },
+                    plotBands: []
+                },
+                tooltip: {
+                    visible: true,
+                    template: kendo.template($("#friend-chart-tooltip-tpl").html())
+                }
+            });
+
+            // Preset current user account data
+            // Calculate CO2 Emission
+            $.ajax({
+                url: "@Url.Action("GetCurrAccount", "Friends")",
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                success: function (data, textStatus, jqXHR) {
+
+                    currentUserId = data.account.UserId;
+                    getAverageHouseType(data.account.House.HouseType);
+                    getFriendChart(data.account.Id);
+
+                    // Calculation for CO2 Emission Green Energy
+                    var baseline = 0, consumedMonth = 0, consumedPerYear = 0;
+                    consumedMonth = data.billPrev3Month[0].Consumption; // Current month
+                    consumedPerYear = consumedMonth * 12;
+                    // Get 3 latest month average
+                    $.each(data.billPrev3Month, function (i, o) {
+                        baseline += o.Consumption;
+                    });
+                    baseline = baseline / 3;
+
+                    var totalEnergySaved = baseline - consumedMonth;
+                    var totalCO2EmissionSaved = (totalEnergySaved / 1000) * 0.69;
+                    var noOfTreesToPlant = ((consumedPerYear / 1000) * 0.69) / 0.03;
+
+                    $(".totalEnergySaved").text(kendo.toString(totalEnergySaved, "n"));
+                    $(".totalCO2EmissionSaved").text(kendo.toString(totalCO2EmissionSaved, "n4"));
+                    $(".noOfTreesToPlant").text(kendo.toString(noOfTreesToPlant, "n"));
+                }
+            });
+        }
+
+        // Func. to get Plot Band value for average line in chart
+        function getAverageHouseType(houseTypeCode) {
+            // Get tariff block
+            var tariffTiers = 0, tariffRemaining = 0;
+            $.ajax({
+                url: "@Url.Action("ReadTariff", "UsageCalculator")",
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (data, textStatus, jqXHR) {
+                    tariffTiers = data.tiers;
+                    tariffRemaining = data.remaining;
+                }
+            });
+
+            var balance = 0;
+            $.ajax({
+                url: "@Url.Action("GetAverageHouseType", "Friends")",
+                type: 'GET',
+                data: { houseTypeCode : houseTypeCode},
+                dataType: 'json',
+                async: false,
+                success: function (data, textStatus, jqXHR) {
+                    averageHouseValue = data.Average;
+                    balance = data.Average;
+                }
+            });
+
+            // Calculate total bill per month (RM) using Tariff Block
+            // Base on 'HEC2 - CalculationV3.xlsx' file
+            var totalCharge = 0;
+
+            for (var i = 0; i < tariffTiers.length; i++) {
+                var boundary = tariffTiers[i].boundary;
+                var rate = tariffTiers[i].rate;
+                if (balance > boundary) {
+                    totalCharge += boundary * rate;
+                    balance = balance - boundary;
+                } else {
+                    totalCharge += balance * rate;
+                    balance = 0
+                    break;
+                }
+            }
+            if (balance > 0) totalCharge += balance * tariffRemaining;
+            //console.log("TotalUsage", kendo.toString(totalCharge, "n"));
+            totalCharge = kendo.toString(totalCharge, "0");
+            plotBandValue = Number(totalCharge); 
+
+            // Set Chart Plot Bands data
+            var plotBandData = {};
+            plotBandData.from = Number(totalCharge);
+            plotBandData.to = Number(totalCharge) + 4;
+            plotBandData.color = "green";
+
+            plotBand.push(plotBandData); // Push data to plot band object
+
+        }
+
+        $(document).ready(createChart);
+        $(document).bind("kendo:skinChange", createChart);
+        $(window).on("resize", function () {
+            kendo.resize($(".chart-wrapper"));
+            // Set plot band value
+            addLabelToPlotBand(plotBandValue, averageHouseValue);
+        });
+
+
+        // Add value to plot bands
+        function addLabelToPlotBand(plotBandValue, averageHouseValue) {
+            var name = document.querySelectorAll('path[fill="green"]');
+            var p = name[0];
+            var t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            var b = p.getBBox();
+            t.setAttribute("transform", "translate(" + (b.x + b.width - 90) + " " + (b.y + b.height - 7) + ")");
+            t.textContent = "RM " + plotBandValue + " (" + averageHouseValue + " kWh)";
+            t.setAttribute("fill", "black");
+            t.setAttribute("font-size", "13");
+            p.parentNode.insertBefore(t, p.nextSibling);
+        }
+    })
+</script>
+
+<script id="friend-chart-tooltip-tpl" type="text/x-kendo-template">
+    # for (var i = 0; i < series.kWh.length; i++) { #
+        # if (value === series.data[i]) { #
+            <div>RM #: series.data[i] # (#: series.kWh[i] # kWh)</div>    
+        # } #    
+    # } #
+</script>
+}

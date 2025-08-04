@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Manage Admin Users";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-store";
+    ViewBag.ActiveClass = "users";
+}
+
+<section class="content-header">
+    <h1>
+        Admin Users
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><span class="fa fa-home"></span></a></li>
+        <li class="active"> @Html.ActionLink("Admin Users", "Index", "Users")</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box grid-container">
+                @(Html.Kendo().Grid<Hec.Web.Areas.Admin.Controllers.UserGridItem>()
+                    .Name("grid")
+                    .Columns(columns =>
+                    {
+                    columns.Bound(c => c.UserName).Title("Username");
+                    columns.Bound(c => c.FullName);
+                    columns.Bound(c => c.RoleName).Title("Role");
+
+                    columns.ForeignKey(c => c.IsActive, new SelectList(new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Inactive", Value = bool.FalseString },
+                        new SelectListItem { Text = "Active", Value = bool.TrueString },
+                    }, "Value", "Text")).Title("Status").ClientTemplate("#: IsActive == true ? 'Active' : 'Inactive' #").Width(100);
+
+                    columns.Template(@<text></text>).ClientTemplate("<div class=\"btn btn-default\">" + "<a href='" + Url.Action("Edit", "Users") + "/#=Id#'>View</a>").Width(100).Title("Actions");
+                    })
+                    .ToolBar(toolbar =>
+                    {
+                        toolbar.Custom().Text("Create New User").Action("Create", "Users");
+                    })
+                    .Editable(editable => editable.Enabled(false))
+                    .Pageable()
+                    .Navigatable()
+                    .Selectable(selectable =>
+                    {
+                        selectable.Mode(GridSelectionMode.Single);
+                        selectable.Type(GridSelectionType.Row);
+                    })
+                    .Sortable(sortable =>
+                    {
+                        sortable.SortMode(GridSortMode.SingleColumn);
+                    })
+                    .Filterable(filterable => filterable
+                        .Extra(false)
+                        .Operators(operators => operators
+                            .ForString(str => str.Clear()
+                                .Contains("Contains with")
+                            ))
+                    )
+                    .Scrollable(s => s.Height("auto"))
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .PageSize(10)
+                        .Model(model => model.Id(p => p.Id))
+                        .Read(read => read.Action("Read", "Users"))
+                    )
+                )
+            </div>
+        </div>
+    </div>
+</section>
+

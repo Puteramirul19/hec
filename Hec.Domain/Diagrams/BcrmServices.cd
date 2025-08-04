@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Hec.BcrmServices.AccountInformationResp">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Events" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="BillingHistory" Type="Hec.BcrmServices.AccountInformationRespBillingHistory">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.112" Y="0.735" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="AddressDetails" Type="Hec.BcrmServices.AccountInformationRespAddressDetails">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="1.383" Y="0.068" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ACIAAIACQAAAAAAAAAAAAAAAgAAAACAgAAAAAAAAAAA=</HashCode>
+      <FileName>Service References\BcrmServices\Reference.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CADetails" />
+      <Property Name="BillingHistory" />
+      <Property Name="AddressDetails" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Hec.BcrmServices.AccountInformationRespAddressDetails">
+    <Position X="4.25" Y="4" Width="3" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Events" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAABAAACAAAAAAAAAAAAAABAgAAGAAAQAIAAAAAAAAA=</HashCode>
+      <FileName>Service References\BcrmServices\Reference.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Hec.BcrmServices.AccountInformationRespBillingHistory">
+    <Position X="0.5" Y="4" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Events" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAMgCEAAAABAAAAAEAACggAAAAAAAAAIIAARBAAA=</HashCode>
+      <FileName>Service References\BcrmServices\Reference.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Hec.BcrmServices.AccountInformationRespCADetails">
+    <Position X="4.25" Y="0.5" Width="3" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Events" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAQAACEAAAAAAEAIAgAAQCgAIAEBAAAACAAAAAAgA=</HashCode>
+      <FileName>Service References\BcrmServices\Reference.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

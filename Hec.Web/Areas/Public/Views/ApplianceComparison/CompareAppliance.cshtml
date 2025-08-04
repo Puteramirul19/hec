@@ -1,0 +1,331 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    ViewBag.BodyClass = "skin-blue sidebar-mini bill-calculator";
+    ViewBag.ActiveClass = "appliance-calculator";
+    Layout = "~/Areas/Public/Views/Shared/_LayoutPublic_New.cshtml";
+}
+
+<div id="view-container"></div>
+
+<!-- start floating start total cost of ownership -->
+<div id="highlight-block-wrapper">
+    <div id="highlight-block" class="floating-tab">
+        <p><span class="highlight-text">WHAT IS 'TOTAL COST OF OWNERSHIP'?</span></p>
+    </div>
+    <div class="close-button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+    <div id="highlight-block-content">
+        <p>Note: Total cost of ownership is the purchase price of an asset<br> plus the costs of operation such as the cost of usage. The item with lower total cost of ownership will be the better value in the long run.</p><br />
+        <p>&nbsp;</p>
+        <p style="padding-bottom:24px;"><img src="/Images/total-cost-of-ownership-info.png" style="width: 100%; max-width:350px;"></p>
+    </div>
+</div>
+<!-- end floating start total cost of ownership -->
+
+<script id="view-template" type="text/x-kendo-template">
+    <div class="header-title">
+        <span class="icon-calculator-content"></span>
+        <span class="details">
+            <span class="title-big">Compare New Appliance To Be Purchased</span>
+            <span class="desc">Compare between two appliances for you to consider which can offer more savings in the long run.</span>
+        </span>
+    </div>
+    <div class="box-white">
+        <table style="max-width:610px; width:100%;" class="table-default">
+            <thead>
+                <tr style="background-color:\\#445cd9;">
+                    <th colspan="2" style="text-align:center;font-weight:normal;color:white;">Compare New Appliance to be Purchased</th>
+                </tr>
+            </thead>
+        </table>
+        <p>
+            <span><img class="step-1-hit" src="/Images/step-1-hit.png" style="width: 100%; max-width: 304px;"></span>
+            <span><img class="step-2-hit" src="/Images/step-2.png" style="width: 100%; max-width: 304px;"></span>
+        </p>
+        <div class="step1div" data-bind="visible: viewStep1">
+            <p><span class="icon-hec icon-note-info"></span><span class="info">Average Cost per kWh is based on quarterly average selling price of electricity to  domestic customer</span></p>
+            <p style="margin-top: 25px;">
+                <span class="input-group">
+                    <input type="number" value="0" min="0" step="1" data-bind="value: data.expectedyears" class="input_number">
+                    <span class="input-text required">Expected Number of Years of Usage</span>
+                </span>
+                <span class="input-group">
+                    <input type="number" value="0" min="0" max="24" step="1" data-bind="value: data.usageperday" class="input_number">
+                    <span class="input-text required">Usage Per Day<br />(Hours)</span>
+                </span>
+                <span class="input-group">
+                    <input type="number" value="0" min="0" max="31" step="1" data-bind="value: data.numdayspermonth" class="input_number">
+                    <span class="input-text required">Number of Days Used Per Month (Days)</span>
+                </span>
+                <span class="input-group">
+                    <input type="number" value="0.3976" min="0" step="0.01" data-bind="value: data.effcostperkwh" class="input_number">
+                    <span class="input-text required">Average Cost Per kWh (RM/kWh)</span>
+                </span>
+            </p>
+            <div class="hec-input-button">
+                <a id="btnNext" class="button-red" href="javascript:;" data-bind="click: nextStep">Next</a>
+            </div>
+        </div>
+       
+
+
+        <!---------------- NEXT PAGE ---------------->
+        <div class="step2div" data-bind="visible: viewStep2">
+            <!-- appear result summary -->
+            <div class="result-calculate-wrapper">
+                <div class="icon-text">Saving Analysis</div>
+                <table style="max-width:610px; width:100%; margin-bottom: 5px;" class="table-default">
+                    <thead>
+                        <tr>
+                            <th colspan="2" style="text-align:left;font-weight:normal;color:black;text-transform:none;">
+                                Recommendation:<br />
+                                <span style="font-weight:bold;">Appliance</span> <span style="font-weight:bold;" data-bind="text: data.appliancename"></span> is estimated to provide you more cost savings.
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <table style="max-width:610px; width:100%;" class="table-default summary-tbl">
+                    <tr>
+                        <td class="col-sm-3 summary-box summary-box-orange">
+                            <span style="font-size:16px;">Cost saving<br />per Day</span>
+                            <br />
+                            <span style="font-size:24px;font-weight:bold;" data-bind="text: data.costsavingday">RM 00.00</span>&nbsp;<br />
+                        </td>
+                        <td class="col-sm-3 summary-box">
+                            <span style="font-size:16px;">Cost saving<br />per Month</span>
+                            <br />
+                            <span style="font-size:24px;font-weight:bold;" data-bind="text: data.costsavingmonth">RM 00.00</span>&nbsp;
+                        </td>
+                        <td class="col-sm-3 summary-box summary-box-blue">
+                            <span style="font-size:16px;">Cost saving<br />per Year</span>
+                            <br />
+                            <span style="font-size:24px;font-weight:bold;" data-bind="text: data.costsavingyear">RM 00.00</span>&nbsp;
+                        </td>
+                        <td class="col-sm-3 summary-box summary-box-purple">
+                            <span style="font-size:16px;">Total Cost of Ownership Difference</span>
+                            <br />
+                            <span style="font-size:24px;font-weight:bold;" data-bind="text: data.totalcostowner">RM 00.00</span>&nbsp;
+                        </td>
+                    </tr>
+                </table>
+                <div style="font-size:small; margin-top: -8px;">- “Per Day” refers to a 30 days calculation</div>
+                <div>&nbsp;</div>
+            </div>
+
+            <table style="max-width:610px; width:100%;" class="table-default">
+                <thead>
+                    <tr>
+                        <th class="columnfirst">&nbsp;</th>
+                        <th style="font-weight: bold;">Appliance 1</th>
+                        <th style="font-weight: bold;">Appliance 2</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>Appliance Label (Eg: Brand Name)</td>
+                    <td><input type="text" name="appliancelabel-1" style="width:100px;" data-bind="value: data.appname1"></td>
+                    <td><input type="text" name="appliancelabel-2" style="width:100px;" data-bind="value: data.appname2"></td>
+                </tr>
+                <tr>
+                    <td class="required">Price (RM)</td>
+                    <td><input type="number" value="0" min="0" step="1" name="price-1" style="max-width: 100px; width: 100%;" data-bind="value: data.app1_price" class="input_number"></td>
+                    <td><input type="number" value="0" min="0" step="1" name="price-2" style="max-width: 100px; width: 100%;" data-bind="value: data.app2_price" class="input_number"></td>
+                </tr>
+                <tr>
+                    <td class="required">Wattage (Watt)</td>
+                    <td><input type="number" value="0" min="0" step="1" name="watt-1" style="max-width: 100px; width: 100%;" data-bind="value: data.app1_wattage" class="input_number"></td>
+                    <td><input type="number" value="0" min="0" step="1" name="watt-2" style="max-width: 100px; width: 100%;" data-bind="value: data.app2_wattage" class="input_number"></td>
+                </tr>
+                <tr>
+                    <td>Estimated Cost Per Day (RM)</td>
+                    <td><div class="data-container" data-bind="text: data.app1_estdaycost"></div></td>
+                    <td><div class="data-container" data-bind="text: data.app2_estdaycost"></div></td>
+                </tr>
+                <tr>
+                    <td>Estimated Cost Per Month (RM)</td>
+                    <td><div class="data-container" data-bind="text: data.app1_estmonthlycost"></div></td>
+                    <td><div class="data-container" data-bind="text: data.app2_estmonthlycost"></div></td>
+                </tr>
+                <tr>
+                    <td>Estimated Cost Per Year (RM)</td>
+                    <td><div class="data-container" data-bind="text: data.app1_estyearlycost"></div></td>
+                    <td><div class="data-container" data-bind="text: data.app2_estyearlycost"></div></td>
+                </tr>
+                <tr>
+                    <td>Total Cost of Ownership (RM)</td>
+                    <td><div class="data-container" data-bind="text: data.app1_ttlcostownership"></div></td>
+                    <td><div class="data-container" data-bind="text: data.app2_ttlcostownership"></div></td>
+                </tr>
+            </table>
+            <div class="hec-input-button">
+                <a class="button-grey" href="javascript:;" data-bind="click: prevStep">Back</a>
+                <a class="button-red calculate-all" href="javascript:;" data-bind="click: calculate">Calculate</a>
+            </div>
+
+        </div>
+        <div style="padding-top: inherit;">
+            All fields marked with an asterisk (<span style="color:red">*</span>) are required.
+        </div>
+    </div>
+
+
+</script>
+
+@section Scripts
+{
+    <script>
+        $(function () {
+            $("#highlight-block").click();
+
+            var viewModel = kendo.observable({
+
+                data: {
+                    expectedyears: 0,
+                    usageperday: 0,
+                    numdayspermonth: 0,
+                    effcostperkwh: 0.3976,
+
+                    appname1: "",
+                    app1_price: 0,
+                    app1_wattage: 0,
+                    appname2: "",
+                    app2_price: 0,
+                    app2_wattage: 0,
+                },
+
+
+                viewStep1: function () {
+                    return true;
+                },
+                nextStep: function () {
+                    var d = this.get("data");
+                    if (d.expectedyears == 0 || d.usageperday == 0 || d.numdayspermonth == 0 || d.effcostperkwh == 0) {
+                        alert("Please enter valid number for required fields.");
+                        return;
+                    }
+
+                    this.set("viewStep1", false);
+                    this.set("viewStep2", true);
+                    $(".step-1-hit").attr("src", "/Images/step-1.png");
+                    $(".step-2-hit").attr("src", "/Images/step-2-hit.png");
+                },
+                prevStep: function () {
+                    this.set("viewStep1", true);
+                    this.set("viewStep2", false);
+                    $(".step-1-hit").attr("src", "/Images/step-1-hit.png");
+                    $(".step-2-hit").attr("src", "/Images/step-2.png");
+                },
+
+                calculate: function () {
+                    $('.bill-calculator .result-calculate-wrapper').hide();
+
+                    var d = this.get("data");
+                    if (d.app1_price < 0 || d.app2_price < 0 || d.app1_wattage < 0 || d.app2_wattage < 0) {
+                        alert("Please enter valid number for required fields.");
+                        return;
+                    }
+
+                    var estdaycost_app1 = ((d.app1_wattage * d.usageperday) / 1000) * d.effcostperkwh;
+                    var estmonthlycost_app1 = ((d.app1_wattage * d.usageperday * d.numdayspermonth) / 1000) * d.effcostperkwh;
+                    var estyearlycost_app1 = ((d.app1_wattage * d.usageperday * 365) / 1000) * d.effcostperkwh;
+
+                    var estdaycost_app2 = ((d.app2_wattage * d.usageperday) / 1000) * d.effcostperkwh;
+                    var estmonthlycost_app2 = ((d.app2_wattage * d.usageperday * d.numdayspermonth) / 1000) * d.effcostperkwh;
+                    var estyearlycost_app2 = ((d.app2_wattage * d.usageperday * 365) / 1000) * d.effcostperkwh;
+
+                    var ttlcostownership_app1 = (estyearlycost_app1 * d.expectedyears) + parseFloat(d.app1_price);
+                    var ttlcostownership_app2 = (estyearlycost_app2 * d.expectedyears) + parseFloat(d.app2_price);
+
+                    this.set("data.app1_estdaycost", kendo.toString(estdaycost_app1, "n"));
+                    this.set("data.app1_estmonthlycost", kendo.toString(estmonthlycost_app1, "n"));
+                    this.set("data.app1_estyearlycost", kendo.toString(estyearlycost_app1, "n"));
+
+                    this.set("data.app2_estdaycost", kendo.toString(estdaycost_app2, "n"));
+                    this.set("data.app2_estmonthlycost", kendo.toString(estmonthlycost_app2, "n"));
+                    this.set("data.app2_estyearlycost", kendo.toString(estyearlycost_app2, "n"));
+
+                    this.set("data.app1_ttlcostownership", kendo.toString(ttlcostownership_app1, "n"));
+                    this.set("data.app2_ttlcostownership", kendo.toString(ttlcostownership_app2, "n"));
+
+                    // ====== Calculate saving for month, year and total cost ====== //
+                    // If total cost appliance 1 is more than 2, then appliance 2 is cost saving
+                    var getsavingday = 0;
+                    var getsavingmonth = 0;
+                    var getsavingyear = 0;
+                    var gettotalcost = 0;
+
+                    if (ttlcostownership_app1 > ttlcostownership_app2) {
+                        getsavingday = estdaycost_app1 - estdaycost_app2;
+                        getsavingmonth = estmonthlycost_app1 - estmonthlycost_app2;
+                        getsavingyear = estyearlycost_app1 - estyearlycost_app2;
+                        gettotalcost = ttlcostownership_app1 - ttlcostownership_app2;
+                        this.set("data.costsavingday", "RM " + kendo.toString(getsavingday, "n"));
+                        this.set("data.costsavingmonth", "RM " + kendo.toString(getsavingmonth, "n"));
+                        this.set("data.costsavingyear", "RM " + kendo.toString(getsavingyear, "n"));
+                        this.set("data.totalcostowner", "RM " + kendo.toString(gettotalcost, "n"));
+                        this.set("data.appliancename", d.appname2 !== "" ? d.appname2 : 2);
+                    }
+                    else if (ttlcostownership_app1 < ttlcostownership_app2)  {
+                        getsavingday = estdaycost_app2 - estdaycost_app1;
+                        getsavingmonth = estmonthlycost_app2 - estmonthlycost_app1;
+                        getsavingyear = estyearlycost_app2 - estyearlycost_app1;
+                        gettotalcost = ttlcostownership_app2 - ttlcostownership_app1;
+                        this.set("data.costsavingday", "RM " + kendo.toString(getsavingday, "n"));
+                        this.set("data.costsavingmonth", "RM " + kendo.toString(getsavingmonth, "n"));
+                        this.set("data.costsavingyear", "RM " + kendo.toString(getsavingyear, "n"));
+                        this.set("data.totalcostowner", "RM " + kendo.toString(gettotalcost, "n"));
+                        this.set("data.appliancename", d.appname1 !== "" ? d.appname1 : 1);
+                    }
+                    else {
+                        getsavingday = estdaycost_app1 - estdaycost_app2;
+                        getsavingmonth = estmonthlycost_app1 - estmonthlycost_app2;
+                        getsavingyear = estyearlycost_app1 - estyearlycost_app2;
+                        gettotalcost = ttlcostownership_app1 - ttlcostownership_app2;
+                        this.set("data.costsavingday", "RM " + kendo.toString(getsavingday, "n"));
+                        this.set("data.costsavingmonth", "RM " + kendo.toString(getsavingmonth, "n"));
+                        this.set("data.costsavingyear", "RM " + kendo.toString(getsavingyear, "n"));
+                        this.set("data.totalcostowner", "RM " + kendo.toString(gettotalcost, "n"));
+                        this.set("data.appliancename", d.appname1 !== "" && d.appname2 !== "" ? d.appname1 + " or " + d.appname2 : "1 and 2");
+
+                    }
+                    //console.log(getsavingday + " / " + getsavingyear + " / " + getsavingmonth + " / " + gettotalcost);
+
+                    $('html, body').animate({
+                        scrollTop: $(".step2div").offset().top
+                    }, 200);
+
+                    $('.bill-calculator .result-calculate-wrapper').show("slow");
+                }
+
+            });
+
+            var view = new kendo.View("view-template", {
+                model: viewModel,
+                evalTemplate: true,
+                show: function (e) {
+                    // Validate max min input
+                    $(".input_number").change(function () {
+                        var max = parseInt($(this).attr('max'));
+                        var min = parseInt($(this).attr('min'));
+                        if ($(this).val() > max) {
+                            $(this).val(0);
+                            alert("Please enter a valid number");
+                            return false;
+                        }
+                        else if ($(this).val() < min) {
+                            $(this).val(0);
+                            alert("Please enter a valid number");
+                            return false;
+                        }
+                        if ($(this).val() === "") {
+                            $(this).val(0);
+                            alert("Please enter a valid number");
+                            return false;
+                        }
+                    });
+                }
+            });
+
+            view.render("#view-container");
+        });
+    </script>
+}

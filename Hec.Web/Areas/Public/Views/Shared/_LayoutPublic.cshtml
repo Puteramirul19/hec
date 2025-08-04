@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Home Energy Calculator</title>
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <!--NEW HEC-->
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="@Url.Content("~/bootstrap/dist/css/bootstrap.min.css")">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/font-awesome.min.css")">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="@Url.Content("~/adminlte/css/AdminLTE.min.css")">
+
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="@Url.Content("~/adminlte/css/skins/_all-skins.min.css")">
+
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="@Url.Content("~/css/jcarousel.responsive.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/jquery.mCustomScrollbar.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/chartist.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/hec1.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/hec.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/responsive.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/hec-override.css")">
+    <!--END HEC-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="@Url.Content("~/Scripts/html5shiv.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/respond.min.js")"></script>
+    <![endif]-->
+
+    <link href="@Url.Content("~/kendo/css/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/kendo/css/kendo.silver.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/override.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" type="text/css" />
+
+    <script src="@Url.Content("~/Scripts/jquery.min.js")"></script>
+    <script src="@Url.Content("~/kendo/js/jszip.min.js")"></script>
+    @*remove web.min, replace with all.min*@
+    @*<script src="@Url.Content("~/kendo/js/kendo.web.min.js")"></script>*@
+    @*add all.min for pie chart*@
+    <script src="@Url.Content("~/kendo/js/kendo.all.min.js")"></script>
+    <script src="@Url.Content("~/kendo/js/kendo.aspnetmvc.min.js")"></script>
+
+    <link rel="stylesheet" href="@Url.Content("~/jquery-confirm/jquery-confirm.css")">
+    <script src="@Url.Content("~/jquery-confirm/jquery-confirm.js")"></script>
+    <link href="@Url.Content("~/Content/ekko-lightbox.min.css")" rel="stylesheet" type="text/css" />
+
+    <script src="@Url.Content("~/Scripts/site.js")"></script>
+
+</head>
+<body class="hold-transition @ViewBag.BodyClass">
+    <div class="wrapper">
+        <!-- Login Header -->
+        @*@if (!System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                <div class="header-login">
+                    <div class="login-button-wrapper">
+                        <a data-toggle="modal" data-target="#myModal" href="#"><span class="icon-hec icon-hec-login"></span>User Login</a>
+                    </div>
+                </div>
+            }*@
+
+        <header class="main-header">
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar -->
+            <section class="sidebar">
+                <!-- Logo -->
+                <div class="main-logo">
+                    <a href="@(Url.Action("Index", "Home", new { area = "" }))" class="logo">
+                        <!-- mini logo for sidebar mini 50x50 pixels -->
+                        <span class="logo-mini"></span>
+                        <!-- logo for regular state and mobile devices -->
+                        <span class="logo-lg"></span>
+                    </a>
+                </div>
+                <!-- Sidebar user panel -->
+                <div class="user-panel bg-avatar">
+                    @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                    {
+                        <a href="@Url.Action("ChangePhoto", "Home")" title="Click to change photo">
+                            <div class="profile-pic">
+                                @Html.Action("ProfilePhoto", "Home")
+                            </div>
+                        </a>
+                        if (HttpContext.Current.Session["FullName"] != null && HttpContext.Current.Session["FullName"].ToString() != "")
+                        {
+                            <div class="profile-text">Welcome, <a href="#">@HttpContext.Current.Session["FullName"].ToString()</a></div>
+                        }
+                        else
+                        {
+                            <div class="profile-text">Welcome, <a href="#">@System.Web.HttpContext.Current.User.Identity.Name</a></div>
+                        }
+                        <div class="clearfix">&nbsp;</div>
+                        <div class="icon-profile">
+                            <a href="#"><span class="icon-setting"></span></a>
+                            <a href="@Url.Action("PublicLogout", "Account", new { area = "" })"><span class="icon-logout"></span></a>
+                        </div>
+                        <div class="clearfix">&nbsp;</div>
+                    }
+                    else
+                    {
+                        <div class="profile-pic"></div>
+                        <div class="profile-text">Welcome, Guest</div>
+                        <div class="clearfix">&nbsp;</div>
+                    }
+                </div>
+                <!-- sidebar menu -->
+                <ul class="sidebar-menu" data-widget="tree">
+                    @*<li class="@(ViewBag.ActiveClass == "home" ? "active" : string.Empty)">
+                <a href="@(Url.Action("Index", "Home", new { area = "" }))"><i class="icon-hec icon-navi-bill-info"></i> <span>Home</span></a>
+            </li>*@
+                    @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                    {
+                        <li class="@(ViewBag.ActiveClass == "bill-info" ? "active" : string.Empty)">
+                            <a href="@(Url.Action("Index", "BillInfo"))"><i class="icon-hec icon-navi-bill-info"></i> <span>My Bill Info</span></a>
+                        </li>
+                    }
+
+                    @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                    {
+                        <li class="@(ViewBag.ActiveClass == "energy-calculator" ? "active" : string.Empty)">
+                            <a href="@(Url.Action("Index", "UsageCalculator"))" style="padding: 8px 15px;">
+                                <i class="icon-hec icon-navi-appliance-store"></i> <span>Energy Usage Calculator</span><br>
+                                <span style="display: block; font-size: 11px; padding-left: 41px;">(SIMULATION)</span></a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="@(ViewBag.ActiveClass == "energy-calculator" ? "active" : string.Empty)">
+                            <a href="@(Url.Action("Index", "UsageCalculator"))">
+                                <i class="icon-hec icon-navi-appliance-store"></i> <span>Energy Usage Calculator</span><br>
+                            </a>
+                        </li>
+                    }
+                    @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                    {
+                        <li class="@(ViewBag.ActiveClass == "friendmenu" ? "active" : string.Empty)">
+                            <a href="@(Url.Action("Index", "Friends"))"><i class="icon-hec icon-navi-comparison"></i> <span>Friends Comparison</span></a>
+                        </li>
+                    }
+                    <li class="@(ViewBag.ActiveClass == "energy-tips" ? "active" : string.Empty)">
+                        <a href="@(Url.Action("Index", "EnergyTips"))"><i class="icon-hec icon-navi-energy"></i> <span>Energy Saving Tips</span></a>
+                    </li>
+                    <li class="@(ViewBag.ActiveClass == "appliance-calculator" ? "active" : string.Empty)">
+                        <a href="@(Url.Action("Index", "ApplianceComparison"))"><i class="icon-hec icon-navi-bill-calculator"></i> <span>Appliance Calculator</span></a>
+                    </li>
+                    <li>
+                        <a href="~/Content/HEC2-Training-Manual-User-v1.pdf"><i class="icon-hec fa fa-file-pdf-o" aria-hidden="true"></i> <span>Guideline</span></a>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        @*<!-- popup login -->
+            <div class="modal fade login-page" id="myModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="close-button"></span></button>
+                            <h4 class="modal-title"><span class="icon-hec icon-login-box"></span>User Login</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="~/Account/Login" method="POST" class="form-horizontal" role="form">
+                                @Html.AntiForgeryToken()
+                                <div class="login-group">
+                                    <input class="labelinput" id="UserName" name="UserName" placeholder="Staff No / Username" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+                                </div>
+                                <div class="login-group">
+                                    <input autocomplete="off" class="labelinput" id="Password" name="Password" placeholder="Password" type="password" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                                </div>
+                                <div class="login-button"><input type="submit" id="loginbutton" value="LOGIN"></div>
+                                <div class="login-text text-center"><a href="#">Forgot Password?</a></div>
+                            </form>
+
+                            <form action="@Url.Action("Start", "Session", new { area = "" })" method="POST">
+                                <br />
+                                <br />
+                                <input type="hidden" name="token" value="INSERTTOKENTOPLAY" />
+                                <input type="hidden" name="userId" value="public1" />
+                                <input type="hidden" name="userName" value="public1" />
+                                <input type="hidden" name="fullName" value="Public User One" />
+                                <input type="hidden" name="email" value="public1@hec.tnb.com.my.x" />
+                                <input type="hidden" name="accountNumbers" value="SAMPLECA1,SAMPLECA2" />
+                                <input type="submit" class="btn btn-primary" value="SIMULATE SSP LOGIN" />
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->*@
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+
+            @if (!String.IsNullOrEmpty(ViewBag.ErrorMessage))
+            {
+                <div class="alert alert-danger">
+                    @Html.Raw(ViewBag.ErrorMessage)
+                </div>
+            }
+            @if (!String.IsNullOrEmpty(ViewBag.InfoMessage) || !String.IsNullOrEmpty(TempData["InfoMessage"] as string))
+            {
+                <div class="alert alert-info">
+                    @Html.Raw(ViewBag.InfoMessage ?? TempData["InfoMessage"])
+                </div>
+            }
+
+            <div class="container-fluid @ViewBag.ContainerClass">
+
+                @RenderBody()
+
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- /.footer -->
+        <footer class="main-footer">
+            <!-- footer link -->
+            <div class="row">
+                <div class="col-sm-12 footer-right text-right">
+                    <div class="copyright">
+                        <span class="copyright-text">
+                            Copyright 2017 TNB. All rights reserved. Managed by Tenaga Nasional and designed by Creative Design Multimedia CDM<br>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="This Home Energy Calculator is aimed at helping customers in decision making by providing an analysis based on various assumptions. The results should be used as an indication only and may vary based on usage, wattage, age of appliance and other factors. Tenaga Nasional Berhad ('TNB') does not warrant the accuracy of any information contained in or calculated from the Home Energy Calculator, and specifically does not represent, promise or guarantee that customers will achieve the outcome estimated by this site. The use of the Home Energy Calculator is for research and informative purposes and is not intended to replace professional advice. Customers are expected to verify all information and value obtained from this site. TNB does not accept any liability or responsibility with regard to the use of or reliance on any materials and information contained on this site.">Disclaimer</a> / Best viewed resolution 1280 x 720px
+                        </span>
+                        <span class="footer-logo"><img src="~/Images/logo-tnb-footer.png" alt="image"></span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- /.notifications -->
+        <div id="notifications"></div>
+
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery 3 -->
+    @*<script src="@Url.Content("~/Scripts/jquery.min.js")"></script>*@
+
+    <!-- Bootstrap 3.3.7 -->
+    <script src="@Url.Content("~/bootstrap/dist/js/bootstrap.min.js")"></script>
+
+    <!-- AdminLTE App -->
+    <script src="@Url.Content("~/Scripts/jquery.jcarousel.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.jcarousel-swipe.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jcarousel.responsive.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.slimscroll.min.js")"></script>
+    <script src="@Url.Content("~/adminlte/js/adminlte.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.mCustomScrollbar.concat.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/ekko-lightbox.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/hec.js")"></script>
+    <script src="@Url.Content("~/Scripts/hec1.js")"></script>
+
+    @RenderSection("Scripts", required: false)
+
+    <script>
+        (function ($) {
+            $("aside").mCustomScrollbar({
+                theme: "light-thin",
+                setHeight: "100%",
+                autoDraggerLength: 1,
+                autoHideScrollbar: true
+            });
+        })(jQuery);
+    </script>
+
+    <script>
+        // GOOGLE ANALYTIC
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-61997538-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+</body>
+</html>

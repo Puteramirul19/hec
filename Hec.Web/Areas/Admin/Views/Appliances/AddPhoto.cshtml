@@ -1,0 +1,161 @@
+﻿@model Hec.Entities.Appliance
+
+@{
+    ViewBag.Title = "Title";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-store";
+    ViewBag.ActiveClass = "Appliances";
+}
+
+<section class="content-header">
+    <h1>
+        Add Appliance Photo
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><span class="fa fa-home"></span></a></li>
+        <li>@Html.ActionLink("Appliance", "Index", "Appliances")</li>
+        <li class="active"> @Html.ActionLink("Edit Appliances", "AddPhoto", "Appliance")</li>
+
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="box">
+                <div class="box-body">
+                @using (Html.BeginForm("AddPhoto", "Appliances", FormMethod.Post))
+                {
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-sm-3" })
+                            <div class="col-sm-9">
+                                @(Html.Kendo().TextBoxFor(model => model.Name))
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, "Upload Image", htmlAttributes: new { @class = "control-label col-sm-3" })
+                            <div class="col-sm-9">
+                                <div style="width:94%">
+                                    @(Html.Kendo().Upload()
+                            .Name("file")
+                            .Multiple(false)
+                            .Async(a => a
+                                .Save("Upload", "File", new { area = "" })
+                                .Remove("Remove", "File", new { area = "" })
+                                .AutoUpload(true)
+                            )
+                            .Multiple(false)
+                            .Files(files =>
+                            {
+                                if (!String.IsNullOrEmpty(Model.FileId))
+                                {
+                                    files.Add().Name(Model.FileName)
+                                        .Extension(Model.FileExtension)
+                                        .Size(Model.FileSize.HasValue ? Model.FileSize.Value : 0);
+                                }
+                            })
+                            .Events(events =>
+                            {
+                                events.Select("uploadSelect");
+                                events.Success("uploadSuccess");
+                                events.Remove("uploadRemove");
+
+                            })
+                            .Validation(validation => validation.AllowedExtensions(new string[] { ".jpg", ".png" }))
+                                    )
+
+                                    @Html.HiddenFor(m => m.FileId)
+                                    @Html.HiddenFor(m => m.FileName)
+                                    @Html.HiddenFor(m => m.FileExtension)
+                                    @Html.HiddenFor(m => m.FileSize)
+
+                                    <script>
+                                        function uploadSelect(e) {
+                                            $.each(e.files, function (index, value) {
+
+                                                var fileReader = new FileReader();
+                                                fileReader.onload = function (event) {
+                                                    console.log(event);
+                                                    var mapImage = event.target.result;
+                                                    $("#preview").attr('src', mapImage);
+                                                }
+                                                fileReader.readAsDataURL(e.files[0].rawFile);
+
+                                                //Check file size. File size more than 2 MB is not allowed.
+                                                if (value.size > 2097152) {
+                                                    e.preventDefault();
+                                                    alert("File size more than 2 MB is not allowed.");
+                                                    return false;
+                                                }
+
+                                            });
+                                        }
+
+                                        function uploadSuccess(e) {
+                                            if (e.operation == "upload") {
+                                                $("#FileId").val(e.response.fileId);
+                                                $("#FileName").val(e.response.fileName);
+                                                $("#FileExtension").val(e.response.fileExtension);
+                                                $("#FileSize").val(e.response.fileSize);
+
+                                                for (var i = 0; i < e.files.length; i++) {
+                                                    var file = e.files[i].rawFile;
+
+                                                    if (file) {
+                                                        var reader = new FileReader();
+
+                                                        reader.onloadend = function () {
+                                                            $("<div class='preview'><img width=100 height=100 src=" + this.result + " /></div>").appendTo($("#preview"));
+                                                        };
+
+                                                        reader.readAsDataURL(file);
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        function uploadRemove(e) {
+                                            var fileName = $("#FileId").val();
+                                            var fileId = $("#FileName").val();
+
+                                            $.ajax({
+                                                url: "@Url.Action("RemoveOnly", "File", new { area = "" })",
+                                                method: "POST",
+                                                data: {
+                                                    fileId: fileId,
+                                                },
+                                                success: function (data, textStatus, jqXHR) {
+                                                    $("#preview").html("");
+                                                }                                              
+                                            });
+
+                                            $("#FileId").val(null);
+                                            $("#FileName").val(null);
+                                            $("#FileExtension").val(null);
+                                            $("#FileSize").val(null);
+                                        }
+                                    </script>
+                                    <br />
+
+                                    <div id="preview">
+                                        <img src="@Url.Content("~/Uploads/Appliances/" + Model.Name + ".png")" alt="Image" style='height:50px;width:50px;' />
+                                    </div>
+                                </div>
+                                <div>@Html.ValidationMessageFor(model => model.FileId)</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <input type="submit" value="Save" class="btn btn-primary col-sm-4" />
+                            </div>
+                        </div>
+                    </div>
+                  }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

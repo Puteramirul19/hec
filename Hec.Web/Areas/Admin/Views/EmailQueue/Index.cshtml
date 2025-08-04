@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Email Queue";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-store";
+    ViewBag.ActiveClass = "email-queue-menu";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><span class="fa fa-home"></span></a></li>
+        <li class="active"> @Html.ActionLink("Tariff", "Index", "Tariff")</li>
+    </ol>
+</section>
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-body">
+                    <a class="btn btn-default pull-right" href="@Url.Action("SendNow", "EmailQueue")">Send Emails Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box grid-container">
+                @(Html.Kendo().Grid<Hec.Entities.EmailQueue>()
+                  .Name("grid")
+                  .Columns(columns =>
+                  {
+                      columns.Bound(c => c.Subject).Width(350);
+                      columns.Bound(c => c.ToName).Title("To").Width(350);
+                      columns.Bound(c => c.ToAddress).Title("Email").Width(350);
+                      columns.Bound(c => c.SentOn).Title("Sent On").Width(170).Format("{0:dd/MM/yyyy hh:mm:ss tt}");
+                      columns.Bound(c => c.ProcessedOn).Title("Processed On").Width(170).Format("{0:dd/MM/yyyy hh:mm:ss tt}");
+                      columns.Bound(c => c.CreatedOn).Title("Created On").Width(170).Format("{0:dd/MM/yyyy hh:mm:ss tt}");
+                      columns.Bound(c => c.ScheduledOn).Title("Scheduled On").Width(170).Format("{0:dd/MM/yyyy hh:mm:ss tt}");
+                  })
+                  .Filterable(filterable => filterable
+                      .Extra(false)
+                      .Operators(operators => operators
+                        .ForString(str => str.Clear()
+                            .Contains("Contains with")
+                        ))
+                  )
+                  .Pageable()
+                  .Navigatable()
+                  .Selectable(selectable =>
+                  {
+                      selectable.Mode(GridSelectionMode.Single);
+                      selectable.Type(GridSelectionType.Row);
+                  })
+                  .Sortable(sortable =>
+                  {
+                      sortable.SortMode(GridSortMode.SingleColumn);
+                  })
+                  .Scrollable(s => s.Height("auto"))
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(10)
+                      .Sort(sort => sort.Add("CreatedOn").Descending())
+                      .Model(model => model.Id(p => p.Id))
+                      .Read(read => read.Action("Read", "EmailQueue"))
+                  )
+                  .Events(events =>
+                  {
+                      events.FilterMenuInit("filterMenuInit");
+                  })
+                )
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section Scripts
+{
+    <script>
+    function filterMenuInit(e) {
+        if (e.field == "SentOn" || e.field == "ProcessedOn" || e.field == "CreatedOn" || e.field == "ScheduledOn") {
+            var beginOperator = e.container.find("[data-role=dropdownlist]:eq(0)").data("kendoDropDownList");
+            beginOperator.value("gte");
+            beginOperator.trigger("change");
+
+            var endOperator = e.container.find("[data-role=dropdownlist]:eq(2)").data("kendoDropDownList");
+            endOperator.value("lte");
+            endOperator.trigger("change");
+
+            e.container.find(".k-filter-help-text").hide();
+            e.container.find(".k-dropdown").hide();
+            e.container.find(".k-datepicker:eq(0)").before("<div>From</div>");
+            e.container.find(".k-datepicker:eq(1)").before("<div>To</div>");
+        }
+    }
+    </script>
+}

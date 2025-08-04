@@ -1,0 +1,202 @@
+﻿@{
+    ViewBag.Title = "Off-Day";
+}
+<section class="content-header">
+    <h1>
+        Off-Day
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><span class="fa fa-home"></span></a></li>
+        <li class="active"> @Html.ActionLink("Off-Day", "Index", "OffDay")</li>
+    </ol>
+</section>
+
+<div id="view-container"></div>
+
+<script id="view-template" type="text/x-kendo-template">
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box">
+                    <div class="box-body">
+
+                        <div class="row year-scroller">
+                            <div class="col-sm-4">
+                                <select data-role="dropdownlist"
+                                        data-value-field="Id"
+                                        data-text-field="Name"
+                                        data-value-primitive="true"
+                                        data-bind="source: states, value: stateId, events: { change: changeState }" />
+                            </div>
+                            <div class="col-sm-1 year-arrow fa fa-angle-left" data-bind="click: prevYear">
+                            </div>
+                            <div class="col-sm-2 year-text" data-bind="text: year"></div>
+                            <div class="col-sm-1 year-arrow fa fa-angle-right" data-bind="click: nextYear">
+                            </div>
+                            <div class="col-sm-4" style="text-align:right">
+                                <a data-bind="attr: { href: downloadPath }">(Download Excel for Year)</a>
+                                &nbsp;&nbsp;
+                                <a class="btn btn-success" data-bind="click: upload">Upload</a>
+                            </div>
+                        </div>
+                        <div class="row calendar-list">
+                            <div class="col-sm-3"><div data-role="calendar" data-footer="false" id="calendar0" data-bind="events: { change: dateSelected }"></div></div>
+                            <div class="col-sm-3"><div data-role="calendar" data-footer="false" id="calendar1" data-bind="events: { change: dateSelected }"></div></div>
+                            <div class="col-sm-3"><div data-role="calendar" data-footer="false" id="calendar2" data-bind="events: { change: dateSelected }"></div></div>
+                            <div class="col-sm-3"><div data-role="calendar" data-footer="false" id="calendar3" data-bind="events: { change: dateSelected }"></div></div>
+                            <div class="col-sm-3"><div data-role="calendar" data-footer="false" id="calendar4" data-bind="events: { change: dateSelected }"></div></div>
+                            <div class="col-sm-3"><div data-role="calendar" data-footer="false" id="calendar5" data-bind="events: { change: dateSelected }"></div></div>
+                            <div class="col-sm-3"><div data-role="calendar" data-footer="false" id="calendar6" data-bind="events: { change: dateSelected }"></div></div>
+                            <div class="col-sm-3"><div data-role="calendar" data-footer="false" id="calendar7" data-bind="events: { change: dateSelected }"></div></div>
+                            <div class="col-sm-3"><div data-role="calendar" data-footer="false" id="calendar8" data-bind="events: { change: dateSelected }"></div></div>
+                            <div class="col-sm-3"><div data-role="calendar" data-footer="false" id="calendar9" data-bind="events: { change: dateSelected }"></div></div>
+                            <div class="col-sm-3"><div data-role="calendar" data-footer="false" id="calendar10" data-bind="events: { change: dateSelected }"></div></div>
+                            <div class="col-sm-3"><div data-role="calendar" data-footer="false" id="calendar11" data-bind="events: { change: dateSelected }"></div></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</script>
+
+<style>
+    .year-scroller {
+        margin-top: 20px;
+    }
+
+    .year-arrow {
+        text-align: center;
+        font-size: 24px;
+        cursor: pointer;
+        padding-top: 5px;
+    }
+
+    .year-text {
+        text-align: center;
+        font-size: 24px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .calendar-list .col-sm-3 {
+        margin-top: 20px;
+    }
+</style>
+
+
+@section Scripts
+{
+<script>
+    $(function () {
+
+        var updateCalendar = function (year, stateId) {
+            for (var i = 0; i < 12; i++) {
+                $("#calendar" + i).data("kendoCalendar").value(new Date(year, i, 1));
+                $("#calendar" + i).data("kendoCalendar").value(null);
+            }
+
+            ds.filter([
+                { field: "Year", operator: "eq", value: year },
+                { field: "StateId", operator: "eq", value: stateId }
+            ]);
+
+            ds.fetch(function () {
+                // clear
+                $("div[data-role=calendar] td").removeClass("k-state-selected");
+
+                var days = ds.data();
+                for (var i = 0; i < days.length; i++) {
+                    var day = days[i];
+                    var dt = kendo.parseDate(day.Date);
+                    var dvalue = dt.getFullYear() + "/" + dt.getMonth() + "/" + dt.getDate();
+                    var els = $("a[data-value='" + dvalue + "']");
+                    els.each(function () {
+                        var el = $(this);
+                        el.attr("title", day.Name);
+                        var td = el.closest('td');
+                        if (td.hasClass("k-other-month") == false)
+                            td.addClass("k-state-selected");
+                    });
+                }
+            });
+        }
+
+        var ds = app.makeDataSource("@Url.RouteUrl(new { controller = "OffDay" })", {
+            schema: {
+                model: {
+                    id: "Id",
+                    fields: {
+                        Id: { type: "string", defaultValue: app.emptyGuid },
+                        Year: { type: "number", defaultValue: new Date().getFullYear() },
+                        Date: { type: "date" },
+                        Name: { type: "string" }
+                    }
+                }
+            },
+            sort: { field: "Name", dir: "asc" },
+            pageSize: 1000
+        });
+
+        var viewModel = kendo.observable({
+            year: new Date().getFullYear(),
+
+            nextYear: function () {
+                var newYear = parseInt(this.get("year")) + 1;
+                this.set("year", newYear);
+                updateCalendar(newYear, this.get("stateId"));
+            },
+
+            prevYear: function () {
+                var newYear = parseInt(this.get("year")) - 1;
+                this.set("year", newYear);
+                updateCalendar(newYear, this.get("stateId"));
+            },
+
+            changeState: function () {
+                updateCalendar(this.get("year"), this.get("stateId"));
+            },
+
+            states: app.makeDataSource("@Url.RouteUrl(new { controller = "States" })", {
+                schema: {
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { type: "string", defaultValue: app.emptyGuid },
+                            Name: { type: "string" }
+                        }
+                    }
+                },
+                sort: { field: "Name", dir: "asc" }
+            }),
+
+            offDays: ds,
+
+            downloadPath: function () {
+                return "@Url.RouteUrl(new { controller = "OffDay", action = "DownloadEhrms" })/" + this.get("year");
+            },
+
+            upload: function (e) {
+                e.preventDefault();
+                app.navigate("@Url.RouteUrl(new { controller = "OffDay", action = "FileUpload" })/" + this.get("year"));
+            }
+        });
+
+        var view = new kendo.View('view-template', {
+            model: viewModel,
+            evalTemplate: true,
+            show: function () {
+                var dsLoc = viewModel.get("states");
+                dsLoc.fetch(function () {
+                    viewModel.set("stateId", dsLoc.data()[0].Id);
+                    updateCalendar(viewModel.get("year"), viewModel.get("stateId"));
+                });
+            }
+        });
+
+        view.render("#view-container");
+
+    });
+</script>
+}

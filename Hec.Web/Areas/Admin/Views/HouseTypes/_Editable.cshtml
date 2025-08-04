@@ -1,0 +1,332 @@
+﻿@using Hec.Entities
+@model Hec.Web.Areas.Admin.Controllers.HouseTypesListModel
+
+<div class="form-horizontal">
+
+    @Html.ValidationSummary()
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.HouseTypeCode, "House Type Code", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().TextBoxFor(model => model.HouseTypeCode))
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.HouseCategoryId, "House Category", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().DropDownListFor(model => model.HouseCategoryId)
+                .Name("HouseCategoryId")
+                .DataTextField("HouseCategoryDesc")
+                .DataValueField("Id")
+                .OptionLabel("Select...")
+                .DataSource(source =>
+                    source.Ajax("Read", "HouseCategories")
+                ))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.HouseTypeName, "House Type Name", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().TextBoxFor(model => model.HouseTypeName))
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PremiseCode, "Premise Code", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().TextBoxFor(m => m.PremiseCode))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PremiseType, "Premise Type", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().TextBoxFor(m => m.PremiseType))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Average, "Average", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().TextBoxFor(m => m.Average))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsActive, "Is Active?", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().CheckBoxFor(model => model.IsActive))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FileName, "Upload House Image", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            <div style="width:94%">
+                @(Html.Kendo().Upload()
+                    .Name("main")
+                    .HtmlAttributes(new { name = "file" })
+                    .Multiple(false)
+                    .Async(a => a
+                        .Save("Upload", "File", new { area = "" })
+                        .Remove("Remove", "File", new { area = "" })
+                        .AutoUpload(true)
+                    )
+                    .Multiple(false)
+                    .Files(files =>
+                    {
+                        if (!String.IsNullOrEmpty(Model.FileId))
+                        {
+                            files.Add().Name(Model.FileName)
+                                .Extension(Model.FileExtension)
+                                .Size(Model.FileSize.HasValue ? Model.FileSize.Value : 0);
+                        }
+                    })
+                    .Events(events =>
+                    {
+                        events.Select("uploadSelect");
+                        events.Success("uploadSuccess");
+                        events.Remove("uploadRemove");
+
+                    })
+                    .Validation(validation => validation.AllowedExtensions(new string[] { ".jpg", ".png" }))
+                )
+
+
+                @Html.HiddenFor(m => m.FileId)
+                @Html.HiddenFor(m => m.FileName)
+                @Html.HiddenFor(m => m.FileExtension)
+                @Html.HiddenFor(m => m.FileSize)
+
+                <script>
+                    function uploadSelect(e) {
+                        $.each(e.files, function (index, value) {
+
+                            var fileReader = new FileReader();
+                            fileReader.onload = function (event) {
+                                console.log(event);
+                                var mapImage = event.target.result;
+                                $("#preview").attr('src', mapImage);
+                            }
+                            fileReader.readAsDataURL(e.files[0].rawFile);
+
+                            //Check file size. File size more than 2 MB is not allowed.
+                            if (value.size > 2097152) {
+                                e.preventDefault();
+                                alert("File size more than 2 MB is not allowed.");
+                                return false;
+                            }
+
+                        });
+                    }
+
+                    function uploadSuccess(e) {
+                        if (e.operation == "upload") {
+                            $("#FileId").val(e.response.fileId);
+                            $("#FileName").val(e.response.fileName);
+                            $("#FileExtension").val(e.response.fileExtension);
+                            $("#FileSize").val(e.response.fileSize);
+
+                            for (var i = 0; i < e.files.length; i++) {
+                                var file = e.files[i].rawFile;
+
+                                if (file) {
+                                    var reader = new FileReader();
+
+                                    reader.onloadend = function () {
+                                        $("<div class='preview'><img src=" + this.result + " /></div>").appendTo($("#preview"));
+                                    };
+
+                                    reader.readAsDataURL(file);
+                                }
+                            }
+                        }
+                    }
+
+                    function uploadRemove(e) {
+                        var fileName = $("#FileId").val();
+                        var fileId = $("#FileName").val();
+
+                        $.ajax({
+                            url: "@Url.Action("RemoveOnly", "File", new { area = "" })",
+                            method: "POST",
+                            data: {
+                                fileId: fileId,
+                            },
+                            success: function (data, textStatus, jqXHR) {
+                                $("#preview").html("");
+                            }
+                            //NOTE: Silent success/error
+                        });
+
+                        $("#FileId").val(null);
+                        $("#FileName").val(null);
+                        $("#FileExtension").val(null);
+                        $("#FileSize").val(null);
+                    }
+                </script>
+                <div class="help-text">Note: Best fit size is dimensions 70x70.</div>
+
+                <br />
+
+                    @if (@Model.FileId == null)
+                    {
+                        <div class="form-group" id="preview">
+                            <div src="@Url.Action("Index", "File", new { area = "", fileId = Model.FileId })" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group" id="preview">
+                            <img src="@Url.Action("Index", "File", new { area = "", fileId = Model.FileId })" />
+                        </div>
+                    }
+            </div>
+            <div>@Html.ValidationMessageFor(model => model.FileId)</div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FileHeaderName, "Upload Header Image", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            <div style="width:94%">
+                @(Html.Kendo().Upload()
+                    .Name("fileheader")
+                    .HtmlAttributes(new { name = "file" })
+                    .Multiple(false)
+                    .Async(a => a
+                        .Save("Upload", "File", new { area = "" })
+                        .Remove("Remove", "File", new { area = "" })
+                        .AutoUpload(true)
+                    )
+                    .Multiple(false)
+                    .Files(files =>
+                    {
+                        if (!String.IsNullOrEmpty(Model.FileHeaderId))
+                        {
+                            files.Add().Name(Model.FileHeaderName)
+                                .Extension(Model.FileHeaderExtension)
+                                .Size(Model.FileHeaderSize.HasValue ? Model.FileHeaderSize.Value : 0);
+                        }
+                    })
+                    .Events(events =>
+                    {
+                        events.Select("uploadSelectHeader");
+                        events.Success("uploadSuccessHeader");
+                        events.Remove("uploadRemoveHeader");
+
+                    })
+                    .Validation(validation => validation.AllowedExtensions(new string[] { ".jpg", ".png" }))
+                )
+
+
+                @Html.HiddenFor(m => m.FileHeaderId)
+                @Html.HiddenFor(m => m.FileHeaderName)
+                @Html.HiddenFor(m => m.FileHeaderExtension)
+                @Html.HiddenFor(m => m.FileHeaderSize)
+
+                <script>
+                    function uploadSelectHeader(e) {
+                        $.each(e.files, function (index, value) {
+
+                            var fileReader = new FileReader();
+                            fileReader.onload = function (event) {
+                                console.log(event);
+                                var mapImage = event.target.result;
+                                $("#previewHeader").attr('src', mapImage);
+                            }
+                            fileReader.readAsDataURL(e.files[0].rawFile);
+
+                            //Check file size. File size more than 2 MB is not allowed.
+                            if (value.size > 2097152) {
+                                e.preventDefault();
+                                alert("File size more than 2 MB is not allowed.");
+                                return false;
+                            }
+
+                        });
+                    }
+
+                    function uploadSuccessHeader(e) {
+                        if (e.operation == "upload") {
+                            $("#FileHeaderId").val(e.response.fileId);
+                            $("#FileHeaderName").val(e.response.fileName);
+                            $("#FileHeaderExtension").val(e.response.fileExtension);
+                            $("#FileHeaderSize").val(e.response.fileSize);
+
+                            for (var i = 0; i < e.files.length; i++) {
+                                var file = e.files[i].rawFile;
+
+                                if (file) {
+                                    var reader = new FileReader();
+
+                                    reader.onloadend = function () {
+                                        $("<div class='previewHeader'><img src=" + this.result + " /></div>").appendTo($("#previewHeader"));
+                                    };
+
+                                    reader.readAsDataURL(file);
+                                }
+                            }
+                        }
+                    }
+
+                    function uploadRemoveHeader(e) {
+                        var fileName = $("#FileHeaderId").val();
+                        var fileId = $("#FileHeaderName").val();
+
+                        $.ajax({
+                            url: "@Url.Action("RemoveOnly", "File", new { area = "" })",
+                            method: "POST",
+                            data: {
+                                fileId: fileId,
+                            },
+                            success: function (data, textStatus, jqXHR) {
+                                $("#previewHeader").html("");
+                            }
+                            //NOTE: Silent success/error
+                        });
+
+                        $("#FileHeaderId").val(null);
+                        $("#FileHeaderName").val(null);
+                        $("#FileHeaderExtension").val(null);
+                        $("#FileHeaderSize").val(null);
+                    }
+                </script>
+                <div class="help-text">Note: Best fit size is dimensions 150x150.</div>
+
+                <br />
+
+                    @if (@Model.FileHeaderId == null)
+                    {
+                        <div class="form-group" id="previewHeader">
+                            <div src="@Url.Action("Index", "File", new { area = "", fileId = Model.FileHeaderId })" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group" id="previewHeader">
+                            <img src="@Url.Action("Index", "File", new { area = "", fileId = Model.FileHeaderId })" />
+                        </div>
+                    }
+            </div>
+            <div>@Html.ValidationMessageFor(model => model.FileHeaderId)</div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+            <input type="submit" value="Save" class="btn btn-primary col-sm-4" />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Setup";
+    ViewBag.BodyClass = "skin-blue sidebar-mini";
+    ViewBag.ActiveClass = "";
+}
+
+
+<style>
+    * {
+        color: black !important;
+    }
+
+    td {
+        padding: 2px;
+    }
+</style>
+
+<h2>Setup/Migration/Testing</h2>
+
+@*<ul>
+    <li><a href="@Url.Action("MigrateFile", "Setup")">Migrate Files on Disk to DB</a></li>
+</ul>*@
+
+@Url.Action("GetAccountInfoFromBcrm", "Setup")
+
+<fieldset>
+    <legend>Test Get Account Info from BCRM</legend>
+    <form action="@Url.Action("GetAccountInfoFromBcrm", "Setup")">
+        <table>
+            <tr>
+                <td>Account No: </td>
+                <td><input name="accountNo" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" /></td>
+            </tr>
+        </table>
+    </form>
+</fieldset>

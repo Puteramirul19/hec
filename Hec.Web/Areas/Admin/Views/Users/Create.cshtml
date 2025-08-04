@@ -1,0 +1,307 @@
+﻿@model String
+
+@{
+    ViewBag.Title = "Create User";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-store";
+    ViewBag.ActiveClass = "users";
+}
+
+<section class="content-header">
+    <h1>
+        Create User
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><span class="fa fa-home"></span></a></li>
+        <li> @Html.ActionLink("Users", "Index", "Users")</li>
+        <li class="active"> @Html.ActionLink("Create User", "Index", "Users")</li>
+    </ol>
+</section>
+
+<div id="view-container"></div>
+
+<script id="view-template" type="text/x-kendo-template">
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box">
+                    <div class="box-body">
+
+                        <form id="userForm">
+                            <fieldset>
+                                <legend>Login Type</legend>
+                                @*<div class="form-group">
+                                    <label class="radio-inline"><input type="radio" name="rdoLoginType" value="ActiveDirectory" data-bind="checked: data.LoginType">Active Directory</label>
+                                    <label class="radio-inline"><input type="radio" name="rdoLoginType" value="Internal" data-bind="checked: data.LoginType">Internal</label>
+                                </div>
+                                <div class="row" data-bind="invisible: isInternalUser" id="staffForm">
+                                    <div class="form-group col-sm-6">
+                                        <label for="StaffNo" class="control-label mandatory">Staff No</label>
+                                        <input type="text" id="StaffNo" name="StaffNo" pattern="\\d+" class="form-control" data-bind="value: data.UserName" required data-pattern-msg="Staff number not valid" />
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="StaffNo" class="control-label">&nbsp;</label>
+                                        <div class="input-group">
+                                            <button class="btn" data-bind="click: searchAD">Fetch AD Information</button>
+                                        </div>
+                                    </div>
+                                </div>*@
+                                <div class="row" @*data-bind="visible: isInternalUser"*@>
+                                    <div class="form-group col-sm-6">
+                                        <label for="UserName" class="mandatory">Staff No</label>
+                                        <input type="text" id="UserName" name="UserName" class="form-control" data-bind="value: data.UserName" required>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="Password" class="mandatory">Password</label>
+                                        <input type="password" id="Password" name="Password" class="form-control" data-bind="value: data.Password" data-required-msg="Sila masukkan kata laluan">
+                                    </div>
+                                    <div class="form-group col-sm-6 col-sm-offset-6">
+                                        <label for="Password" class="mandatory">Re-type Password</label>
+                                        <input type="password" id="PasswordAgain" name="PasswordAgain" class="form-control" data-bind="value: data.PasswordAgain" data-required-msg="Sila masukkan semula kata laluan">
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Staff Details</legend>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <label for="FullName" class="mandatory">Staff Name</label>
+                                                <input type="text" id="FullName" name="FullName" class="form-control" data-bind="value: data.FullName" required data-required-msg="Full Name is required" />
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label for="Email">E-mail</label>
+                                                <input type="email" id="Email" name="Email" class="form-control" data-bind="value: data.Email">
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label for="OfficeNumber">Office Phone No</label>
+                                                <input type="text" id="OfficeNumber" name="OfficeNumber" pattern="[-\\d]{9,13}" class="form-control" data-bind="value: data.OfficeNumber" data-pattern-msg="Contact number not valid">
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label for="PhoneNumber">Mobile Phone No</label>
+                                                <input type="text" id="PhoneNumber" name="PhoneNumber" pattern="[-\\d]{9,13}" class="form-control" data-bind="value: data.PhoneNumber" data-pattern-msg="Contact number not valid">
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label for="Designation">Designation</label>
+                                                <input type="text" id="Designation" name="Designation" class="form-control" data-bind="value: data.Designation" />
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label for="Department" class="control-label">Department</label>
+                                                <input type="text" id="Department" name="Department" class="form-control" data-bind="value: data.Department" />
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label for="Role" class="control-label">Role</label>
+                                                <select data-role="dropdownlist"
+                                                        data-text-field="Name"
+                                                        data-value-field="Id"
+                                                        data-option-label="Select..."
+                                                        data-value-primitive="true"
+                                                        data-bind="source: roles, value: data.RoleId"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div style="border:1px solid \\#ddd;padding: 3px;text-align:center;" data-bind="visible: hasPhoto">
+                                            <img alt="photo" style="width:100%" data-bind="attr: { src: data.Photo }" />
+                                        </div>
+                                        <div style="border:1px solid \\#ddd;padding: 3px;text-align:center;min-height:150px" data-bind="invisible: hasPhoto">
+                                            <span class="fa fa-user fa-5x" style="margin-top:20px"></span>
+                                            <div style="font-style:italic">No photo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary" data-bind="click: register">Save</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</script>
+
+@section Scripts
+{
+<script>
+    $(function () {
+        var viewModel = kendo.observable({
+            roles: app.makeDataSource("@Url.RouteUrl(new { controller = "RoleGridItem" })", {
+                schema: {
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { type: "string", defaultValue: app.emptyGuid },
+                            Name: { type: "string" }
+                        }
+                    }
+                },
+                pageSize: 0
+            }),
+
+            data: {
+                UserId: null,
+                UserName: null,
+                Password: '',
+                PasswordAgain: '',
+                FullName: '',
+                Department: null,
+                Designation: '',
+                Email: '',
+                PhoneNumber: null,
+                OfficeNumber: null,
+                LoginType: 'ActiveDirectory'
+            },
+
+            isInternalUser: function () {
+                return this.get("data.LoginType") == 'Internal';
+            },
+
+            hasPhoto: function () {
+                var photo = this.get("data.Photo");
+                return photo != null && photo != "";
+            },
+
+            searchAD: function (e) {
+                e.preventDefault();
+
+                var form = $('#staffForm');
+                var validator = form.data('kendoValidator') || form.kendoValidator().data('kendoValidator');
+
+                if (!validator.validate()) {
+                    app.notifyError("There are some errors, please check your input")
+                    window.scrollTo(0, 0);
+                    return;
+                }
+
+                //app.notifyInfo("Fetching user information from Active Directory");
+                var dirUser;
+                $.ajax({
+                    url: "@Url.Action("Read", "DirectoryUser")/" + this.get("data.UserName"),
+                    method: 'GET',
+                    async: false,
+                    success: function (data, textStatus, jqXHR) {
+                        dirUser = data;
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        if (jqXHR.status == 404)
+                            app.notifyError("Cannot find staff number " + viewModel.get("data.UserName"));
+                        else
+                            app.notifyError("Some error occured, please try again.", jqXHR);
+                    }
+                });
+
+                if (dirUser) {
+
+                    if (dirUser.IsRegistered) {
+                        app.notifyError('User "' + this.get("data.UserName") + '" already registered in SRP.');
+                        return;
+                    }
+
+                    this.set('data.FullName', dirUser.FullName);
+                    this.set('data.Email', dirUser.Email);
+                    this.set('data.PhoneNumber', dirUser.PhoneNumber);
+                    this.set('data.OfficeNumber', dirUser.OfficeNumber);
+                    this.set('data.Photo', dirUser.Photo);
+                    this.set("data.LoginType", "ActiveDirectory");
+                    app.notifySuccess("Information successfully fetched from Active Directory");
+                }
+            },
+
+            register: function (e) {
+                e.preventDefault();
+
+                var loginType = this.get("data.LoginType");
+
+                if (loginType == 'Internal') {
+                    $('#StaffNo').prop("required", false);
+                    $('#StaffNo').val(null);
+                }
+                else {
+                    $('#StaffNo').prop("required", true);
+                }
+
+                if (loginType == 'ActiveDirectory') {
+                    $('#UserName').prop("required", false);
+                    $('#Password').prop("required", false);
+                    $('#PasswordAgain').prop("required", false);
+                }
+                else {
+                    $('#UserName').prop("required", true);
+                    $('#Password').prop("required", true);
+                    $('#PasswordAgain').prop("required", true);
+                }
+
+                var form = $('#userForm');
+                var validator = form.data('kendoValidator') || form.kendoValidator().data('kendoValidator');
+
+                if (!validator.validate()) {
+                    app.notifyError("There are some errors, please check your input.")
+                    window.scrollTo(0, 0);
+                    return;
+                }
+                console.log("1");
+                var userName = this.get("data.UserName");
+                var password = this.get("data.Password");
+                var fullName = this.get("data.FullName");
+                var email = this.get("data.Email");
+                var phoneNumber = this.get("data.PhoneNumber");
+                var officeNumber = this.get("data.OfficeNumber");
+                var department = this.get("data.Department");
+                var designation = this.get("data.Designation");
+                var photo = this.get("data.Photo");
+                var login_Type = this.get("data.LoginType");
+                console.log("2");
+                var roleId = this.get("data.RoleId");
+                console.log("3");
+
+                if (loginType == 'Internal' && (this.get('data.Password') != this.get('data.PasswordAgain'))) {
+                    app.notifyError("Password and password verification must be the same.");
+                    return;
+                }
+
+                //if (confirm('Are you sure to register this new user?')) {
+                    $.ajax({
+                        url: "@Url.Action("Create", "Users")",
+                        method: 'POST',
+                        data: {
+                            UserName: userName,
+                            Password: password,
+                            FullName: fullName,
+                            Email: email,
+                            PhoneNumber: phoneNumber,
+                            OfficeNumber: officeNumber,
+                            Department: department,
+                            Designation: designation,
+                            Photo: photo,
+                            LoginType: login_Type,
+                            RoleId: roleId,
+                        },
+                        async: false,
+                        success: function (data, textStatus, jqXHR) {
+                            app.notifySuccess("User successfully created.");
+                            app.navigate('@Url.Action("Edit", "Users")/' + userName);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            app.notifyError("Some error occured, please try again.", jqXHR);
+                        }
+                    });
+                //}
+            }
+        });
+
+        var view = new kendo.View("view-template", {
+            model: viewModel,
+            evalTemplate: true,
+            show: function (e) {
+
+            }
+        });
+
+        view.render("#view-container");
+    });
+</script>
+}

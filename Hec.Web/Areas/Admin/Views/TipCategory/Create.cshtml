@@ -1,0 +1,35 @@
+﻿@using Hec.Entities
+@model Hec.Web.Areas.Admin.Controllers.TipCategoryModel
+
+@{
+    ViewBag.Title = "Title";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-store";
+    ViewBag.ActiveClass = "Categories";
+}
+
+<section class="content-header">
+    <h1>
+        Create Category
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><span class="fa fa-home"></span></a></li>
+        <li>@Html.ActionLink("Category", "Index", "TipCategory")</li>
+        <li class="active"> @Html.ActionLink("New Category", "Create", "TipCategory")</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="box">
+                <div class="box-body">
+                    @using (Html.BeginForm("Create", "TipCategory", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.Partial("_Editable", Model)
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

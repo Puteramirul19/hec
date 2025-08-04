@@ -1,0 +1,142 @@
+﻿@model Hec.Entities.UserRole
+
+@{
+    ViewBag.Title = "Create";
+}
+<section class="content-header">
+    <h1>
+        Assign Role
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><span class="fa fa-home"></span></a></li>
+        <li>@Html.ActionLink("Users", "Index", "Users")</li>
+        <li>@Html.ActionLink("Edit User (" + Model.UserId + ")", "Edit", "Users", new { id = Model.UserId }, null)</li>
+        <li class="active">@Html.ActionLink("Assign Role", "Create", "UserRoles", new { id = Model.UserId }, null)</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-body">
+                    <form method="POST">
+                        
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.HiddenFor(m => m.UserId)
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.RoleId, "Role", htmlAttributes: new { @class = "control-label col-sm-3" })
+                                <div class="col-sm-9">
+                                    @(Html.Kendo().DropDownListFor(model => model.RoleId)
+                                        .Name("RoleId")
+                                        .DataTextField("Name")
+                                        .DataValueField("Id")
+                                        .OptionLabel("Select...")
+                                        .DataSource(source =>
+                                            source.Ajax("Read", "RoleGridItem")
+                                        )
+                                        .Events(events =>
+                                        {
+                                            events.Cascade("roleCascade");
+                                        })
+                                    )
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="zonePanel" style="display:none">
+                                @Html.LabelFor(m => m.ZoneId, "Zone", htmlAttributes: new { @class = "control-label col-sm-3" })
+                                <div class="col-sm-9">
+                                    @(Html.Kendo().DropDownListFor(model => model.SubZone.ZoneId)
+                                        .Name("ZoneId")
+                                        .DataTextField("Name")
+                                        .DataValueField("Id")
+                                        .OptionLabel("Select...")
+                                        .DataSource(source =>
+                                            source.Ajax("Read", "Zones")
+                                        )
+                                    )
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="subZonePanel" style="display:none">
+                                @Html.LabelFor(model => model.SubZone, "Sub-Zone", htmlAttributes: new { @class = "control-label col-sm-3" })
+                                <div class="col-sm-9">
+                                    @(Html.Kendo().DropDownListFor(model => model.SubZoneId)
+                                        .Name("SubZoneId")
+                                        .CascadeFrom("ZoneId")
+                                        .CascadeFromField("ZoneId")
+                                        .DataTextField("Name")
+                                        .DataValueField("Id")
+                                        .OptionLabel("Select...")
+                                        .DataSource(source =>
+                                            source.Ajax("Read", "SubZones")
+                                        )
+                                    )
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="unitPanel" style="display:none">
+                                @Html.LabelFor(model => model.UnitId, "Unit", htmlAttributes: new { @class = "control-label col-sm-3" })
+                                <div class="col-sm-9">
+                                    @(Html.Kendo().DropDownListFor(model => model.UnitId)
+                                        .Name("UnitId")
+                                        .DataTextField("Name")
+                                        .DataValueField("Id")
+                                        .OptionLabel("Select...")
+                                        .DataSource(source =>
+                                            source.Ajax("Read", "Units")
+                                        ))
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <input type="submit" value="Save" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+<script>
+    function roleCascade(e) {        
+        $("#zonePanel").hide();
+        $("#subZonePanel").hide();
+        $("#unitPanel").hide();
+
+        var ddl = e.sender;
+        if (ddl.value()) {
+            var data = ddl.dataItem(ddl.selectedIndex);
+            if (data.NeedZone === true) {
+                $("#zonePanel").show();
+            } else {
+                $("#ZoneId").data("kendoDropDownList").value(null);
+            }
+
+            if (data.NeedSubZone === true) {
+                $("#zonePanel").show();
+                $("#subZonePanel").show();
+            } else {
+                $("#ZoneId").data("kendoDropDownList").value(null);
+                $("#SubZoneId").data("kendoDropDownList").value(null);
+            }
+
+            if (data.NeedUnit === true) {
+                $("#unitPanel").show();
+            } else {
+                $("#UnitId").data("kendoDropDownList").value(null);
+            }
+        }
+    }
+</script>
+}

@@ -1,0 +1,286 @@
+﻿@using Hec.Entities
+@model Hec.Web.Areas.Admin.Controllers.AppliancesModel
+
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().TextBoxFor(model => model.Name).HtmlAttributes(new { style = "width: 70%;" }))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DefaultHoursPerDay, "Default Hours Per Day", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().NumericTextBoxFor(model => model.DefaultHoursPerDay)
+                .HtmlAttributes(new { style = "width: 50%;" })
+                .Min(0)
+                .Max(24)
+                //.Decimals(1)
+                //.Format("0.")
+            )
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DefaultDaysPerMonth, "Default Days Per Month", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().NumericTextBoxFor(model => model.DefaultDaysPerMonth)
+                .HtmlAttributes(new { style = "width: 50%;" })
+                .Min(0)
+                .Max(31)
+                .Decimals(0)
+                .Format("0.")
+            )
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DefaultWatts, "Default Watts", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().NumericTextBoxFor(model => model.DefaultWatts)
+                .HtmlAttributes(new { style = "width: 50%;" })
+                .Min(0)
+                .Decimals(0)
+                .Format("0.")
+            )
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ForLivingRoom, "For Living Room", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().DropDownListFor(model => model.ForLivingRoom)
+                .HtmlAttributes(new { style = "width: 70%;" })
+                .BindTo(new List<SelectListItem>()
+                    {
+                        new SelectListItem() { Text = "Yes", Value = "True" },
+                        new SelectListItem() { Text = "No", Value = "False" },
+                    }))
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ForMasterBedroom, "For Master Bedroom", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().DropDownListFor(model => model.ForMasterBedroom)
+                .HtmlAttributes(new { style = "width: 70%;" })
+                .BindTo(new List<SelectListItem>()
+                    {
+                        new SelectListItem() { Text = "Yes", Value = "True" },
+                        new SelectListItem() { Text = "No", Value = "False" },
+                    }))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ForBedroom, "For Bedroom", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().DropDownListFor(model => model.ForBedroom)
+                .HtmlAttributes(new { style = "width: 70%;" })
+                .BindTo(new List<SelectListItem>()
+                    {
+                        new SelectListItem() { Text = "Yes", Value = "True" },
+                        new SelectListItem() { Text = "No", Value = "False" },
+                    }))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ForBathroom, "For Bathroom", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().DropDownListFor(model => model.ForBathroom)
+                .HtmlAttributes(new { style = "width: 70%;" })
+                .BindTo(new List<SelectListItem>()
+                    {
+                        new SelectListItem() { Text = "Yes", Value = "True" },
+                        new SelectListItem() { Text = "No", Value = "False" },
+                    }))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ForDiningRoom, "For Dining Room", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().DropDownListFor(model => model.ForDiningRoom)
+                .HtmlAttributes(new { style = "width: 70%;" })
+                .BindTo(new List<SelectListItem>()
+                    {
+                        new SelectListItem() { Text = "Yes", Value = "True" },
+                        new SelectListItem() { Text = "No", Value = "False" },
+                    }))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ForKitchen, "For Kitchen", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().DropDownListFor(model => model.ForKitchen)
+                .HtmlAttributes(new { style = "width: 70%;" })
+                .BindTo(new List<SelectListItem>()
+                    {
+                        new SelectListItem() { Text = "Yes", Value = "True" },
+                        new SelectListItem() { Text = "No", Value = "False" },
+                    }))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TipCategoryId, "Category", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().DropDownListFor(model => model.TipCategoryId)
+                    .Name("TipCategoryId")
+                    .HtmlAttributes(new { style = "width: 70%;" })
+                    .DataTextField("Name")
+                    .DataValueField("Id")
+                    .OptionLabel("Select...")
+                    .DataSource(source =>
+                        source.Ajax("Read", "TipCategory")
+                    ))
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsActive, "Is Active?", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            @(Html.Kendo().CheckBoxFor(model => model.IsActive))
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, "Upload Image", htmlAttributes: new { @class = "control-label col-sm-3" })
+        <div class="col-sm-9">
+            <div style="width:94%">
+                @(Html.Kendo().Upload()
+                    .Name("file")
+                    .HtmlAttributes(new { style = "width: 70%;" })
+                    .Multiple(false)
+                    .Async(a => a
+                        .Save("Upload", "File", new { area = "" })
+                        .Remove("Remove", "File", new { area = "" })
+                        .AutoUpload(true)
+                    )
+                    .Multiple(false)
+                    .Files(files =>
+                    {
+                        if (!String.IsNullOrEmpty(Model.FileId))
+                        {
+                            files.Add().Name(Model.FileName)
+                                .Extension(Model.FileExtension)
+                                .Size(Model.FileSize.HasValue ? Model.FileSize.Value : 0);
+                        }
+                    })
+                    .Events(events =>
+                    {
+                        events.Select("uploadSelect");
+                        events.Success("uploadSuccess");
+                        events.Remove("uploadRemove");
+
+                    })
+                    .Validation(validation => validation.AllowedExtensions(new string[] { ".jpg", ".png" }))
+                )
+
+
+                @Html.HiddenFor(m => m.FileId)
+                @Html.HiddenFor(m => m.FileName)
+                @Html.HiddenFor(m => m.FileExtension)
+                @Html.HiddenFor(m => m.FileSize)
+
+                <script>
+                    function uploadSelect(e) {
+                        $.each(e.files, function (index, value) {
+
+                            var fileReader = new FileReader();
+                            fileReader.onload = function (event) {
+                                console.log(event);
+                                var mapImage = event.target.result;
+                                $("#preview").attr('src', mapImage);
+                            }
+                            fileReader.readAsDataURL(e.files[0].rawFile);
+
+                            //Check file size. File size more than 2 MB is not allowed.
+                            if (value.size > 2097152) {
+                                e.preventDefault();
+                                alert("File size more than 2 MB is not allowed.");
+                                return false;
+                            }
+
+                        });
+                    }
+
+                    function uploadSuccess(e) {
+                        if (e.operation == "upload") {
+                            $("#FileId").val(e.response.fileId);
+                            $("#FileName").val(e.response.fileName);
+                            $("#FileExtension").val(e.response.fileExtension);
+                            $("#FileSize").val(e.response.fileSize);
+
+                            for (var i = 0; i < e.files.length; i++) {
+                                var file = e.files[i].rawFile;
+
+                                if (file) {
+                                    var reader = new FileReader();
+
+                                    reader.onloadend = function () {
+                                        $("<div class='preview'><img width=50 height=50 src=" + this.result + " /></div>").appendTo($("#preview"));
+                                    };
+
+                                    reader.readAsDataURL(file);
+                                }
+                            }
+                        }
+                    }
+
+                    function uploadRemove(e) {
+                        var fileName = $("#FileId").val();
+                        var fileId = $("#FileName").val();
+
+                        $.ajax({
+                            url: "@Url.Action("RemoveOnly", "File", new { area = "" })",
+                            method: "POST",
+                            data: {
+                                fileId: fileId,
+                            },
+                            success: function (data, textStatus, jqXHR) {
+                                $("#preview").html("");
+                            }
+                            //NOTE: Silent success/error
+                        });
+
+                        $("#FileId").val(null);
+                        $("#FileName").val(null);
+                        $("#FileExtension").val(null);
+                        $("#FileSize").val(null);
+                    }
+                </script>
+                <div class="help-text">Note: Best fit size is dimensions 70x70.</div>
+
+                <br />
+
+                    @if (@Model.FileId == null)
+                    {
+                        <div class="form-group" id="preview">
+                            <div src="@Url.Action("Index", "File", new { area = "", fileId = Model.FileId })" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group" id="preview">
+
+                            <img src="@Url.Action("Index", "File", new { area = "", fileId = Model.FileId })" />
+                        </div>
+                    }
+            </div>
+            <div>@Html.ValidationMessageFor(model => model.FileId)</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+            <input type="submit" value="Save" class="btn btn-primary col-sm-4" />
+        </div>
+    </div>
+</div>
+

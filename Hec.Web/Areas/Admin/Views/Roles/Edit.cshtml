@@ -1,0 +1,31 @@
+﻿@model Hec.Entities.Role
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<section class="content-header">
+    <h1>
+        Edit Role
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><span class="fa fa-home"></span></a></li>
+        <li>@Html.ActionLink("Role Management", "Index", "Roles")</li>
+        <li class="active">@Html.ActionLink("Edit Role", "Edit", "Roles", new { id = Model.Id })</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.Partial("_Editable", Model)
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

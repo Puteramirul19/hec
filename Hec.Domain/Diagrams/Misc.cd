@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Hec.Entities.EmailQueue">
+    <Position X="1.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAIAAAgAiAAAAEAAIAAAAAAAACCAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Entities\EmailQueue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hec.Entities.EmailTemplate">
+    <Position X="3.75" Y="1" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACIAAAAAowAAQAAAAAAAgBAAAAAAAAAAAAAAAAIAg=</HashCode>
+      <FileName>Entities\EmailTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hec.Entities.OffDay">
+    <Position X="7.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAARAAAAAAAAAAAAAQAAAAAAAABAAAABAAAAAA=</HashCode>
+      <FileName>Entities\OffDay.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="State" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Hec.Entities.State" Collapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABgAAAAAAAAAAAAAAgAAQAAAAQAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Entities\State.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hec.Settings.KeyValue">
+    <Position X="1.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Settings\KeyValue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

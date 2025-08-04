@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Manage House Types";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-store";
+    ViewBag.ActiveClass = "house-type-menu";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><span class="fa fa-home"></span></a></li>
+        <li class="active"> @Html.ActionLink("House Type", "Index", "HouseTypes")</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box grid-container">
+                @(Html.Kendo().Grid<Hec.Entities.HouseType>()
+                  .Name("grid")
+                  .Columns(columns =>
+                  {
+                  columns.Bound(c => c.HouseTypeCode);
+                  columns.Bound(c => c.HouseTypeName);
+                  columns.ForeignKey(c => c.HouseCategoryId, (System.Collections.IEnumerable)Model.HouseCategoryList, "Id", "HouseCategoryName").Title("House Category");
+
+                  columns.Bound(c => c.PremiseCode);
+                  columns.Bound(c => c.PremiseType);
+                  columns.Bound(c => c.Average).Width(140);
+
+                  columns.ForeignKey(c => c.IsActive, new SelectList(new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Inactive", Value = bool.FalseString },
+                        new SelectListItem { Text = "Active", Value = bool.TrueString },
+                    }, "Value", "Text")).Title("Status").ClientTemplate("#: IsActive == true ? 'Active' : 'Inactive' #").Width(100);
+
+                  columns.Template(@<text></text>).ClientTemplate("<div class=\"btn btn-default\">" + "<a href='" + Url.Action("Edit", "HouseTypes") + "/#=Id#'>Edit</a>").Title("Action").Width(70);
+                  //columns.Command(command => { command.Destroy(); }).Width(50);
+                  })
+                  .ToolBar(toolbar =>
+                  {
+                      toolbar.Custom().Text("Create New House Type").Action("Create", "HouseTypes");
+                  })
+                  .Filterable(filterable => filterable
+                      .Extra(false)
+                      .Operators(operators => operators
+                        .ForString(str => str.Clear()
+                            .Contains("Contains with")
+                        ))
+                  )
+                  .Editable(editable => editable.Mode(GridEditMode.InLine))
+                  .Pageable()
+                  .Navigatable()
+                  .Selectable(selectable =>
+                  {
+                      selectable.Mode(GridSelectionMode.Single);
+                      selectable.Type(GridSelectionType.Row);
+                  })
+                  .Sortable(sortable =>
+                  {
+                      sortable.SortMode(GridSortMode.SingleColumn);
+                  })
+                  .Scrollable(s => s.Height("auto"))
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(10)
+                      .Model(model =>
+                      {
+                          model.Id(p => p.Id);
+                          model.Field(p => p.Id).DefaultValue(Guid.Empty);
+                      })
+                      .Read(read => read.Action("Read", "HouseTypes"))
+                      .Destroy(destroy => destroy.Action("Delete", "HouseTypes"))
+                  //.Events(events => events.Error("gridError"))
+
+                  )
+                  .Events(events =>
+                  {
+                      events.FilterMenuInit("filterMenuInit");
+                  })
+                )
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+    function filterMenuInit(e) {
+        if (e.field == "PublishedOn") {
+            var beginOperator = e.container.find("[data-role=dropdownlist]:eq(0)").data("kendoDropDownList");
+            beginOperator.value("gte");
+            beginOperator.trigger("change");
+
+            var endOperator = e.container.find("[data-role=dropdownlist]:eq(2)").data("kendoDropDownList");
+            endOperator.value("lte");
+            endOperator.trigger("change");
+
+            e.container.find(".k-filter-help-text").hide();
+            e.container.find(".k-dropdown").hide();
+            e.container.find(".k-datepicker:eq(0)").before("<div>From</div>");
+            e.container.find(".k-datepicker:eq(1)").before("<div>To</div>");
+        }
+    }
+    </script>
+}
+
+

@@ -1,0 +1,82 @@
+﻿@model Hec.Web.Areas.Public.Controllers.FriendInvitationsModel
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-store";
+    ViewBag.ActiveClass = "friendmenu";
+    ViewBag.ContainerClass = "friends";
+}
+
+<div id="view-container"></div>
+
+<div class="header-title">
+    <span class="icon-lamp-content"></span>
+    <span class="details">
+        <span class="title-big">Energy Usage Comparison</span>
+        <span class="desc">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+        </span>
+    </span>
+</div>
+<!-- If user dah login appear yg ni -->
+<div class="box-white">
+    <div style="padding: 10px 0px;">
+        <p class="title-friends">FRIENDS INVITATIONS</p>
+        <p>
+            <span class="grey">You have <span class="num-friend">@Model.Friendships.Count()</span> friend invites. </span>
+        </p>
+        <p>
+            <a href="@Url.Action("Index", "Friends")">&laquo; Back</a>
+        </p>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>Description</th>
+            <th style="width: 15%">Invited On</th>
+            <th style="width: 20%">Accepted?</th>
+        </tr>
+        @foreach (var friendship in Model.Friendships)
+        {
+            <tr>
+                <td>
+                    @if (friendship.InviteeId == Model.CurrUser.Id)
+                    {
+                        <span>@friendship.Inviter.FullName sent you a friend invite</span>
+                    }
+                    else
+                    {
+                        <span>You sent @friendship.Invitee.FullName a friend invite</span>
+                    }
+                </td>
+                <td>@friendship.CreatedOn.ToString("dd MMM yyyy")</td>
+                <td>
+                    @if (friendship.IsAccepted)
+                    {
+                        <span>Yes</span>
+                    }
+                    else
+                    {
+                        <span>No</span>
+                        if (friendship.InviteeId == Model.CurrUser.Id)
+                        {
+                        <a style="padding-left: 10px" href="@Url.Action("AcceptInvitation", "Friends", new { id = friendship.Id })">(Accept Now!)</a>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div class="clearfix">&nbsp;</div>
+</div>
+
+
+@section Scripts
+{
+<script>
+    $(function () {
+    })
+</script>
+}

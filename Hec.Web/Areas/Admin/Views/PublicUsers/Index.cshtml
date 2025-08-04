@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Manage Public Users";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-store";
+    ViewBag.ActiveClass = "publicusers";
+}
+
+<section class="content-header">
+    <h1>
+        Public Users
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><span class="fa fa-home"></span></a></li>
+        <li class="active"> @Html.ActionLink("Public Users", "Index", "PublicUsers")</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box grid-container">
+                @(Html.Kendo().Grid<Hec.Web.Areas.Admin.Controllers.PublicUserGridItem>()
+                    .Name("grid")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(c => c.UserName).Title("Username/Email");
+                        columns.Bound(c => c.FullName);
+                        columns.Bound(c => c.LoginCount).Title("Login Count");
+                        columns.Bound(c => c.LastLogin).Title("Last Login").ClientTemplate("#: LastLogin.getFullYear() == 0001 ? 'Never' : kendo.toString(LastLogin, 'dd/MM/yyyy hh:mm tt') #");
+                    })
+                    .Editable(editable => editable.Enabled(false))
+                    .Pageable()
+                    .Navigatable()
+                    //.Selectable(selectable =>
+                    //{
+                    //    selectable.Mode(GridSelectionMode.Single);
+                    //    selectable.Type(GridSelectionType.Row);
+                    //})
+                    .Sortable(sortable =>
+                    {
+                        sortable.SortMode(GridSortMode.SingleColumn);
+                    })
+                    .Filterable(filterable => filterable
+                        .Extra(false)
+                        .Operators(operators => operators
+                            .ForString(str => str.Clear()
+                                .Contains("Contains with")
+                            ))
+                    )
+                    .Scrollable(s => s.Height("auto"))
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .PageSize(10)
+                        .Model(model => model.Id(p => p.Id))
+                        .Read(read => read.Action("Read", "PublicUsers"))
+                    )
+                )
+            </div>
+        </div>
+    </div>
+</section>
+

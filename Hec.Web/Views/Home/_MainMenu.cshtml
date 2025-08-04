@@ -1,0 +1,50 @@
+﻿@using Hec.Entities
+@using Hec.Web.Controllers
+
+@model Hec.Entities.User
+
+<!-- sidebar menu: : style can be found in sidebar.less -->
+<ul class="sidebar-menu">
+    <li class="header">NAVIGATION</li>
+    <li class="treeview active">
+        <a href="#">
+            <i class="fa fa-pie-chart fa-lg"></i> <span> Reports</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+        </ul>
+    </li>
+
+    @if (Model.HaveAccessRight(AccessRights.SuperUser))
+    {
+    <li class="treeview active">
+        <a href="#">
+            <i class="fa fa-gears fa-lg"></i> <span> Settings</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="@(Url.Action("Index", "Users"))"><span class="fa fa-user"></span> Users</a></li>
+            <li><a href="@(Url.Action("Index", "Roles"))"><span class="fa fa-users"></span> Roles</a></li>
+            @*<li><a href="@(Url.Action("Index", "Zones"))"><span class="fa fa-flag"></span> Zones</a></li>
+    <li><a href="@(Url.Action("Index", "SubZones"))"><span class="fa fa-flag-o"></span> Sub-Zones</a></li>
+    <li><a href="@(Url.Action("Index", "Stations"))"><span class="fa fa-building"></span> Stations</a></li>
+    <li><a href="@(Url.Action("Index", "SubStations"))"><span class="fa fa-building-o"></span> Sub-Stations (PE)</a></li>
+    <li><a href="@(Url.Action("Index", "States"))"><i class="fa fa-globe"></i><span> State</span></a></li>
+    <li><a href="@(Url.Action("Index", "Units"))"><span class="fa fa-briefcase"></span> Units</a></li>
+    <li><a href="@(Url.Action("Index", "ShutdownReasons"))"><span class="fa fa-commenting"></span> Shutdown Reasons</a></li>*@
+            <li><a href="@(Url.Action("Index", "TipCategories"))"><span class="fa fa-flash"></span> Tips Categories</a></li>
+            <li><a href="@(Url.Action("Index", "Tips"))"><span class="fa fa-bullhorn"></span> Tips</a></li>
+            <li><a href="@(Url.Action("Index", "EmailTemplate"))"><span class="fa fa-envelope-o"></span> Email Template</a></li>
+            <li><a href="@(Url.Action("Index", "EmailQueue"))"><span class="fa fa-envelope"></span> Email Queue</a></li>
+            @*<li><a href="@(Url.Action("Index", "SlaSettings"))"><i class="fa fa-clock-o"></i><span> SLA Settings</span></a></li>*@
+            <li>@*<a href="@(Url.Action("Index", "OffDay"))"><i class="fa fa-calendar"></i><span> Off-Day Management</span></a>*@</li>
+            @*<li><a href="@(Url.Action("Index", "HelpFiles"))"><i class="fa fa-book"></i><span> User Manuals</span></a></li>
+            <li><a href="@(Url.Action("Index", "SystemSettings"))"><i class="fa fa-wrench"></i><span> System Configuration</span></a></li>*@
+        </ul>
+    </li>
+    }
+</ul>

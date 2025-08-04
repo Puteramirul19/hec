@@ -1,0 +1,253 @@
+﻿@model Hec.Web.Controllers.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<header id="header" class="single-menu flat-menu transparent valign font-color-light" data-plugin-options='{"stickyEnabled": true, "stickyBodyPadding": false}'>
+    <div class="container">
+        <div class="logo">
+            <a href="@(Url.Action("Login", "Account", new { area = "" }))" class="logo">
+                <img alt="Porto" width="111" height="54" data-sticky-width="82" data-sticky-height="40" src="/Images/logo-hec.png">
+            </a>
+        </div>
+        <button class="btn btn-responsive-nav btn-inverse" data-toggle="collapse" data-target=".nav-main-collapse">
+            <i class="fa fa-bars"></i>
+        </button>
+    </div>
+    <div class="navbar-collapse nav-main-collapse collapse">
+        <div class="container">
+            <ul class="social-icons">
+                <li class="dribbble"><a href="https://www.mytnb.com.my/" target="_blank" title="MyTNB Customer Portal">MyTNB</a></li>
+                <li class="digg"><a href="https://www.tnb.com.my/" target="_blank" title="TNB Website">TNB Website</a></li>
+                <li class="login"><a data-toggle="modal" data-target="#loginBox" href="#" target="_blank" title="Login">Login</a></li>
+            </ul>
+
+            <nav class="nav-main mega-menu">
+                <ul class="nav nav-pills nav-main" id="mainMenu">
+                    <li class="active">
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/Public/UsageCalculator">Energy Usage Calculator </a>
+                    </li>
+                    <li>
+                        <a href="/Public/EnergyTips">Energy Saving Tips </a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="/Public/ApplianceComparison">Appliance Calculator <i class="fa fa-angle-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Public/ApplianceComparison/SingleAppliance">Single Appliance</a></li>
+                            <li><a href="/Public/ApplianceComparison/CompareAppliance">Compare Appliances</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<!-- popup login -->
+<div class="modal fade login-page" id="loginBox" tabindex="-1" role="dialog" data-show="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span class="close-button"></span></button>
+                <h4 class="modal-title"><span class="icon-hec icon-login-box"></span>User Login</h4>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" class="form-horizontal" role="form">
+                    @Html.AntiForgeryToken()
+                    <div class="login-group">
+                        <label>Username</label>
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "labelinput", placeholder = "" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="login-group">
+                        <label>Password</label>
+                        @Html.PasswordFor(m => m.Password, new { @class = "labelinput", placeholder = "", autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="login-button"><input type="submit" id="loginbutton" value="LOGIN"></div>
+                    <div class="login-text text-center"><a href="#">Forgot Password?</a></div>
+                </form>
+                <form action="@Url.Action("Start", "Session", new { area="" })" method="POST">
+                    <br />
+                    <br />
+                    <input type="hidden" name="USERTOKEN" value="INSERTTOKENTOPLAY" />
+                    <input type="hidden" name="USERID" value="public1@hec.tnb.com.my" />
+                    <input type="hidden" name="USERNAME" value="public1@hec.tnb.com.my" />
+                    <input type="hidden" name="FULLNAME" value="Public User One" />
+                    <input type="hidden" name="EMAIL" value="public1@hec.tnb.com.my" />
+                    <input type="hidden" name="CA_NO_LIST" value="SAMPLECA1,SAMPLECA2" />
+                    <input type="submit" class="btn btn-primary" value="SIMULATE SSP LOGIN (USER 1)" />
+                </form>
+                <form action="@Url.Action("Start", "Session", new { area="" })" method="POST">
+                    <input type="hidden" name="USERTOKEN" value="INSERTTOKENTOPLAY" />
+                    <input type="hidden" name="USERID" value="public2@hec.tnb.com.my" />
+                    <input type="hidden" name="USERNAME" value="public2@hec.tnb.com.my" />
+                    <input type="hidden" name="FULLNAME" value="Public User Two" />
+                    <input type="hidden" name="EMAIL" value="public2@hec.tnb.com.my" />
+                    <input type="hidden" name="CA_NO_LIST" value="SAMPLECAP2" />
+                    <input type="submit" class="btn btn-success" value="SIMULATE SSP LOGIN (USER 2)" />
+                </form>
+                <form action="@Url.Action("Start", "Session", new { area="" })" method="POST">
+                    <input type="hidden" name="USERTOKEN" value="INSERTTOKENTOPLAY" />
+                    <input type="hidden" name="USERID" value="public3@hec.tnb.com.my" />
+                    <input type="hidden" name="USERNAME" value="public3@hec.tnb.com.my" />
+                    <input type="hidden" name="FULLNAME" value="Public User Three" />
+                    <input type="hidden" name="EMAIL" value="public3@hec.tnb.com.my" />
+                    <input type="hidden" name="CA_NO_LIST" value="SAMPLECAP3" />
+                    <input type="submit" class="btn btn-danger" value="SIMULATE SSP LOGIN (USER 3)" />
+                </form>
+                <form action="@Url.Action("Start", "Session", new { area="" })" method="POST">
+                    <input type="hidden" name="USERTOKEN" value="CB5D41B1A235429E9BF59FFE4BA33FBF" />
+                    <input type="hidden" name="USERID" value="cdada309-6c56-4e8f-82a9-60c17845a5e7" />
+                    <input type="hidden" name="USERNAME" value="khairiis@tnb.com.my" />
+                    <input type="hidden" name="FULLNAME" value="mkhairi86" />
+                    <input type="hidden" name="EMAIL" value="khairiis@tnb.com.my" />
+                    <input type="hidden" name="CA_NO_LIST" value="210034020609, 210036979702, 210044361405, 220000376303, 220067702305, 220000570801, 220140803906, 220063490804, 220000460505, 220085761805, 220121658007, 220245992401, 220190397402, 220251959402, 220866186804, 220183365202, 220375351100, 220717006207, 220478267804, 220163651500, 240001024700, 240001141609, 240000913505, 220818233905, 220143389504" />
+                    <input type="submit" class="btn btn-danger" value="SIMULATE SSP LOGIN (mkhairi86)" />
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div role="main" class="main">
+    <div class="slider-container slider-container-fullscreen">
+        <div class="slider" id="revolutionSliderFullScreen" data-plugin-revolution-slider data-plugin-options='{"fullScreen": "on"}'>
+            <ul>
+                <li data-transition="fade" data-slotamount="10" data-masterspeed="300">
+                    <img src="/Images/slides/002.jpg" data-fullwidthcentering="on" alt="">
+
+                    <div class="tp-caption sft stb"
+                         data-x="center"
+                         data-y="60"
+                         data-speed="300"
+                         data-start="500"
+                         data-easing="easeOutExpo"
+                         style="text-align:center;">
+
+                        <span class="slide-border left-border">
+                            <img src="/Images/slides/slide-title-border.png" alt="">
+                        </span>
+
+                        <span class="welcome-text" style="display:inline-block; margin: 0 20px;">
+                            Welcome to
+                        </span>
+
+                        <span class="slide-border right-border">
+                            <img src="/Images/slides/slide-title-border.png" alt="">
+                        </span>
+
+                    </div>
+
+                    <!-- Title Line 1 -->
+                    <div class="tp-caption main-label sft stb text-center"
+                         data-x="center" data-hoffset="0"
+                         data-y="80"
+                         data-speed="300"
+                         data-start="1500"
+                         data-easing="easeOutExpo">
+                        HOME ENERGY
+                    </div>
+
+                    <!-- Title Line 2 -->
+                    <div class="tp-caption main-label sft stb text-center"
+                         data-x="center" data-hoffset="0"
+                         data-y="140"
+                         data-speed="300"
+                         data-start="1500"
+                         data-easing="easeOutExpo">
+                        CALCULATOR
+                    </div>
+
+                    <!-- Subtitle -->
+                    <div class="tp-caption bottom-label sft stb text-center"
+                         data-x="center" data-hoffset="0"
+                         data-y="210"
+                         data-speed="500"
+                         data-start="2000"
+                         data-easing="easeOutExpo">
+                        Check out our new features.
+                    </div>
+
+                    <!-- Button -->
+                    <a class="tp-caption customin btn btn-lg btn-primary main-button"
+                       href="~/Home/Features"
+                       data-x="center" data-hoffset="0"
+                       data-y="250"
+                       data-customin="x:0;y:0;z:0;rotationX:90;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:200;transformOrigin:50% 0%;"
+                       data-speed="800"
+                       data-start="1700"
+                       data-easing="Back.easeInOut"
+                       data-endspeed="300">
+                        Get Started Now!
+                    </a>
+
+                </li>
+                <li data-transition="fade" data-slotamount="10" data-masterspeed="300">
+                    <img src="/Images/slides/003.jpg" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" />
+
+                    <div class="tp-caption tp-fade fadeout fullscreenvideo"
+                         data-x="0"
+                         data-y="0"
+                         data-speed="1000"
+                         data-start="100"
+                         data-easing="Power4.easeOut"
+                         data-elementdelay="0.01"
+                         data-endelementdelay="0.1"
+                         data-endspeed="1500"
+                         data-endeasing="Power4.easeIn"
+                         data-autoplay="true"
+                         data-autoplayonlyfirsttime="false"
+                         data-nextslideatend="true"
+                         data-volume="mute"
+                         data-forceCover="1"
+                         data-aspectratio="16:9"
+                         data-forcerewind="on">
+
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- QUICK LINK THUMBNAIL -->
+    <!-- <div class="home-intro" id="home-intro"> -->
+    <div>
+        <div class="container">
+            <div class="row quicklinks">
+                <div class="col-sm-4">
+                    <div class="thumb_v1" style="text-align:center;">
+                        <a href="/Public/UsageCalculator"><img src="/Images/thumb_01.png" alt="Energy Usage Calculator" style="margin:auto;" /></a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="thumb_v1" style="text-align:center;">
+                        <a href="/Public/EnergyTips"><img src="/Images/thumb_02.png" alt="Energy Tips" style="margin:auto;" /></a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="thumb_v1" style="text-align:center;">
+                        <a href="/Public/ApplianceComparison"><img src="/Images/thumb_03.png" alt="Appliance Calculator" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        $(function () {
+            localStorage.clear(); // Remove localstorage data
+            $("#loginBox").modal({ show: true });
+
+            showModal($('#loginBox')[0])
+        })
+    </script>
+}

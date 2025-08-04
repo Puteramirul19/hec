@@ -1,0 +1,27 @@
+﻿@model System.Linq.IQueryable<Hec.Entities.HelpFile>
+
+@{
+    ViewBag.Title = "Help";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12" style="margin-top: 50px; margin-bottom: 150px;">
+            <div class="row" style="background-color:whitesmoke;padding-bottom:20px">
+                <div class="col-md-9">
+                    <div>
+                        <div>
+                            <h2 style="color:black;margin-bottom:20px">User Manuals</h2>
+                            <ul>
+                                @foreach (var helpFile in Model)
+                                {
+                                    <li><a href="@Url.Content("~/Help/" + helpFile.FileId)">@helpFile.Name</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

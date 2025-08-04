@@ -1,0 +1,19 @@
+@model Guid
+
+@(Html.Kendo().DropDownListFor(m => m)
+                  .AutoBind(false)
+                  .Filter(FilterType.Contains)
+                  .OptionLabel("Select PE...")
+                  .DataTextField("Name")
+                  .DataValueField("Id")
+                  .DataSource(dataSource =>
+                  {
+                      dataSource
+                        .Read(read => read.Action("ListItems", "SubStations")
+                        .Data("filterSubStations"))
+                        .ServerFiltering(true);
+                  })
+                  .CascadeFrom("StationId")
+                  .Events(events => events.Change("subStationChange"))
+)
+@Html.ValidationMessageFor(m => m)

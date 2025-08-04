@@ -1,0 +1,60 @@
+﻿@model Hec.Web.Controllers.ReportingModel
+
+@{
+    ViewBag.Title = "Report - " + Model.Title;
+    Layout = "~/Views/Shared/_LayoutSidebar.cshtml";
+}
+<section class="content-header">
+    <h1>
+        @Model.Title
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><span class="fa fa-home"></span></a></li>
+        <li class="active"> @Html.ActionLink(Model.Title, "Index", "Reportings", new { id = Model.ReportName }, null)</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+               <div class="box-body">
+                   <div class="row">
+                       <div class="col-sm-12">
+                           <div class="reportViewer" style="position: relative; width: 100%; height: 650px; font-family: 'segoe ui', 'ms sans serif';">
+                               <span class="fa fa-spinner fa-spin"></span> Loading...
+                           </div>
+                       </div>
+                       <link href="@Url.Content("~/ReportViewer/styles/telerikReportViewer.css")" rel="stylesheet" />
+                       <script src="@Url.Content("~/ReportViewer/js/telerikReportViewer-10.2.16.1025.min.js")"></script>
+                   </div>
+               </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+<script>
+    $(".reportViewer").telerik_ReportViewer({
+        serviceUrl: "@Url.Content("~")api/reports/",
+        templateUrl: "@Url.Content("~/ReportViewer/templates/telerikReportViewerTemplate.html")",
+        reportSource: {
+        report: "@(Model.ReportName).trdx",
+            parameters: {
+                Zone: "@Model.ZoneId",
+                SubZone: "@Model.SubZoneId",
+                cachebust: "@Model.CacheBust"
+            }
+        },
+        //viewMode: telerikReportViewer.ViewModes.PRINT_PREVIEW,
+        viewMode: telerikReportViewer.ViewModes.INTERACTIVE,
+        scaleMode: telerikReportViewer.ScaleModes.SPECIFIC,
+        scale: 1.0,
+        ready: function () {
+        //this.refreshReport();
+    }
+});
+    </script>
+}

@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-calculator-landing";
+    ViewBag.ActiveClass = "appliance-calculator";
+    ViewBag.ContainerClass = "appliance-landing";
+    Layout = "~/Areas/Public/Views/Shared/_LayoutPublic_New.cshtml";
+}
+
+<div id="view-container"></div>
+
+<script id="view-template" type="text/x-kendo-template">
+    <div class="header-title">
+        <span class="icon-calculator-content"></span>
+        <span class="details">
+            <span class="title-big">Appliance Calculator</span>
+            <span class="desc">Calculate electricity consumption for an appliance or compare new appliance to be purchased.</span>
+        </span>
+    </div>
+    <div class="box-white appliance col-sm-6 landing-comparison">
+        <a class="button-red" href="@(Url.Action("SingleAppliance", "ApplianceComparison", new { area = "Public" }))">
+            <div class="icon-text">SINGLE APPLIANCE CALCULATOR</div>
+            <div class="icon-appliance-landing"><img src="/Images/icon-single-calculator.png"></div>
+        </a>
+    </div>
+    <div class="box-white appliance col-sm-6 landing-comparison">
+        <a class="button-red" href="@(Url.Action("CompareAppliance", "ApplianceComparison", new { area = "Public" }))">
+            <div class="icon-text">COMPARE NEW APPLIANCE TO BE PURCHASED</div>
+            <div class="icon-appliance-landing"><img src="/Images/icon-compared.png"></div>
+        </a>
+    </div>
+
+</script>
+
+@section Scripts
+{
+    <script>
+        $(function () {
+            var viewModel = kendo.observable({
+
+            });
+
+            var view = new kendo.View("view-template", {
+                model: viewModel,
+                evalTemplate: true,
+                show: function (e) {
+
+                }
+            });
+
+            view.render("#view-container");
+        });
+    </script>
+}

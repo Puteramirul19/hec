@@ -1,0 +1,137 @@
+@media only screen and (max-width: 1200px) {
+  .footer {
+    height: auto;
+  }
+  .category-tab {
+    .tab-content {
+      .box-wrapper {
+        width: 100%;
+      }
+    }
+  }
+  .content-wrapper {
+    .box-white.appliance {
+      width: 100%;
+    }
+  }
+  .big-house {
+    height: auto !important;
+  }
+}
+@media only screen and (max-width: 990px) {
+  .copyright > img {
+    width: 100%;
+  }
+  .footer {
+    position: relative;
+  }
+  .quicklinks {
+    margin: 10px;
+    a:last-child {
+      margin: 0 15px 15px 0;
+    }
+  }
+  .bill-info-2 .box-white {
+    width: 50%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .footer {
+    .footer-content {
+      padding: 0 20px;
+      .footer-left {
+        padding-right: 15px;
+      }
+      .footer-right {
+        padding-left: 15px;
+      }
+    }
+    .follow-us {
+      text-align: center;
+    }
+  }
+ 
+  .icon-profile {
+    width: 75px;
+  }
+
+  .navbar-collapse {
+    border: 0;
+  }
+
+  .navbar-collapse ul {
+    margin: 0;
+  }
+  .bill-info-2 .box-white {
+    width: 100%;
+  } 
+  #highlight-block-wrapper #highlight-block {
+    display: none;
+  }
+  #energySaving {
+    .column-left {
+      text-align: center;
+      img {
+        margin: 0 auto;
+      }
+      .download-wrapper {
+        border: 0;
+        &:before {
+          border: 0;
+        }
+        .title-download {
+          width: 100%;
+        }
+      }
+    }
+    
+  }
+  .category-tab .nav-tabs {
+    margin: 0;
+  }
+  .quicklinks-popup {
+    .modal-lg {
+      margin: 0;
+      padding: 10px;
+    }
+  }
+  .content-wrapper {
+    margin-left: 0;
+    .appliance.box-white {
+      &.room {
+        width: 100%;
+        .big-house {
+          display: none;
+        }
+      }
+    }
+  }
+  .tabbing-appliance {
+    width: 100%;
+    .tab-select > ul > li {
+      width: 100%;
+    }
+  }
+  .skin-blue {
+    .main-header {
+      .navbar {
+        margin-left: 0;
+      }
+    }
+    &.sidebar-open {
+      margin-left: 240px;
+    }
+  }
+  .copyright-text,
+  .footer-left {
+    text-align: center;
+  }
+  .fixed {
+    width: 85%;
+  }
+  .tabbing-content {
+    width: 100%;
+  }
+
+}
+

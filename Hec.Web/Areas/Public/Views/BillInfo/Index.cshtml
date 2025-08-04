@@ -1,0 +1,411 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    ViewBag.BodyClass = "skin-blue sidebar-mini bill-info";
+    ViewBag.ActiveClass = "bill-info";
+
+}
+
+<div id="view-container"></div>
+
+<!-- start floating higlight -->
+<div id="highlight-block-wrapper">
+    <div id="highlight-block">
+        <p><span class="highlight-text">HIGHLIGHTS</span></p>
+    </div>
+    <div class="close-button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+    <div id="highlight-block-content">
+        <p>We are pleased to provide this personalized report to as part of a pilot program. The purpose is to:</p>
+        <p>
+            <span class="yellow-text"><strong>Provide information</strong></span><br>
+            This report is an educational tool to help you understand your home's energy use
+        </p>
+        <p>
+            <span class="yellow-text"><strong>Track Progress</strong></span><br>
+            We will help you learn about how your home's usage changes over time and where you likely have opportunities to save.
+        </p>
+        <p>
+            <span class="yellow-text"><strong>Share energy efficiency tips</strong></span><br>
+            On the back of the report, we provide ideas for saving energy and money. You can find more tips at <a href="\\#">bcem.tnb.com.my</a>.
+        </p>
+        <p>To view all news, <a href="\\#">click here</a></p>
+    </div>
+</div>
+<!-- end floating higlight -->
+
+<script id="view-template" type="text/x-kendo-template">
+    <section>
+        <div class="bill-info-add">
+            <div class="header-title">
+                <span class="icon-home-content"></span>
+                <span class="details">
+                    <span class="title-big">My billing info</span>
+                    <span class="desc">
+                        Add new account or view your current bill usage <br />To add Account, follow this guideline,
+
+
+                        <a class="button-red" href="javascript:;" data-bind="click: guideline">
+                            <span style="color:blue">Click here</span>
+                        </a>
+                    </span>
+                </span>
+            </div>
+
+            <!--==== List of houses ====-->
+            @foreach (Hec.Entities.ContractAccount acc in ViewBag.ContractAccounts)
+            {
+                <div class="store-select house-details">
+                    <div class="box-white">
+                        @*<div class='@(acc.IsFromSsp.Equals(true)?"sticky-label-fav":"sticky-label-hec")'></div>*@
+                        @if (acc.IsFromSsp)
+                        {
+                            <span class="sticky-label-fav" data-toggle="tooltip" data-placement="top" title="This account is taken from SSP."></span>
+                        }
+                        else
+                        {
+                            <span class="sticky-label-hec" data-toggle="tooltip" data-placement="top" title="This account is created in HEC."></span>
+                        }
+                        <div class="padding-20">
+                            <div class="icon-rumah">
+                                <div class="value-wrapper">
+                                    <p class="value-text">RM @acc.LatestBillAmount.ToString("###,###,##0.00")</p>
+                                    @*<p><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span></p>*@
+                                </div>
+                            </div>
+                            <div class="info-title">
+                                @Html.CustomEncode(acc.House.HouseName) <br />
+                                @if (acc.IsDefault)
+                                {
+                                    <div style="font-size: small;" class="btn btn-success btn-xs">Default</div>
+                                }
+                                else
+                                {
+                                    <div style="font-size: small;" class="btn btn-warning btn-xs modal-setDefault"
+                                         data-name="@Html.CustomEncode(acc.House.HouseName)" data-id="@acc.Id">
+                                        Set As Default
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="quicklink-info">
+                            <a href="@Url.Action("DetailsAccount", new { id = @acc.Id })"><span class="icon-hec icon-billing-info"></span><span class="info-text">Billing Info</span><span class="icon-info-arrow"></span></a>
+
+                            <a href="@Url.Action("Account", "UsageCalculator", new { ca = @acc.AccountNo })"><span class="icon-hec icon-bill-appliance-store"></span><span class="info-text">Usage Calculator</span><span class="icon-info-arrow"></span></a>
+                            @*Feedback UAT 2 - Hide add house*@
+                            @*<a href="@Url.Action("EditAccount",  new { accountNo=@acc.AccountNo })"><span class="icon-hec icon-edit-account"></span><span class="info-text">Edit Account</span><span class="icon-info-arrow"></span></a>*@
+                            @*Feedback UAT 2 - Can delete account*@
+                            @if (acc.IsDefault)
+                            {
+                                <a href="\\#" class="modal-removeAccount" data-name="@Html.CustomEncode(acc.House.HouseName)" data-id="@acc.Id" data-is-default="true"><span class="icon-hec icon-edit-account"></span><span class="info-text">Remove Account</span><span class="icon-info-arrow"></span></a>
+                            }
+                            else
+                            {
+                                <a href="\\#" class="modal-removeAccount" data-name="@Html.CustomEncode(acc.House.HouseName)" data-id="@acc.Id" data-is-default="false"><span class="icon-hec icon-edit-account"></span><span class="info-text">Remove Account</span><span class="icon-info-arrow"></span></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @*Feedback UAT 2 - Hide add house*@
+            <!--==== Add House ====-->
+            @*<div class="store-select select-house">
+                    <div class="box-white">
+                        <div class="addnew">
+                            <a class="button-red" href="@Url.Action("AddAccount")">
+                                <div class="icon-text">Add new account</div>
+                                <div class="icon-add-new"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>*@
+
+
+
+        </div>
+
+    </section>
+</script>
+<!-- modal IsDefault -->
+<div class="modal fade" id="modal-setDefault">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+                <h4 class="modal-title">Set <span id="modal-setDefault-name" class="bold"></span> as default?</h4>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="account-id" value="" />
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">NO</button>
+                <button type="button" class="btn btn-success set-as-default">YES</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+<!-- modal Remove Account -->
+<div class="modal fade" id="modal-removeAccount">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+                <h4 class="modal-title">Remove <span id="modal-remove-name" class="bold"></span> account?</h4>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="account-remove-id" value="" />
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">NO</button>
+                <button type="button" class="btn btn-success remove-account">YES</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+<!-- modal FirstTimeLogin -->
+<div class="modal fade" id="firstTimeBox">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+                <h4 class="modal-title">Welcome to HEC</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        You can press the Use Calculator button at the house you want.
+                        <br />
+                        Then you can add rooms and appliances and enter the appropriate data.
+                        <br />
+                        System will make calculations based on tariff blocks.
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btnFirstTimeDone" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+<!-- modal Guideline -->
+<div class="modal fade" id="guideline">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+                <h4 class="modal-title">Welcome to HEC</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        To create a new account HEC, please go to <a href="https://www.mytnb.com.my/">www.mytnb.com.my</a> and add the required account details.
+                        <br />
+                        HEC will automatically get the Account details for you.
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btnFirstTimeDone" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+
+
+
+@section Scripts
+{
+    <script>
+        $(function () {
+
+            var firstTime = "@TempData["FirstTimeLogin"]";
+            if (firstTime === "True") {
+                $("#firstTimeBox").modal({ show: true });
+                showModal($('#firstTimeBox')[0])
+            }
+
+            var viewModel = kendo.observable({
+
+                energyUsage: function (e) {
+                    var el = $(e.currentTarget);
+
+                    $.ajax({
+                        url: '@(Url.Action("ReadHouseForAccountNo", "UsageCalculator"))',
+                        type: 'POST',
+                        data: {
+                            userId: "@System.Web.HttpContext.Current.User.Identity.Name",
+                            accountNo: el.data("account-no"),
+                        },
+                        dataType: 'json',
+                        async: false,
+                        success: function (data, textStatus, jqXHR) {
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                        }
+                    });
+                },
+
+                data: {
+                    Bill: 89.12,
+                    Bill2: 102.20,
+                },
+
+                infoDiv: function () {
+                    $(".select-house").show();
+                    $(".house-details").show();
+                    return false;
+                },
+
+                addAccount: function () {
+                    $(".store-select").hide();
+                    $(".new-house").show(function () {
+                    });
+                },
+
+                editHouse: function () {
+                    $(".store-select").hide();
+                    $(".edit-house").show(function () {
+                    });
+                },
+
+                selectHouseType: function () {
+                    $(".store-select").hide();
+                    $(".select-house-type").show(function () {
+                    });
+
+                    var roomSelect = $('.house-container.room-select');
+                    roomSelect.find(".house").on('click', function () {
+                        $(this).toggleClass('select');
+                    });
+                },
+
+                billingInfo: function () {
+                    $(".store-select").hide();
+                    $(".billing-info").show(function () {
+                    });
+                },
+
+                guideline: function () {
+                    $("#guideline").modal({ show: true });
+                    showModal($('#guideline')[0])
+                },
+
+                save: function (e) {
+                    e.preventDefault();
+
+                    //var form = $('#verifyForm');
+                    //var validator = form.data('kendoValidator') || form.kendoValidator().data('kendoValidator');
+
+                    $.confirm({
+                        title: false,
+                        keyboardEnabled: true,
+                        confirmButton: 'OK',
+                        cancelButton: 'CANCEL',
+                        content: "Are you sure to submit?",
+                        confirm: function () {
+
+                            $.ajax({
+                                url: '@(Url.Action("Save","BillInfo"))',
+                                type: 'POST',
+                                data: {
+                                    Name: viewModel.get("data.Name"),
+                                },
+                                dataType: 'json',
+                                async: false,
+                                success: function (data, textStatus, jqXHR) {
+                                    //app.notifySuccess("Changing Department was successful.");
+                                    //app.navigate("/idea/view/" + params.id);
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    //app.notifyError(lang("some_error_occured_please_try_again"), jqXHR);
+                                }
+                            });
+                        },
+                        cancel: function () {
+                        }
+                    });
+                },
+
+            });
+
+            var view = new kendo.View("view-template", {
+                model: viewModel,
+                evalTemplate: true,
+                show: function (e) {
+
+                    // Func to Set Default House //
+                    $(".modal-setDefault").click(function () {
+                        $('#modal-setDefault-name').text($(this).data('name'));
+                        $('#account-id').val($(this).data('id'));
+                        $("#modal-setDefault").modal("show");
+                    });
+
+                    // Set house as default
+                    $(".set-as-default").click(function () {
+                        $.ajax({
+                            url: '@(Url.Action("SetDefaultHouse", "BillInfo"))',
+                            type: 'POST',
+                            data: {
+                                userId: "@System.Web.HttpContext.Current.User.Identity.Name",
+                                id: $('#account-id').val(),
+                            },
+                            dataType: 'json',
+                            async: false,
+                            success: function (data, textStatus, jqXHR) {
+                                //console.log(data);
+                                window.location.reload(false);
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(textStatus);
+                            }
+                        });
+                    });
+
+                    // Remove bills and account
+                    $(".modal-removeAccount").click(function (e) {
+                        e.preventDefault();
+
+                        if ($(this).data('is-default') == true) {
+                            alert("Please change your default house before remove this " + $(this).data('name') + " account.");
+                            return;
+                        }
+
+                        $('#modal-remove-name').text($(this).data('name'));
+                        $('#account-remove-id').val($(this).data('id'));
+                        $("#modal-removeAccount").modal("show");
+                    });
+
+                    $(".remove-account").click(function () {
+                        $.ajax({
+                            url: '@(Url.Action("RemoveAccount", "BillInfo"))',
+                            type: 'POST',
+                            data: {
+                                userId: "@System.Web.HttpContext.Current.User.Identity.Name",
+                                id: $('#account-remove-id').val(),
+                            },
+                            dataType: 'json',
+                            async: false,
+                            success: function (data, textStatus, jqXHR) {
+                                //console.log(data);
+                                window.location.reload(false);
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(textStatus);
+                            }
+                        });
+                    });
+                }
+            });
+
+            view.render("#view-container");
+        });
+    </script>
+}

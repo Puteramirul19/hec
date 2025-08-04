@@ -1,0 +1,55 @@
+﻿@model Hec.Entities.ContractAccount
+@{
+    ViewBag.Title = "Index";
+    ViewBag.BodyClass = "skin-blue sidebar-mini bill-info";
+    ViewBag.ActiveClass = "bill-info";
+
+}
+
+<section>
+    <div class="bill-info-add">
+        <div class="header-title">
+            <span class="icon-home-content"></span>
+            <span class="details">
+                <span class="title-big">My billing info</span>
+                <span class="desc">Update your house informations</span>
+            </span>
+        </div>
+
+        <!--==== Edit House Details====-->
+        <div class="store-select edit-house">
+            <div class="box-white-form">
+                <span class="icon-text">Edit Account Details</span>
+            @using (Html.BeginForm("Update", "BillInfo", FormMethod.Post, new { id = Model.Id }))
+            {
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.AccountNo)
+                @Html.HiddenFor(model => model.UserId)
+                @Html.HiddenFor(model => model.LatestBillAmount)
+                <form>
+                    <div class="form-group">
+                        @Html.Label("House Name")
+                        <input class="k-textbox" id="HouseName" name="HouseName" value="@Model.House.HouseName" />
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Telephone Number")
+                        @(Html.Kendo().TextBox().Name("TelephoneNo"))
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Mobile Number")
+                        @(Html.Kendo().TextBox().Name("MobileNo"))
+                    </div>
+
+                    <div class="hec-input-button">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            }
+            </div>
+        </div>
+
+    </div>
+
+</section>

@@ -1,0 +1,83 @@
+﻿@model Hec.Web.Areas.Admin.Controllers.AppliancesModel
+
+@{
+    ViewBag.Title = "Manage Appliances";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-store";
+    ViewBag.ActiveClass = "appliances";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><span class="fa fa-home"></span></a></li>
+        <li class="active"> @Html.ActionLink("Appliances", "Index", "Appliances")</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+                @(Html.Kendo().Grid<Hec.Web.Areas.Admin.Controllers.AppliancesModel>()
+                  .Name("grid")
+                  .Columns(columns =>
+                  {
+                  columns.Bound(c => c.Name);
+                  columns.ForeignKey(c => c.TipCategoryId, (System.Collections.IEnumerable)ViewBag.TipsCategories, "Id", "Name").Title("Category").Width(150);
+
+                  columns.ForeignKey(c => c.IsActive, new SelectList(new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Inactive", Value = bool.FalseString },
+                        new SelectListItem { Text = "Active", Value = bool.TrueString },
+                    }, "Value", "Text")).Title("Status").ClientTemplate("#: IsActive == true ? 'Active' : 'Inactive' #").Width(100);
+
+                  // columns.Template(@<text></text>).ClientTemplate("<img src='" + Url.Action("Index", "File", new { area = "", fileId = "#=FileId#" }) + "'/>").Title("Icon").Width(100);
+                  columns.Template(@<text></text>).ClientTemplate("<img src='/Uploads/Appliances/#= Name #.png' style='height:50px;width:50px;' />").Title("Icon").Width(100);
+
+                  columns.Template(@<text></text>).ClientTemplate("<div class=\"btn btn-default\">" + "<a href='" + Url.Action("Edit", "Appliances") + "/#=Id#'>Edit</a>").Title("Action").Width(70);
+
+
+                  })
+                 .ToolBar(toolbar =>
+                 {
+                     toolbar.Custom().Text("Create New Appliance").Action("Create", "Appliances");
+                 })
+                  .Filterable(filterable => filterable
+                    .Extra(false)
+                    .Operators(operators => operators
+                        .ForString(str => str.Clear()
+                            .Contains("Contains with")
+                        ))
+                    )
+                  .Editable(editable => editable.Mode(GridEditMode.InLine))
+                  .Pageable()
+                  .Navigatable()
+                  .Selectable(selectable =>
+                  {
+                      selectable.Mode(GridSelectionMode.Single);
+                      selectable.Type(GridSelectionType.Row);
+                  })
+                  .Sortable(sortable =>
+                  {
+                      sortable.SortMode(GridSortMode.SingleColumn);
+                  })
+                  .Scrollable(s => s.Height("auto"))
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(10)
+                      .Model(model =>
+                      {
+                          model.Id(p => p.Id);
+                          model.Field(p => p.Name).Editable(false);
+                      })
+                      .Read(read => read.Action("Read", "Appliances"))
+                      .Destroy(destroy => destroy.Action("Delete", "Appliances"))
+                  )
+                )
+            </div>
+        </div>
+    </div>
+</section>
+

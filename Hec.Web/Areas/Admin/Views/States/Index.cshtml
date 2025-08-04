@@ -1,0 +1,68 @@
+﻿@{
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><span class="fa fa-home"></span></a></li>
+        <li class="active"> @Html.ActionLink("States", "Index", "States")</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box grid-container">
+                @(Html.Kendo().Grid<Hec.Entities.State>()
+                  .Name("grid")
+                  .Columns(columns =>
+                  {
+                      columns.Bound(c => c.Code);
+                      columns.Bound(c => c.Name);
+                      columns.Bound(c => c.Weekend1);
+                      columns.Bound(c => c.Weekend2);
+                      columns.Bound(c => c.EhrmsCode);
+                      columns.Bound(c => c.IntegrationId);
+                      columns.Command(command => { command.Edit(); command.Destroy(); }).Width(100).Title("Actions");
+                  })
+                  .ToolBar(toolbar =>
+                  {
+                      toolbar.Create();
+                  })
+                  .Editable(editable => editable.Mode(GridEditMode.InLine))
+                  .Pageable()
+                  .Navigatable()
+                  .Selectable(selectable =>
+                  {
+                      selectable.Mode(GridSelectionMode.Single);
+                      selectable.Type(GridSelectionType.Row);
+                  })
+                  .Sortable(sortable =>
+                  {
+                      sortable.SortMode(GridSortMode.SingleColumn);
+                  })
+                  .Filterable(filterable => filterable
+                      .Extra(false)
+                      .Operators(operators => operators
+                        .ForString(str => str.Clear()
+                            .Contains("Contains with")
+                        ))
+                  )
+                  .Scrollable(s => s.Height("auto"))
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(10)
+                      .Model(model => model.Id(p => p.Id))
+                      .Read(read => read.Action("Read", "States"))
+                      .Create(create => create.Action("Create", "States"))
+                      .Update(update => update.Action("Update", "States"))
+                      .Destroy(destroy => destroy.Action("Delete", "States"))
+                      .Events(events => events.Error("gridError"))
+                  )
+                )
+
+            </div>
+        </div>
+    </div>
+</section>

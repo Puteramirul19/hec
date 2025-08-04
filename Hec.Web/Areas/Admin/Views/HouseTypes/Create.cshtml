@@ -1,0 +1,35 @@
+﻿@using Hec.Entities
+@model Hec.Web.Areas.Admin.Controllers.HouseTypesListModel
+
+@{
+    ViewBag.Title = "Title";
+    ViewBag.BodyClass = "skin-blue sidebar-mini appliance-store";
+    ViewBag.ActiveClass = "tips";
+}
+
+<section class="content-header">
+    <h1>
+        Create House Types
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><span class="fa fa-home"></span></a></li>
+        <li>@Html.ActionLink("House Types", "Index", "HouseTypes")</li>
+        <li class="active"> @Html.ActionLink("New House Types", "Create", "HouseTypes")</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="box">
+                <div class="box-body">
+                    @using (Html.BeginForm("Create", "HouseTypes", FormMethod.Post))
+                    {
+                        @Html.Partial("_Editable", Model)
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

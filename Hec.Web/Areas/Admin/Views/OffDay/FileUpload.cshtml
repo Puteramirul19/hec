@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<section class="content-header">
+    <h1>
+        Upload Off-Days
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><span class="fa fa-home"></span></a></li>
+        <li> @Html.ActionLink("Off-Day", "Index", "OffDay")</li>
+        <li class="active"> @Html.ActionLink("Upload Off-Days", "Index", "OffDayUpload")</li>
+    </ol>
+</section>
+
+<div id="view-container"></div>
+
+<script id="view-template" type="text/x-kendo-template">
+
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label class="control-label">For Year</label>
+                                <div>
+                                    <input data-role="numerictextbox"
+                                           data-decimals="0"
+                                           data-format="{0:0000}"
+                                           data-min="0"
+                                           data-bind="value: year" />
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label class="control-label">Excel File</label>
+                                <input name="file"
+                                       type="file"
+                                       data-role="upload"
+                                       data-multiple="false"
+                                       data-async="{ saveUrl: '@Url.Action("Upload", "File")', autoUpload: true }"
+                                       data-bind="events: { select: uploadSelect, success: uploadSuccess }">
+                            </div>
+                        </div>
+                        <div class="row form-actions">
+                            <div class="col-sm-12">
+                                <button class="btn btn-primary" data-bind="click: save">Save</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="upload-result col-sm-12">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</script>
+
+@section Scripts
+{
+<script>
+    $(function () {
+        var viewModel = kendo.observable({
+
+            year: @ViewBag.Year,
+
+            uploadSelect: function (e) {
+                $.each(e.files, function (index, value) {
+                    // Check file type. Allowed file type is XLSX.
+                    var chkExt = value.extension.toLowerCase() == ".xlsx";
+
+                    if (!chkExt) {
+                        e.preventDefault();
+                        alert("Please upload XLSX file only, in the correct template given.");
+                        return false;
+                    }
+                });
+            },
+
+            fileId: null,
+
+            uploadSuccess: function (e) {
+                if (e.operation == "upload") {
+                    this.set("fileId", e.response.fileId);
+                }
+            },
+
+            save: function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "@Url.Action("Upload", "OffDay")",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        year: this.get("year"),
+                        fileId: this.get("fileId")
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        var html = '<div class="count">Successful records: ' + data.successCount + '</div>'
+                                    + '<div class="count">Fail records: ' + data.failCount + '</div>'
+                                    + '<table class="table table-bordered"><tr><th>Row Num</th><th>Name</th><th>Date</th><th>State</th><th>Status</th><th>Remarks</th></tr>';
+
+                        if (data.failCount) {
+                            html = '<div style="color:red;font-weight:bold;margin:10px 0;">Some error found in data file, but valid data has been inserted into the system.</div>' + html;
+                        }
+
+                        for (var i = 0; i < data.records.length; i++) {
+                            var r = data.records[i];
+                            html += '<tr><th>' + r.RowNum + '</th><th>' + (r.Name || "") + '</th><th>' + kendo.toString(kendo.parseDate(r.Date), "dd/MM/yyyy") + '</th><th>' + (r.StateName || "") + '</th><th>' + (r.Ok ? 'Success' : 'Fail') + '</th><th>' + (r.Remarks || "") + '</th></tr>';
+                        }
+                        html += '</table>';
+
+                        $(".upload-result").html(html).css({ background: "white", padding: "20px" });
+                        $(".count").css({ "font-weight": "bold", "margin-bottom": "5px" });
+
+                        if (data.failCount)
+                            app.notifyError("Some error found in data file, but valid data has been inserted into the system.");
+                        else
+                            app.notifySuccess("Off-Day records processed.");
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        app.notifyError("Some error occured. Please try again.", jqXHR);
+                    }
+                });
+            }
+        });
+
+        var view = new kendo.View("view-template", {
+            model: viewModel,
+            evalTemplate: true
+        });
+
+        view.render("#view-container");
+
+    });
+</script>
+}

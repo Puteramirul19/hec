@@ -1,0 +1,421 @@
+﻿
+@model IEnumerable<Hec.Entities.Tip>
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.BodyClass = "skin-blue sidebar-mini bill-calculator";
+    ViewBag.ActiveClass = "energy-tips";
+    Layout = "~/Areas/Public/Views/Shared/_LayoutPublic_New.cshtml";
+
+}
+
+<style>
+    .category-icon {
+        cursor: pointer;
+    }
+
+    .content-wrapper .header-title {
+        margin-bottom: auto;
+    }
+
+    .nav-link.active {
+        border-bottom: 3px solid #5f7fe6;
+    }
+
+    .nav-tabs .nav-link {
+        border: none;
+    }
+
+    .swiper-container {
+        position: relative; /* important for positioning navigation buttons inside */
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .swiper-slide {
+        width: 8rem !important;
+    }
+
+    .swiper-wrapper {
+        padding-left: 3rem;
+        padding-right: 4rem;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: grey !important;
+        font-weight: bolder;
+        font-size: 32px;
+    }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 32px;
+        }
+
+    .row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+    }
+
+    .k-listview-content {
+        display: flex !important;
+        overflow: hidden;
+        /* padding: 0rem 1rem;*/
+        padding-right: 2rem;
+    }
+
+
+</style>
+
+
+<div class="header-title">
+    <span class="icon-hec icon-calculator-content"></span>
+    <span class="details">
+        <span class="title-big">ENERGY SAVING TIPS</span>
+        <span class="desc">Find out more on bright ways to save energy at home.</span>
+    </span>
+</div>
+
+<div class="energy-saving-top">
+    <div class="version-download pull-right">
+        <p class="download-desc">Download Energy Saving Tips here..</p>
+        <a class="hec-button" href="~/Content/EE_Booklet_Domestic_EN.pdf">English Version</a>
+        <a class="hec-button" href="~/Content/EE_Booklet_Domestic_BM.pdf">Bahasa Version</a>
+    </div>
+
+    @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+        <div class="do-button-wrapper">
+            <a class="do-doit" href="#" data-tips-status="Doing">I'll do it (<span style="color:yellowgreen" class="doitCountText">@ViewBag.Doit</span>)</a>
+            <a class="do-done" href="#" data-tips-status="Done">Already done it (<span style="color:yellowgreen" class="doneCountText">@ViewBag.Done</span>)</a>
+        </div>
+    }
+    else
+    {
+        <div style="padding-top:45px;">&nbsp;</div>
+    }
+</div>
+
+
+<div class="category-tab">
+
+    @*<div class="jcarousel-wrapper">
+            <div class="jcarousel">
+                <ul class="nav nav-tabs" role="tablist">
+                    @foreach (Hec.Entities.TipCategory cat in ViewBag.TipCategories)
+                    {
+                        if (cat.IsActive.Equals(true))
+                        {
+                            <li role="presentation">
+                                <a href="javascript:;" aria-controls="home" role="tab" data-toggle="tab">
+                                    <span class="category-icon" data-category-id="@cat.Id" data-category-name="@cat.Name">
+                                        <span class="icon-category-bg">
+                                            <img src="@Url.Content("~/Uploads/TipCategory/" + cat.Name + ".png")" alt="Image" style='height:50px;width:50px;' />
+                                        </span>
+                                        <span class="category-text">@cat.Name</span>
+                                    </span>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <a href="#" class="jcarousel-control-prev"></a>
+            <a href="#" class="jcarousel-control-next"></a>
+        </div>*@
+
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            @foreach (Hec.Entities.TipCategory cat in ViewBag.TipCategories)
+            {
+                if (cat.IsActive)
+                {
+                    <div class="swiper-slide">
+                        <a class="nav-link d-flex align-items-center justify-content-center" href="javascript:;" aria-controls="home" role="tab" data-toggle="tab">
+                            <span class="category-icon" data-category-id="@cat.Id" data-category-name="@cat.Name">
+                                <span class="icon-category-bg">
+                                    <img src="@Url.Content("~/Uploads/TipCategory/" + cat.Name + ".png")" alt="Image" style="height:50px; width:50px;" />
+                                </span>
+                                <span class="category-text">@cat.Name</span>
+                            </span>
+                        </a>
+                    </div>
+                }
+            }
+        </div>
+
+        <!-- Navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+
+
+
+    <div class="tab-content">
+        <div class="row">
+            <div class="col-sm-12" role="tabpanel">
+                @(Html.Kendo().ListView<Hec.Entities.Tip>()
+                .HtmlAttributes(new { id = "tipsList", style = "border: 0; background: inherit", @class = "row tips-listing" })
+                .Name("tipsList")
+                .TagName("div")
+                .ClientTemplateId("template")
+                .AutoBind(false)
+                .Events(e => e.DataBound("onDataBound"))  // Add the dataBound event handler
+                .DataSource(dataSource => dataSource
+                    .Model(model => model.Id("Id"))
+                    .Read(read => read.Action("Read", "EnergyTips"))
+                ))
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/x-kendo-tmpl" id="template">
+    <div class="col-lg-6 col-md-12 mb-4 box-wrapper" data-tip-id="#: Id #">
+    <div class="padding-20 padding-tips">
+        <p class="sticker">
+            <span class="icon-hec icon-tick"></span>
+            <span class="done-count">#: DoneCount #</span>
+        </p>
+
+        # if(FileThumbId == null) {#
+            @*<img src="@Url.Content("~/Uploads/Tips/thumb_01.jpg")" alt="Image" />*@
+        # } else { #
+            <p class="col-image">
+                <a href="@Url.Action("Index", "FilePublic", new { area = "" })?fileId=#= FilePopupId #" data-toggle="lightbox">
+                    <img src="@Url.Action("Index", "FilePublic", new { area = "" })?fileId=#= FileThumbId #" alt="Image" class="img-fluid" style="height: 100px; width: 100px;" />
+                </a>
+            </p>
+        # } #
+
+        <p class="title font-weight-bold">#: Title #</p>
+        <p>#= Description #</p>
+    </div>
+
+    @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+        <div class="smallbox">
+            <div class="small-box-container btn-like">
+                <div class="small-box-inner #= (Status===0 ? 'active' : '') #">
+                    <span class="icon-hec icon-like"></span><span>I'll do it</span>
+                </div>
+            </div>
+            <div class="small-box-container btn-doneit">
+                <div class="small-box-inner #= (Status===1 ? 'active' : '') #">
+                    <span class="icon-hec icon-doneit"></span><span>Already done it</span>
+                </div>
+            </div>
+            <div class="small-box-container btn-nothanks">
+                <div class="small-box-inner no-border #= (Status===2 ? 'active' : '') #">
+                    <span class="icon-hec icon-nothanks"></span><span>No thanks</span>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+</script>
+
+<script>
+    $(function () {
+
+
+        $(document).on('click', '.category-icon', function (e) {
+            e.preventDefault();
+            var el = $(this);
+
+            $("[role=presentation]").removeClass("active");
+            el.closest("[role=presentation]").addClass("active");
+
+            var ds = $("#tipsList").data("kendoListView").dataSource
+            ds.filter({ field: "TipCategoryId", operator: "eq", value: el.data("category-id") });
+        });
+
+        function filterStatus(e) {
+            e.preventDefault();
+            var el = $(this);
+
+            $("[role=presentation]").removeClass("active");
+            el.closest("[role=presentation]").addClass("active");
+
+            var ds = $("#tipsList").data("kendoListView").dataSource
+            ds.filter({ field: "Status", operator: "eq", value: el.data("tips-status") });
+        }
+
+        $(document).on('click', '.do-done', filterStatus);
+        $(document).on('click', '.do-doit', filterStatus);
+
+        function updateTipStatus(e, status) {
+            var el = $(e.target).closest(".small-box-container");
+            var container = el.closest("[data-tip-id]");
+            var tipId = container.data("tip-id");
+
+            container.find(".small-box-inner").removeClass("active");
+            el.find(".small-box-inner").addClass("active");
+
+            $.ajax({
+                url: "@Url.Action("UpdateUserTipStatus", "EnergyTips")/" + tipId + "?status=" + status,
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (data, textStatus, jqXHR) {
+                    container.find(".done-count").text(data.tip.DoneCount);
+
+                    // Set total tips
+                    $(".doitCountText").text(data.doitCount);
+                    $(".doneCountText").text(data.doneCount);
+                }
+            });
+        }
+
+        $(document).on('click', '.btn-like', function (e) { updateTipStatus(e, 0); });
+        $(document).on('click', '.btn-doneit', function (e) { updateTipStatus(e, 1); });
+        $(document).on('click', '.btn-nothanks', function (e) { updateTipStatus(e, 2); });
+
+        // On load, show category General only
+        $("[data-category-name=General]").click();
+
+    });
+
+    // Ekko lightbox
+    $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+        event.preventDefault();
+        $(this).ekkoLightbox({
+            alwaysShowClose: true,
+        });
+
+    });
+
+
+
+
+</script>
+
+@section Scripts
+{
+    <script>
+
+        function onDataBound(e) {
+            // Find all elements with class 'k-listitem-content' inside the ListView
+            this.element.find(".k-listview-content").each(function () {
+                //$(this).addClass("row");
+            });
+        }
+
+        $(function () {
+            //$('.jcarousel')
+            //    .jcarousel()       // init jcarousel
+            //    .jcarouselSwipe(); // init jcarouselSwipe
+
+
+            var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 'auto',
+                spaceBetween: 10,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+
+            });
+
+            // Optional: handle tab click to add active class for Bootstrap nav tabs
+            $('.nav-link').on('click', function () {
+                $('.nav-link').removeClass('active');
+                $(this).addClass('active');
+            });
+
+        })
+
+    </script>
+}
+
+@*<style>
+        .product-view {
+            float: left;
+            width: 50%;
+            height: 300px;
+            box-sizing: border-box;
+            border-top: 0;
+            position: relative;
+        }
+
+            .product-view:nth-child(even) {
+                border-left-width: 0;
+            }
+
+            .product-view dl {
+                margin: 10px 10px 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            .product-view dt, dd {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                line-height: 24px;
+                font-size: 18px;
+            }
+
+            .product-view dt {
+                font-size: 14px;
+                height: 16px;
+                color: dodgerblue;
+                line-height: 16px;
+                text-transform: uppercase;
+                opacity: 0.5;
+            }
+
+            .product-view dd {
+                height: 46px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                font-style: normal;
+            }
+
+                .product-view dd .k-widget,
+                .product-view dd .k-textbox {
+                    font-size: 14px;
+                }
+
+        .k-listview {
+            border-width: 1px 0 0;
+            padding: 0;
+            overflow: hidden;
+            min-height: 298px;
+        }
+
+        .edit-buttons {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: right;
+            padding: 5px;
+            background-color: rgba(0,0,0,0.1);
+        }
+
+        .k-pager-wrap {
+            border-top: 0;
+        }
+
+        span.k-invalid-msg {
+            position: absolute;
+            margin-left: 6px;
+        }
+
+        .k-add-button {
+            margin-bottom: 2em;
+        }
+
+        @@media only screen and (max-width : 620px) {
+
+            .product-view {
+                width: 100%;
+            }
+
+                .product-view:nth-child(even) {
+                    border-left-width: 1px;
+                }
+        }
+    </style>*@
