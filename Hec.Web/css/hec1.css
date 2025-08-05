@@ -1,26 +1,28 @@
 /* appliance-store.html */
 .icon-lamp-content {
-  background: url("../images/ico_01.png") no-repeat;
+	background: url("../images/ico_01.png") no-repeat;
 	width: 55px;
 	height: 60px;
-  display: inline-block;
-  margin-right: 15px;
+	display: inline-block;
+	margin-right: 15px;
 }
+
 .content-wrapper .appliance.box-white a {
-  border-radius: 5px;
-  color: #000;
-  display: block;
-  padding: 0 30px;
+	border-radius: 5px;
+	color: #000;
+	display: block;
+	padding: 0 30px;
 	cursor: pointer;
 	position: relative;
 	margin-bottom: 10px;
-
 }
+
 .content-wrapper .appliance.box-white .icon-text {
 	display: inline-block;
 	text-align: left;
 	margin: 30px 0;
 }
+
 .content-wrapper .appliance.box-white .icon-add-new {
 	background: url("../images/hec-sprite.png") no-repeat scroll -19px -606px;
 	vertical-align: middle;
@@ -31,19 +33,21 @@
 /* appliance-store-2.html */
 .content-wrapper .dim {
 	background-color: rgba(0, 0, 0, .6);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  z-index: 10;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	z-index: 10;
 	left: 0;
 }
+
 .content-wrapper .content-popup {
 	position: absolute;
-    top: 27px;
-    z-index: 15;
+	top: 27px;
+	z-index: 15;
 	margin-left: -35px;
 }
+
 .content-wrapper .content-appliance-store {
 	padding: 40px 30px 0 30px;
 	color: #000;
@@ -54,19 +58,23 @@
 	border-radius: 5px;
 	padding: 15px;
 }
+
 .house-container .house-title {
 	font-size: 20px;
 	margin-bottom: 15px;
 	padding: 0;
 	text-transform: uppercase;
 }
+
 .house-container:first-child .house-title {
 	padding-top: 0;
 }
+
 .house-container a {
 	color: #000;
 	/*margin-right: 10px;*/
 }
+
 .house-container .house {
 	text-align: center;
 	border-radius: 5px;
@@ -78,199 +86,242 @@
 	border: 1px solid #cdd0d3;
 	vertical-align: top;
 }
+
 .house-container.room-select .house {
 	height: 215px;
 }
+
 .appliance-container .house-container.room-select .house {
 	height: 135px;
 	position: relative;
 	border: 1px solid #cdd0d3;
 }
-.appliance-container .house-container.room-select .house > div {
-	height: 70px;
-}
+
+	.appliance-container .house-container.room-select .house > div {
+		height: 70px;
+	}
+
 .house-container .house:hover {
 	background-color: #adebad;
 }
+
 .house-container a:last-child {
-	margin-right:0;
+	margin-right: 0;
 }
+
 .house-container .house > div {
 	height: 110px;
 }
+
 .house-container.room-select .house > div {
 	height: 150px;
 }
+
 .mCS-dark-thick.mCSB_scrollTools .mCSB_draggerRail, .mCS-light-thick.mCSB_scrollTools .mCSB_draggerRail {
-    background-color: rgba(66, 66, 66, 1);
-    width: 2px;
+	background-color: rgba(66, 66, 66, 1);
+	width: 2px;
 }
+
 .mCS-dark-thick.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar, .mCS-light-thick.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
-    background-color: rgba(205, 205, 206, 1);
+	background-color: rgba(205, 205, 206, 1);
 }
 
 /* appliance-store-3.html */
 .content-wrapper .appliance.box-white.room {
-    background-color: #fff;
-    border-radius: 5px;
-    color: #000;
-    cursor: pointer;
-    display: block;
-    padding: 30px 50px;
-    width: 70%;
+	background-color: #fff;
+	border-radius: 5px;
+	color: #000;
+	cursor: pointer;
+	display: block;
+	padding: 30px 50px;
+	width: 70%;
 }
-.content-wrapper .appliance.box-white.room .title-store {
-	padding: 0px 0px 20px;
-}
-.content-wrapper .appliance.box-white.room .title-store span {
-	font-size: 31px;
-	display: inline-block;
-	text-transform: uppercase;
-}
-.content-wrapper .appliance.box-white.room .title-store span.subscript-title {
-	font-size: 16px !important;
-	vertical-align: super;
-}
-.content-wrapper .appliance.box-white.room  .add-button  a {
-	width: 170px;
-	background-color: #f35a52;
-	color: #fff;
-	text-transform: uppercase;
-	border-radius: 0;
-	padding: 10px;
-	font-size: 15px;
-}
-.content-wrapper .appliance.box-white.room  .add-button  a div {
-	display: inline-block;
-}
-.content-wrapper .appliance.box-white.room .add-button .plus-text {
-	width: 120px;
-}
-.content-wrapper .appliance.box-white.room .add-button .plus-icon {
-	background: url("../images/hec-sprite.png") no-repeat -261px -454px;
-	width: 11px;
-	height: 11px;
-}
+
+	.content-wrapper .appliance.box-white.room .title-store {
+		padding: 0px 0px 20px;
+	}
+
+		.content-wrapper .appliance.box-white.room .title-store span {
+			font-size: 31px;
+			display: inline-block;
+			text-transform: uppercase;
+		}
+
+			.content-wrapper .appliance.box-white.room .title-store span.subscript-title {
+				font-size: 16px !important;
+				vertical-align: super;
+			}
+
+	.content-wrapper .appliance.box-white.room .add-button a {
+		width: 170px;
+		background-color: #f35a52;
+		color: #fff;
+		text-transform: uppercase;
+		border-radius: 0;
+		padding: 10px;
+		font-size: 15px;
+	}
+
+		.content-wrapper .appliance.box-white.room .add-button a div {
+			display: inline-block;
+		}
+
+	.content-wrapper .appliance.box-white.room .add-button .plus-text {
+		width: 120px;
+	}
+
+	.content-wrapper .appliance.box-white.room .add-button .plus-icon {
+		background: url("../images/hec-sprite.png") no-repeat -261px -454px;
+		width: 11px;
+		height: 11px;
+	}
+
 .house-container .house-title-room {
 	font-size: 20px;
 	padding: 0;
 	text-transform: uppercase;
 }
+
 .house-container .house-description {
 	font-size: 15px;
-	font-weight:300;
+	font-weight: 300;
 	margin-bottom: 30px;
 }
 /* appliance-store-4.html */
-.content-wrapper .content-popup  .add-button {
+.content-wrapper .content-popup .add-button {
 	margin: 10px 10px 0 0;
 }
-.content-wrapper .content-popup  .add-button  a {
-	color: #fff;
-	text-transform: uppercase;
-	font-size: 16px;
-	text-decoration: none;
-}
-.content-wrapper .content-popup  .add-button  .plus-text {
-	width: 150px;
-	background-color: #f35a52;
-	padding: 10px;
-	text-align: center;
-}
+
+	.content-wrapper .content-popup .add-button a {
+		color: #fff;
+		text-transform: uppercase;
+		font-size: 16px;
+		text-decoration: none;
+	}
+
+	.content-wrapper .content-popup .add-button .plus-text {
+		width: 150px;
+		background-color: #f35a52;
+		padding: 10px;
+		text-align: center;
+	}
+
 .house-container.room-select .house {
 	margin-bottom: 10px;
 	cursor: pointer;
 	border: 0;
 }
-.house-container.room-select .house.select {
-	background-color: #adebad;
-}
+
+	.house-container.room-select .house.select {
+		background-color: #adebad;
+	}
 /* appliance-store-5.html */
 .content-appliance-store1 {
 	margin-bottom: -10px;
 }
-.content-appliance-store1 .mCSB_inside > .mCSB_container {
-	margin-right: 30px !important;
-}
+
+	.content-appliance-store1 .mCSB_inside > .mCSB_container {
+		margin-right: 30px !important;
+	}
+
 .content-wrapper .appliance.box-white.room.part-five {
 	border-radius: 5px 5px 0 0;
 }
+
 .content-wrapper .appliance.box-white.room .add-button {
 	display: inline-block;
 }
+
 .total-description {
 	display: inline-block;
 	margin-left: 20px;
 }
+
 .content-wrapper .box-white.appliance .total-text {
 	font-size: 18px;
 	color: #898181;
 	display: inline-block;
 }
+
 .content-wrapper .box-white.appliance .total-amount {
 	font-size: 18px;
 	color: #1d1280;
 	display: inline-block;
 }
+
 .tabbing-appliance {
 	width: 70%;
 	border-top: 1px solid #cdd0d3;
 }
-.tabbing-appliance .tab-select {
-	background-color: #fff;
-	color: #000;
-}
-.tabbing-appliance .tab-select > ul {
-	padding: 0;
-	list-style: none;
-	margin: 0;
-}
-.tabbing-appliance .tab-select > ul  > li {
-	display: inline-block;
-	width: 33%;
-	text-align: center;
-	padding: 20px 0 23px 0;
-	font-size: 15px;
-	text-transform: uppercase;
-	cursor: pointer;
-}
-.tabbing-appliance .tab-select > ul  > li.liactive {
-	font-weight: 700;
-}
+
+	.tabbing-appliance .tab-select {
+		background-color: #fff;
+		color: #000;
+	}
+
+		.tabbing-appliance .tab-select > ul {
+			padding: 0;
+			list-style: none;
+			margin: 0;
+		}
+
+			.tabbing-appliance .tab-select > ul > li {
+				display: inline-block;
+				width: 33%;
+				text-align: center;
+				padding: 20px 0 23px 0;
+				font-size: 15px;
+				text-transform: uppercase;
+				cursor: pointer;
+			}
+
+				.tabbing-appliance .tab-select > ul > li.liactive {
+					font-weight: 700;
+				}
+
 .tabbing-content {
 	width: 70%;
 }
+
 .tab-content > div {
 	display: none;
 }
+
 .tab-content .statistic-content {
 	background-color: #fff;
 	color: #000;
 }
+
 .statistic-content {
 	padding: 20px;
 }
+
 .statistic-title {
 	font-size: 20px;
-    text-transform: uppercase;
+	text-transform: uppercase;
 	margin-bottom: 40px;
 }
+
 .statistic-graph {
 	text-align: center;
 }
+
 .energy-content {
 	padding: 20px;
 	background-color: #fff;
 	color: #000;
 }
-.energy-content > div {
-	display: inline-block;
-}
+
+	.energy-content > div {
+		display: inline-block;
+	}
+
 .tips-description {
 	width: 49%;
 	font-size: 22px;
 	font-weight: 300;
 }
+
 .tips-more {
 	width: 50%;
 	font-size: 13px;
@@ -278,51 +329,62 @@
 	text-transform: uppercase;
 	text-align: right;
 }
+
 .tips-items {
 	margin-top: 35px;
 }
+
 .tips {
 	padding: 20px 25px;
 	border-radius: 5px;
 	border: 1px solid #cdd0d3;
 	margin-bottom: 15px;
 }
-.tips.green {
-	background-color: #77dd77;
-}
+
+	.tips.green {
+		background-color: #77dd77;
+	}
+
 .tips-items .tips > div {
 	display: inline-block;
 	vertical-align: top;
 }
+
 .tips-number {
 	width: 10%;
 	font-size: 40px;
 	font-weight: 300;
 	color: #cdd0d3;
 }
+
 .tips-text {
 	width: 79%;
 	font-size: 15px;
 	font-weight: 300;
 	padding: 7px 130px 7px 0;
 }
+
 .tips-box {
 	width: 10%;
 	padding: 17px 26px;
 }
-.tips-box .right-img {
-	background: url("../images/hec-sprite.png") no-repeat -20px -407px;
-	width: 26px;
-	height: 22px;
-	display: none;
-}
+
+	.tips-box .right-img {
+		background: url("../images/hec-sprite.png") no-repeat -20px -407px;
+		width: 26px;
+		height: 22px;
+		display: none;
+	}
+
 .tips.green .tips-box .right-img {
 	display: block;
 }
+
 .tips.green .tips-number,
 .tips.green .tips-text {
 	color: #fff;
 }
+
 .tips-box .box-img {
 	border: 3px solid #cdd0d3;
 	border-radius: 5px;
@@ -330,9 +392,11 @@
 	cursor: pointer;
 	display: block;
 }
+
 .tips.green .tips-box .box-img {
 	display: none;
 }
+
 .accordion-appliance .acc-btn {
 	cursor: pointer;
 	text-transform: uppercase;
@@ -345,45 +409,52 @@
 	margin-top: 10px;
 	position: relative;
 }
-.accordion-appliance .acc-btn:first-child {
-	margin-top: 0;
-}
+
+	.accordion-appliance .acc-btn:first-child {
+		margin-top: 0;
+	}
+
 .accordion-appliance .acc-text {
 	display: none;
 	padding: 15px;
 	background-color: #fff;
 }
+
 .accordion-appliance .acc-btn .acc-title {
 	font-size: 15px;
 	font-weight: 300;
 	text-transform: uppercase;
 }
+
 .accordion-appliance .acc-btn .toggle-button {
 	background: url("../images/hec-sprite.png") no-repeat -20px -449px;
 	width: 81px;
 	height: 21px;
 	margin-top: -20px;
-  position: absolute;
-  right: 44px;
-  width: 81px;
+	position: absolute;
+	right: 44px;
+	width: 81px;
 }
+
 .accordion-appliance .acc-btn.active .toggle-button {
 	background: url("../images/hec-sprite.png") no-repeat -111px -449px;
 	width: 81px;
 	height: 21px;
 	margin-top: -20px;
-  position: absolute;
-  right: 44px;
-  width: 81px;
+	position: absolute;
+	right: 44px;
+	width: 81px;
 }
+
 .accordion-appliance .acc-btn .close-button {
 	background: url("../images/hec-sprite.png") no-repeat -202px -449px;
 	width: 21px;
 	height: 21px;
 	margin-top: 8px;
-  position: absolute;
-  right: 5px;
+	position: absolute;
+	right: 5px;
 }
+
 .acc-text .icon-img {
 	width: 170px;
 	height: 150px;
@@ -391,66 +462,78 @@
 	border-radius: 5px;
 	margin-right: 20px;
 }
+
 .acc-text .add-button {
 	display: inline-block;
 	vertical-align: top;
 }
-.acc-text .add-button a {
-	background-color: #f35a52;
-  border-radius: 0;
-  color: #fff;
-  font-size: 15px;
-  padding: 10px;
-  text-transform: uppercase;
-  width: 170px;
-	display: inline-block;
-	vertical-align: top;
-	text-align: center;
-}
 
-.acc-text .add-button a:hover {
-	text-decoration: none;
-}
+	.acc-text .add-button a {
+		background-color: #f35a52;
+		border-radius: 0;
+		color: #fff;
+		font-size: 15px;
+		padding: 10px;
+		text-transform: uppercase;
+		width: 170px;
+		display: inline-block;
+		vertical-align: top;
+		text-align: center;
+	}
+
+		.acc-text .add-button a:hover {
+			text-decoration: none;
+		}
+
 .acc-text .plus-text {
 	width: 120px;
 	display: inline-block;
 }
+
 .acc-text .plus-icon {
 	background: rgba(0, 0, 0, 0) url("../images/hec-sprite.png") no-repeat scroll -261px -454px;
-    height: 11px;
-    width: 11px;
+	height: 11px;
+	width: 11px;
 	display: inline-block;
 }
+
 .content-wrapper .appliance.box-white.room.part-seven {
 	padding: 10px 20px;
 	border-radius: 5px 5px 0 0;
 	margin-bottom: 0;
 }
-.content-wrapper .appliance.box-white.room.part-seven > div {
-	display: inline-block;
-}
-.content-wrapper .appliance.box-white.room.part-seven .sticky-house {
-	vertical-align: top;
-}
-.content-wrapper .appliance.box-white.room.part-seven .title-store {
-	margin-top: 10px;
-}
-.content-wrapper .appliance.box-white.room.part-seven .title-store span {
-	font-size: 23px;
-}
-.content-wrapper .appliance.box-white.room.part-seven .title-store .total-text {
-	font-size: 17px;
-}
-.content-wrapper .appliance.box-white.room.part-seven .title-store .total-amount {
-	font-size: 22px;
-}
-.content-wrapper .appliance.box-white.room.part-seven .add-button {
-  margin-top: 10px;
-  /*position: absolute;
+
+	.content-wrapper .appliance.box-white.room.part-seven > div {
+		display: inline-block;
+	}
+
+	.content-wrapper .appliance.box-white.room.part-seven .sticky-house {
+		vertical-align: top;
+	}
+
+	.content-wrapper .appliance.box-white.room.part-seven .title-store {
+		margin-top: 10px;
+	}
+
+		.content-wrapper .appliance.box-white.room.part-seven .title-store span {
+			font-size: 23px;
+		}
+
+		.content-wrapper .appliance.box-white.room.part-seven .title-store .total-text {
+			font-size: 17px;
+		}
+
+		.content-wrapper .appliance.box-white.room.part-seven .title-store .total-amount {
+			font-size: 22px;
+		}
+
+	.content-wrapper .appliance.box-white.room.part-seven .add-button {
+		margin-top: 10px;
+		/*position: absolute;
   right: 32%;*/
-  vertical-align: top;
-  float: right;
-}
+		vertical-align: top;
+		float: right;
+	}
 /* appliance-store-7.html */
 .acc-text .table-appliance {
 	vertical-align: top;
@@ -462,7 +545,7 @@
 	line-height: 15px;
 	width: 70%;
 }
-/*.acc-text .table-appliance .table-head {
+	/*.acc-text .table-appliance .table-head {
 	background-color: #e9ecf0;
 	border: #dedede;
 	text-align: center;
@@ -477,32 +560,36 @@
 .acc-text .table-appliance .table-tr {
 	background-color: #f6f6f6;
 }*/
-.acc-text .table-appliance table thead tr {
-	background-color: #e9ecf0;
-}
-.acc-text .table-appliance table th {
-	text-transform: uppercase;
-	font-size: 14px;
-	font-weight: 300;
-	text-align: center;
-	padding: 10px;
-	line-height: 15px;
-	border-bottom: 2px solid #fff;
-	width: 20%;
-}
-.acc-text .table-appliance table td {
-	padding: 10px 30px;
-	text-transform: capitalize;
-	background-color: #f6f6f6;
-	text-align: center;
-}
-.acc-text .table-appliance table td.no-color {
-	background-color: transparent;
-}
-.acc-text .table-appliance table tr.even {
-	border-top: 2px solid #fff;
-	border-bottom: 2px solid #fff;
-}
+	.acc-text .table-appliance table thead tr {
+		background-color: #e9ecf0;
+	}
+
+	.acc-text .table-appliance table th {
+		text-transform: uppercase;
+		font-size: 14px;
+		font-weight: 300;
+		text-align: center;
+		padding: 10px;
+		line-height: 15px;
+		border-bottom: 2px solid #fff;
+		width: 20%;
+	}
+
+	.acc-text .table-appliance table td {
+		padding: 10px 30px;
+		text-transform: capitalize;
+		background-color: #f6f6f6;
+		text-align: center;
+	}
+
+		.acc-text .table-appliance table td.no-color {
+			background-color: transparent;
+		}
+
+	.acc-text .table-appliance table tr.even {
+		border-top: 2px solid #fff;
+		border-bottom: 2px solid #fff;
+	}
 /*.acc-text .table-appliance table tr:after {
 	content: '';
 	background: rgba(0, 0, 0, 0) url("../images/hec-sprite.png") no-repeat scroll -233px -451px;
@@ -522,6 +609,7 @@
 	height: 18px;
 	cursor: pointer;
 }
+
 .acc-text .table-appliance .add-button {
 	margin: 10px 10px 0 0;
 	display: inline-block;
@@ -537,6 +625,6 @@
 	padding: 0;
 	height: 30px;
 	border: 1px solid #cdd0d3;
-  border-radius: 5px;
+	border-radius: 5px;
 	padding-left: 10px;
 }

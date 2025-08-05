@@ -6,9 +6,8 @@
 }
 <style>
     .collapse-header {
-        height:auto;
+        height: auto;
     }
-
 </style>
 <div id="view-container"></div>
 
@@ -56,7 +55,7 @@
 
     </div>
 </div>
-<!-- end floating check appliance wattage -->  
+<!-- end floating check appliance wattage -->
 
 <script id="view-template" type="text/x-kendo-template">
     <section>
@@ -104,11 +103,11 @@
                                 {
                                     if (houseTyp.IsActive.Equals(true) && houseTyp.HouseCategoryId.Equals(houseCat.Id))
                                     {
-                                    <a href="javascript:;" 
-                                       id="@houseTyp.HouseTypeCode" 
-                                       data-bind="value: data.@houseTyp.HouseTypeCode, click: selectRoom" 
-                                       data-house-type="@houseTyp.HouseTypeCode" 
-                                       data-img-default="@houseTyp.FileId" 
+                                    <a href="javascript:;"
+                                       id="@houseTyp.HouseTypeCode"
+                                       data-bind="value: data.@houseTyp.HouseTypeCode, click: selectRoom"
+                                       data-house-type="@houseTyp.HouseTypeCode"
+                                       data-img-default="@houseTyp.FileId"
                                        data-img-big="@houseTyp.FileHeaderId">
                                         <div class="house one-floor">
                                             <div><img src="/FilePublic?fileId=@houseTyp.FileId" style="max-height:95px; padding-top:3px;"/></div>

@@ -44,8 +44,8 @@
         <p>
             @if (@Model.FriendInviteCount > 0)
             {
-            <span class="grey">You have <span class="num-friend">@Model.FriendInviteCount</span> friend invites. </span>
-            <span class="view-friend"><a href="@Url.Action("Invitations", "Friends")">View received invites</a></span>
+                <span class="grey">You have <span class="num-friend">@Model.FriendInviteCount</span> friend invites. </span>
+                <span class="view-friend"><a href="@Url.Action("Invitations", "Friends")">View received invites</a></span>
             }
         </p>
     </div>
@@ -107,7 +107,7 @@
                             </a>
                         </div>
                         <p id="text-position" class="text-drop">
-                            
+
                         </p>
 
                     </div>
@@ -194,7 +194,6 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
 <!-- Invite Friend Modal -->
 <div class="modal fade" id="new-invite-dialog">
     <div class="modal-dialog">
@@ -241,7 +240,7 @@
 </style>
 @section Scripts
 {
-<script>
+    <script>
     $(function () {
 
         //====== Ranking lists ======//
@@ -607,7 +606,7 @@
             if (balance > 0) totalCharge += balance * tariffRemaining;
             //console.log("TotalUsage", kendo.toString(totalCharge, "n"));
             totalCharge = kendo.toString(totalCharge, "0");
-            plotBandValue = Number(totalCharge); 
+            plotBandValue = Number(totalCharge);
 
             // Set Chart Plot Bands data
             var plotBandData = {};
@@ -641,13 +640,13 @@
             p.parentNode.insertBefore(t, p.nextSibling);
         }
     })
-</script>
+    </script>
 
-<script id="friend-chart-tooltip-tpl" type="text/x-kendo-template">
-    # for (var i = 0; i < series.kWh.length; i++) { #
-        # if (value === series.data[i]) { #
-            <div>RM #: series.data[i] # (#: series.kWh[i] # kWh)</div>    
-        # } #    
-    # } #
-</script>
+    <script id="friend-chart-tooltip-tpl" type="text/x-kendo-template">
+        # for (var i = 0; i < series.kWh.length; i++) { #
+            # if (value === series.data[i]) { #
+                <div>RM #: series.data[i] # (#: series.kWh[i] # kWh)</div>
+            # } #
+        # } #
+    </script>
 }

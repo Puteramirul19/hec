@@ -97,7 +97,7 @@ namespace Hec.Web.Areas.Public.Controllers
         {
             // Get random appliance tips
             List<TipsList> energyTips = new List<TipsList>();
-            if(top5appliance == null)
+            if (top5appliance == null)
             {
                 return Json(energyTips); ;
             }
