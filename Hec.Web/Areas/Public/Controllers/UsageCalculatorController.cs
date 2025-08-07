@@ -147,18 +147,48 @@ namespace Hec.Web.Areas.Public.Controllers
 
 
         /// <summary>
-        /// Read Tariff Block
+        /// Read Tariff Block - UPDATED FOR NEW TARIFF STRUCTURE JULY 2025
+        /// OLD: Read Tariff Block system - kept for backward compatibility
+        /// NEW: Returns new component-based tariff structure
         /// </summary>
         /// <returns>TariffBlock</returns>
         public ActionResult ReadTariff()
         {
-            var list = db.Tariffs.OrderBy(x => x.Sequence).ToList();
-            var count = list.Count();
+            // OLD CODE - COMMENTED OUT BUT KEPT FOR REFERENCE
+            // var list = db.Tariffs.OrderBy(x => x.Sequence).ToList();
+            // var count = list.Count();
+            // return Json(new
+            // {
+            //     tiers = list.Take(count - 1).Select(x => new { boundary = x.BoundryTier, rate = x.TariffPerKWh }),
+            //     remaining = list[count - 1].TariffPerKWh
+            // });
 
+            // NEW TARIFF STRUCTURE EFFECTIVE JULY 1, 2025
+            // Component-based billing instead of tier system
             return Json(new
             {
-                tiers = list.Take(count - 1).Select(x => new { boundary = x.BoundryTier, rate = x.TariffPerKWh }),
-                remaining = list[count - 1].TariffPerKWh
+                // NEW STRUCTURE COMPONENTS
+                generationChargeUnder1500 = 0.2703m, // 27.03 sen/kWh
+                generationChargeOver1500 = 0.3703m,  // 37.03 sen/kWh
+                capacityCharge = 0.0455m,  // 4.55 sen/kWh
+                networkCharge = 0.1285m,   // 12.85 sen/kWh
+                retailCharge = 10.00m,     // RM10/month
+                retailChargeExemptionThreshold = 600m, // Exempted for usage under 600 kWh
+                energyEfficiencyThreshold = 1000m,     // For usage under 1000 kWh
+                maxEnergyEfficiencyIncentive = 0.25m,  // Up to 25 sen/kWh discount
+                generationChargeThreshold = 1500m,     // Different generation charge above 1500 kWh
+                averageCostUnder1500 = 0.4443m, // 27.03 + 4.55 + 12.85 = 44.43 sen/kWh
+                averageCostOver1500 = 0.5443m,  // 37.03 + 4.55 + 12.85 = 54.43 sen/kWh
+                useNewTariffStructure = true,
+
+                // OLD STRUCTURE - KEPT FOR BACKWARD COMPATIBILITY
+                tiers = new[] {
+                    new { boundary = 200, rate = 0.218 },
+                    new { boundary = 100, rate = 0.334 },
+                    new { boundary = 300, rate = 0.516 },
+                    new { boundary = 300, rate = 0.546 }
+                },
+                remaining = 0.571
             });
         }
 

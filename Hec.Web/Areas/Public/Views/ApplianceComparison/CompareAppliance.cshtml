@@ -43,7 +43,7 @@
             <span><img class="step-2-hit" src="/Images/step-2.png" style="width: 100%; max-width: 304px;"></span>
         </p>
         <div class="step1div" data-bind="visible: viewStep1">
-            <p><span class="icon-hec icon-note-info"></span><span class="info">Average Cost per kWh is based on quarterly average selling price of electricity to  domestic customer</span></p>
+            <p><span class="icon-hec icon-note-info"></span><span class="info">Average Cost per kWh is based on new TNB tariff structure effective July 2025 (44.43 sen/kWh) - OLD: quarterly average selling price (39.76 sen/kWh) superseded</span></p>
             <p style="margin-top: 25px;">
                 <span class="input-group">
                     <input type="number" value="0" min="0" step="1" data-bind="value: data.expectedyears" class="input_number">
@@ -58,7 +58,7 @@
                     <span class="input-text required">Number of Days Used Per Month (Days)</span>
                 </span>
                 <span class="input-group">
-                    <input type="number" value="0.3976" min="0" step="0.01" data-bind="value: data.effcostperkwh" class="input_number">
+                    <input type="number" value="0.4443" min="0" step="0.01" data-bind="value: data.effcostperkwh" class="input_number">
                     <span class="input-text required">Average Cost Per kWh (RM/kWh)</span>
                 </span>
             </p>
@@ -182,7 +182,7 @@
                     expectedyears: 0,
                     usageperday: 0,
                     numdayspermonth: 0,
-                    effcostperkwh: 0.3976,
+                    effcostperkwh: 0.4443, // OLD: 0.3976 - Updated to new TNB tariff July 2025 (44.43 sen/kWh)
 
                     appname1: "",
                     app1_price: 0,

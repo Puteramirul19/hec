@@ -613,16 +613,32 @@
                 });
             }
 
-            // Get tariff block
-            var tariffTiers = 0, tariffRemaining = 0;
+            // Get tariff block - UPDATED FOR NEW STRUCTURE JULY 2025
+            // OLD: var tariffTiers = 0, tariffRemaining = 0;
+            var tariffTiers = 0, tariffRemaining = 0, newTariffData = {};
             $.ajax({
                 url: "@Url.Action("ReadTariff", "UsageCalculator")",
                 type: 'GET',
                 dataType: 'json',
                 async: false,
                 success: function (data, textStatus, jqXHR) {
+                    // OLD STRUCTURE - KEPT FOR BACKWARD COMPATIBILITY
                     tariffTiers = data.tiers;
                     tariffRemaining = data.remaining;
+
+                    // NEW STRUCTURE - JULY 2025
+                    newTariffData = {
+                        generationChargeUnder1500: data.generationChargeUnder1500,
+                        generationChargeOver1500: data.generationChargeOver1500,
+                        capacityCharge: data.capacityCharge,
+                        networkCharge: data.networkCharge,
+                        retailCharge: data.retailCharge,
+                        retailChargeExemptionThreshold: data.retailChargeExemptionThreshold,
+                        energyEfficiencyThreshold: data.energyEfficiencyThreshold,
+                        maxEnergyEfficiencyIncentive: data.maxEnergyEfficiencyIncentive,
+                        generationChargeThreshold: data.generationChargeThreshold,
+                        useNewTariffStructure: data.useNewTariffStructure
+                    };
                 }
             });
 
@@ -1169,19 +1185,25 @@
             var dataAppliance = [];
             var totalkWh = 0;
 
-            // Formula:
-            // Estimated Cost = ((Usage per day * Number of days used a months * Watts) / 1000 )) * 0.3166
-            // 0.3166 = Average Cost Per kWh (DOMESTIC)
+            // OLD Formula:
+            // OLD: Estimated Cost = ((Usage per day * Number of days used a months * Watts) / 1000 )) * 0.3166
+            // OLD: 0.3166 = Average Cost Per kWh (DOMESTIC) - SUPERSEDED JULY 2025
+            // NEW Formula using TNB Tariff Structure (July 2025):
+            // NEW: Total Bill = (Generation Charge + Capacity Charge + Network Charge) * kWh + Retail Charge - Energy Efficiency Incentive
+            // NEW: Generation Charge: 27.03 sen/kWh (under 1500kWh) or 37.03 sen/kWh (over 1500kWh)
+            // NEW: Capacity Charge: 4.55 sen/kWh
+            // NEW: Network Charge: 12.85 sen/kWh
+            // NEW: Retail Charge: RM10/month (exempted for usage under 600kWh)
+            // NEW: Energy Efficiency Incentive: Up to 25 sen/kWh for usage under 1000kWh
             function totalUsage() {
                 var total = 0;
 
                 // Get each room data
                 $.each(viewModel.get("Rooms"), function (i, room) {
-
                     // Get each appliance for each room data
                     $.each(room.get("Appliances"), function (j, appliance) {
                         var sum = 0;
-                        // Calculation per appliance
+                        // Calculation per appliance (Wh per month)
                         sum = parseFloat(appliance.get("HoursPerDay")) * parseFloat(appliance.get("DaysPerMonth")) * parseFloat(appliance.get("Watts")) * parseFloat(appliance.get("NumbersOfApp"));
                         total += sum;
 
@@ -1200,43 +1222,82 @@
                     })
                 });
 
-                totalkWh = kendo.toString(parseFloat(total) / 1000, "0");
+                totalkWh = parseFloat(total) / 1000; // Convert Wh to kWh
 
-                // Calculate total bill per month (RM) using Tariff Block
-                // Base on 'HEC2 - CalculationV3.xlsx' file
-                var balance = totalkWh;
+                // NEW: Calculate total bill per month (RM) using NEW TNB Tariff Structure (July 2025)
+                // OLD CODE COMMENTED OUT FOR REFERENCE:
+                // OLD: Calculate total bill per month (RM) using Tariff Block
+                // OLD: Base on 'HEC2 - CalculationV3.xlsx' file
+                // var balance = totalkWh;
+                // var totalCharge = 0;
+                // for (var i = 0; i < tariffTiers.length; i++) {
+                //     var boundary = tariffTiers[i].boundary;
+                //     var rate = tariffTiers[i].rate;
+                //     if (balance > boundary) {
+                //         totalCharge += boundary * rate;
+                //         balance = balance - boundary;
+                //     } else {
+                //         totalCharge += balance * rate;
+                //         balance = 0
+                //         break;
+                //     }
+                // }
+                // if (balance > 0) totalCharge += balance * tariffRemaining;
+
                 var totalCharge = 0;
-                for (var i = 0; i < tariffTiers.length; i++) {
-                    var boundary = tariffTiers[i].boundary;
-                    var rate = tariffTiers[i].rate;
-                    //console.log({
-                    //    i: i,
-                    //    boundary: boundary,
-                    //    rate: rate,
-                    //    balance: balance,
-                    //    totalCharge: totalCharge
-                    //});
-                    if (balance > boundary) {
-                        totalCharge += boundary * rate;
-                        balance = balance - boundary;
-                    } else {
-                        totalCharge += balance * rate;
-                        balance = 0
-                        break;
-                    }
-                }
-                //console.log({
-                //    balance: balance,
-                //    totalCharge: totalCharge
-                //});
-                if (balance > 0) totalCharge += balance * tariffRemaining;
-                //console.log(totalCharge);
+                var generationCharge = 0;
+                var capacityCharge = 0;
+                var networkCharge = 0;
+                var retailCharge = 0;
+                var energyEfficiencyIncentive = 0;
 
-                // Set view model value
-                viewModel.set("TotalkWh", kendo.toString(parseFloat(total) / 1000, "0"));
-                viewModel.set("TotalkWhDay", kendo.toString((parseFloat(total) / 1000) / 30, "n"));
+                // Generation Charge calculation
+                if (totalkWh <= 1500) {
+                    generationCharge = totalkWh * 0.2703; // 27.03 sen/kWh
+                } else {
+                    generationCharge = (1500 * 0.2703) + ((totalkWh - 1500) * 0.3703); // First 1500kWh at 27.03, rest at 37.03
+                }
+
+                // Capacity Charge (4.55 sen/kWh for all usage)
+                capacityCharge = totalkWh * 0.0455;
+
+                // Network Charge (12.85 sen/kWh for all usage)
+                networkCharge = totalkWh * 0.1285;
+
+                // Retail Charge (RM10/month, exempted for usage under 600kWh)
+                if (totalkWh > 600) {
+                    retailCharge = 10.00;
+                }
+
+                // Energy Efficiency Incentive (for usage under 1000kWh)
+                if (totalkWh <= 1000) {
+                    // Sliding scale: maximum 25 sen/kWh for lowest usage
+                    var incentiveRate = 0;
+                    if (totalkWh <= 200) {
+                        incentiveRate = 0.25; // 25 sen/kWh for very low usage
+                    } else if (totalkWh <= 400) {
+                        incentiveRate = 0.20; // 20 sen/kWh
+                    } else if (totalkWh <= 600) {
+                        incentiveRate = 0.15; // 15 sen/kWh
+                    } else if (totalkWh <= 800) {
+                        incentiveRate = 0.10; // 10 sen/kWh
+                    } else {
+                        incentiveRate = 0.05; // 5 sen/kWh for usage between 800-1000kWh
+                    }
+                    energyEfficiencyIncentive = totalkWh * incentiveRate;
+                }
+
+                // Total charge calculation
+                totalCharge = generationCharge + capacityCharge + networkCharge + retailCharge - energyEfficiencyIncentive;
+
+                // Ensure minimum charge
+                if (totalCharge < 0) totalCharge = 0;
+
+                // Set view model values
+                viewModel.set("TotalkWh", kendo.toString(totalkWh, "0"));
+                viewModel.set("TotalkWhDay", kendo.toString(totalkWh / 30, "n"));
                 viewModel.set("TotalUsage", kendo.toString(totalCharge, "n"));
-                viewModel.set("TotalUsageDay", kendo.toString(parseFloat(totalCharge) / 30, "n"));
+                viewModel.set("TotalUsageDay", kendo.toString(totalCharge / 30, "n"));
 
                 // Return data to function
                 return { "total": total, "totalkWh": totalkWh };

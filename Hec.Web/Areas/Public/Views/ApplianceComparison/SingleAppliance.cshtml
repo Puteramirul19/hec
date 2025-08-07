@@ -66,7 +66,7 @@
             <tr>
                 <td>Average Cost Per kWh (RM/kWh)</td>
                 <td>
-                    <input type="number" value="0.3976" min="0" step="0.01" name="watt-1" data-bind="value: data.effcostperkwh" class="input_number">
+                    <input type="number" value="0.4443" min="0" step="0.01" name="watt-1" data-bind="value: data.effcostperkwh" class="input_number">
                     @*<br />*@
                     @*<i style="font-size:10px;">Average selling price based on national grid is 31.66 cent/kWh</i>*@
                 </td>
@@ -91,10 +91,10 @@
                         Note:
                         <ol>
                             <li>The calculation is not based on the tariff block for domestic customer</li>
-                            <li>‘Average Cost per kWh’ default value is based on the quarterly average selling price of electricity to  domestic customer</li>
+                            <li>'Average Cost per kWh' default value is based on the new TNB tariff structure effective July 2025 (44.43 sen/kWh = Generation 27.03 + Capacity 4.55 + Network 12.85)</li>
+                            <li>OLD: 'Average Cost per kWh' was based on quarterly average selling price (39.76 sen/kWh) - superseded July 2025</li>
                             <li>The number of average days used is 30 days</li>
                             <li>The results should be used as indication only and may vary based on age of appliance, the latest technology and other factors</li>
-
                         </ol>
                     </th>
                 </tr>
@@ -116,7 +116,7 @@
                     usageperday: 0,
                     numdayspermonth: 0,
                     expectedyears: 0,
-                    effcostperkwh: 0.3976,
+                    effcostperkwh: 0.4443, // OLD: 0.3976 - Updated to new TNB tariff July 2025 (44.43 sen/kWh)
 
                     app1: 0,
                     app1_price: 0,
